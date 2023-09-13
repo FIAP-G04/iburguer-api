@@ -61,6 +61,7 @@ Esse projeto foi feito utilizando as seguintes tecnologias:
 
 - [C#](https://learn.microsoft.com/pt-br/dotnet/csharp/)
 - [.NET 8.0](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
+- [PostgreSQL](https://www.postgresql.org/)
 - [Docker](https://www.docker.com/)
 - [Swagger](https://swagger.io/)
 
