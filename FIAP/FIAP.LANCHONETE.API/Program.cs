@@ -1,4 +1,8 @@
+using FIAP.Diner.Infrastructure.Configuration;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.AddLogger();
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
