@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <Folder Include="Checkout\" />
-    <Folder Include="Customer\" />
     <Folder Include="Order\" />
   </ItemGroup>
 

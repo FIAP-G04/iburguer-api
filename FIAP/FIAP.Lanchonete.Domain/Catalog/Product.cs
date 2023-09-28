@@ -1,10 +1,12 @@
+using FIAP.Diner.Domain.Common;
+
 namespace FIAP.Diner.Domain.Catalog;
 
-public class Product
+public class Product : Entity<Guid>, IAggregateRoot
 {
-    string Name { get; set; }
-    string Description { get; set; }
-    decimal Price { get; set; }
-    Category Category { get; set; }
-    IEnumerable<UrlImage> Images { get; set; }
+    public string Name { get; private set; }
+    public string Description { get; private set; }
+    public decimal Price { get; set; }
+    public Category Category { get; set; }
+    public IEnumerable<UrlImage> Images { get; set; }
 }
