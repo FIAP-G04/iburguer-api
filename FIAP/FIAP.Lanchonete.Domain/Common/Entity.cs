@@ -13,7 +13,7 @@ public abstract class Entity<TId> : IEntity
         this.events = new List<IDomainEvent>();
     }
 
-    public TId Id { get; private set; } = default;
+    public TId Id { get; protected set; } = default;
 
     public IReadOnlyCollection<IDomainEvent> Events => this.events.ToList().AsReadOnly();
 
