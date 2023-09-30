@@ -2,7 +2,7 @@ using FIAP.Diner.Domain.Common;
 
 namespace FIAP.Diner.Domain.Customers
 {
-    public class Customer : Entity<Guid>
+    public class Customer : Entity<Guid>, IAggregateRoot
     {
         public string? CPF { get; private set; }
         public string? Name { get; private set; }
