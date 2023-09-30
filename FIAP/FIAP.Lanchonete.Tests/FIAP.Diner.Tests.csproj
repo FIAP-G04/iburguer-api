@@ -23,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FIAP.Lanchonete.Domain\FIAP.Diner.Domain.csproj" />
     <ProjectReference Include="..\FIAP.Lanchonete.Infrastructure\FIAP.Diner.Infrastructure.csproj" />
   </ItemGroup>
 
