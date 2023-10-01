@@ -33,8 +33,14 @@ public struct CPF
     {
         if (number is null || number == string.Empty)
         {
-            throw new ArgumentNullException(nameof(number),
+            throw new InvalidOperationException(
                 "Não é possível criar um CPF a partir de um valor nulo.");
+        }
+
+        if (!(IsNumeric(number) && IsValidLegth(number)))
+        {
+            throw new InvalidOperationException(
+                $"Era esperado uma string numérica de {cpfLength} dígitos");
         }
 
         if (AllDigitsAreEqual(number))
@@ -43,16 +49,7 @@ public struct CPF
                 "A cadeia de caracteres informada não corresponde a um CPF válido.");
         }
 
-        if (!(IsNumeric(number) && IsValidLegth(number)))
-        {
-            throw new ArgumentOutOfRangeException(
-                $"Era esperado uma string numérica de {cpfLength} dígitos", nameof(number));
-        }
-
-        int firstDigit = CalculateCheckDigit(number, 10);
-        int secondDigit = CalculateCheckDigit(number, 11);
-
-        if (number[9] - '0' != firstDigit || number[10] - '0' != secondDigit)
+        if (IsValidCheckDigits(number))
         {
             throw new InvalidOperationException(
                 "A cadeia de caracteres informada não corresponde a um CPF válido.");
@@ -65,17 +62,40 @@ public struct CPF
 
     private bool IsValidLegth(string value) => value.Length == cpfLength;
 
-    private int CalculateCheckDigit(string cpf, int weight)
+    private bool IsValidCheckDigits(string cpf)
     {
-        int sum = 0;
+        var numericalDigits = cpf.Substring(0,9).ToCharArray().Select(c => int.Parse(c.ToString())).ToArray();
 
-        for (int i = 0; i < 9; i++)
+        var checkDigits = CalculateCheckDigits(numericalDigits);
+
+        return !cpf.Substring(numericalDigitsLength, checkDigitsLength).Equals(checkDigits);
+    }
+
+    private string CalculateCheckDigits(int[] numbers)
+    {
+        var sum = 0;
+
+        for (var i = 0; i < numbers.Length; i++)
         {
-            sum += (cpf[i] - '0') * weight;
-            weight--;
+            sum += (numbers[i] * (i + 1));
         }
 
-        int remainder = sum % 11;
-        return remainder < 2 ? 0 : 11 - remainder;
+        var firstDigit = GetDigitFromRemainder(sum % cpfLength);
+
+        sum = 0;
+
+        var numbersPlusFirstCheckDigit = numbers.Append(firstDigit).ToArray();
+
+        for (var i = 0; i < numbersPlusFirstCheckDigit.Length; i++)
+        {
+            sum += (numbersPlusFirstCheckDigit[i] * i);
+        }
+
+        var secondDigit = GetDigitFromRemainder(sum % cpfLength);
+
+        return $"{firstDigit}{secondDigit}";
     }
+
+    private int GetDigitFromRemainder(int remainder) => remainder >= 10 ? default : remainder;
+
 }
