@@ -1,13 +1,16 @@
+using FIAP.Diner.Domain.Common;
+
 namespace FIAP.Diner.Domain.Onboarding;
 
 public struct CPF
 {
-    private const int checkDigitsLength = 2;
-    private const int numericalDigitsLength = 9;
-    private const int cpfLength = checkDigitsLength + numericalDigitsLength;
+    public static int CheckDigitsLength = 2;
+    public static int NumericalDigitsLength = 9;
 
     private string _numericalDigits;
     private string _checkDigits;
+
+    public static int CpfLength => CheckDigitsLength + NumericalDigitsLength;
 
     public string NumericalDigits => _numericalDigits;
 
@@ -25,34 +28,25 @@ public struct CPF
     {
         Validate(number);
 
-        _numericalDigits = number.Substring(0, numericalDigitsLength);
-        _checkDigits = number.Substring(numericalDigitsLength, checkDigitsLength);
+        _numericalDigits = number.Substring(0, NumericalDigitsLength);
+        _checkDigits = number.Substring(NumericalDigitsLength, CheckDigitsLength);
     }
 
     private void Validate(string number)
     {
         if (number is null || number == string.Empty)
         {
-            throw new InvalidOperationException(
-                "Não é possível criar um CPF a partir de um valor nulo.");
+            throw new DomainException(Errors.CpfRequired);
         }
 
         if (!(IsNumeric(number) && IsValidLegth(number)))
         {
-            throw new InvalidOperationException(
-                $"Era esperado uma string numérica de {cpfLength} dígitos");
+            throw new DomainException(Errors.InvalidDigitAndSize);
         }
 
-        if (AllDigitsAreEqual(number))
+        if (AllDigitsAreEqual(number) || IsValidCheckDigits(number))
         {
-            throw new InvalidOperationException(
-                "A cadeia de caracteres informada não corresponde a um CPF válido.");
-        }
-
-        if (IsValidCheckDigits(number))
-        {
-            throw new InvalidOperationException(
-                "A cadeia de caracteres informada não corresponde a um CPF válido.");
+            throw new DomainException(Errors.InvalidCpf);
         }
     }
 
@@ -60,7 +54,7 @@ public struct CPF
 
     private bool IsNumeric(string value) => value.All(char.IsNumber);
 
-    private bool IsValidLegth(string value) => value.Length == cpfLength;
+    private bool IsValidLegth(string value) => value.Length == CpfLength;
 
     private bool IsValidCheckDigits(string cpf)
     {
@@ -68,7 +62,7 @@ public struct CPF
 
         var checkDigits = CalculateCheckDigits(numericalDigits);
 
-        return !cpf.Substring(numericalDigitsLength, checkDigitsLength).Equals(checkDigits);
+        return !cpf.Substring(NumericalDigitsLength, CheckDigitsLength).Equals(checkDigits);
     }
 
     private string CalculateCheckDigits(int[] numbers)
@@ -80,7 +74,7 @@ public struct CPF
             sum += (numbers[i] * (i + 1));
         }
 
-        var firstDigit = GetDigitFromRemainder(sum % cpfLength);
+        var firstDigit = GetDigitFromRemainder(sum % CpfLength);
 
         sum = 0;
 
@@ -91,11 +85,17 @@ public struct CPF
             sum += (numbersPlusFirstCheckDigit[i] * i);
         }
 
-        var secondDigit = GetDigitFromRemainder(sum % cpfLength);
+        var secondDigit = GetDigitFromRemainder(sum % CpfLength);
 
         return $"{firstDigit}{secondDigit}";
     }
 
     private int GetDigitFromRemainder(int remainder) => remainder >= 10 ? default : remainder;
 
+    public static class Errors
+    {
+        public static readonly string InvalidCpf = "A cadeia de caracteres informada não corresponde a um CPF válido.";
+        public static readonly string InvalidDigitAndSize = $"Era esperado uma string numérica de {CpfLength} dígitos.";
+        public static readonly string CpfRequired = "Não é possível criar um CPF a partir de um valor nulo.";
+    }
 }

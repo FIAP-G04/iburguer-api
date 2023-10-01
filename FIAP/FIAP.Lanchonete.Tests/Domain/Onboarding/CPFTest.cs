@@ -1,3 +1,4 @@
+using FIAP.Diner.Domain.Common;
 using FIAP.Diner.Domain.Onboarding;
 using FluentAssertions;
 
@@ -6,11 +7,21 @@ namespace FIAP.Diner.Tests.Domain.Onboarding;
 public class CPFTest
 {
     [Theory]
-    [InlineData("")]
     [InlineData("456")]
+    [InlineData("4561239949020202")]
     [InlineData("cpfcpfcpfab")]
     [InlineData("1@%&*$/?!-+")]
     [InlineData("11111@11111")]
+    public void ShouldThrowErrorWhenCpfWithIsInvalidDigitOrLength(string cpf)
+    {
+        //Act
+        var action = () => new CPF(cpf);
+
+        //Assert
+        action.Should().Throw<DomainException>().WithMessage(CPF.Errors.InvalidDigitAndSize);
+    }
+
+    [Theory]
     [InlineData("11111111111")]
     [InlineData("11011011045")]
     [InlineData("12345678999")]
@@ -21,7 +32,19 @@ public class CPFTest
         var action = () => new CPF(cpf);
 
         //Assert
-        action.Should().Throw<InvalidOperationException>();
+        action.Should().Throw<DomainException>().WithMessage(CPF.Errors.InvalidCpf);
+    }
+
+    [Theory]
+    [InlineData("")]
+    [InlineData(null)]
+    public void ShouldThrowErrorWhenCpfIsEmptyOrNull(string cpf)
+    {
+        //Act
+        var action = () => new CPF(cpf);
+
+        //Assert
+        action.Should().Throw<DomainException>().WithMessage(CPF.Errors.CpfRequired);
     }
 
     [Theory]
