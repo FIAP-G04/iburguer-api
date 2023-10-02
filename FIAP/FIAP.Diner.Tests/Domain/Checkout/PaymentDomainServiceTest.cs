@@ -32,7 +32,7 @@ public class PaymentDomainServiceTest
         result.OrderId.Should().Be(orderId);
         result.Amount.Should().Be(amount);
         result.QRCode.Value.Should().Be(qrCodeValue);
-        // result.QRCode.ExternalId.Should().Be(externalPaymentId);
+        result.QRCode.ExternalPaymentId.Should().Be(externalPaymentId);
 
         await _paymentRepository.Received().Save(result);
     }
@@ -53,21 +53,21 @@ public class PaymentDomainServiceTest
         await _paymentRepository.DidNotReceiveWithAnyArgs().Save(Arg.Any<Payment>());
     }
 
-    // [Fact]
-    // public async Task ShouldConfirmPayment()
-    // {
-    //     var payment = new Payment(Guid.NewGuid(), 11.11, new QRCode(Guid.NewGuid().ToString(), Guid.NewGuid().ToString()));
-    //
-    //     _paymentRepository.Get(payment.QRCode.ExternalId).Returns(payment);
-    //
-    //     await _manipulator.ConfirmPayment(payment.QRCode.ExternalId, DateTime.Now);
-    //
-    //     await _paymentRepository
-    //         .Received()
-    //         .Update(Arg.Is<Payment>(p =>
-    //             p.Id == payment.Id &&
-    //             p.Status == PaymentStatus.Confirmed));
-    // }
+    [Fact]
+    public async Task ShouldConfirmPayment()
+    {
+        var payment = new Payment(Guid.NewGuid(), 11.11, new QRCode(Guid.NewGuid().ToString(), Guid.NewGuid().ToString()));
+    
+        _paymentRepository.Get(payment.QRCode.ExternalPaymentId).Returns(payment);
+    
+        await _manipulator.ConfirmPayment(payment.QRCode.ExternalPaymentId, DateTime.Now);
+    
+        await _paymentRepository
+            .Received()
+            .Update(Arg.Is<Payment>(p =>
+                p.Id == payment.Id &&
+                p.Status == PaymentStatus.Confirmed));
+    }
 
     [Fact]
     public async Task ShouldThrowErrorWhenConfirmedPaymentNotFound()
@@ -82,21 +82,21 @@ public class PaymentDomainServiceTest
         await _paymentRepository.DidNotReceiveWithAnyArgs().Update(Arg.Any<Payment>());
     }
 
-    // [Fact]
-    // public async Task ShouldRefusePayment()
-    // {
-    //     var payment = new Payment(Guid.NewGuid(), 11.11, new QRCode(Guid.NewGuid().ToString(), Guid.NewGuid().ToString()));
-    //
-    //     _paymentRepository.Get(payment.QRCode.ExternalId).Returns(payment);
-    //
-    //     await _manipulator.RefusePayment(payment.QRCode.ExternalId);
-    //
-    //     await _paymentRepository
-    //         .Received()
-    //         .Update(Arg.Is<Payment>(p =>
-    //             p.Id == payment.Id &&
-    //             p.Status == PaymentStatus.Refused));
-    // }
+    [Fact]
+    public async Task ShouldRefusePayment()
+    {
+        var payment = new Payment(Guid.NewGuid(), 11.11, new QRCode(Guid.NewGuid().ToString(), Guid.NewGuid().ToString()));
+    
+        _paymentRepository.Get(payment.QRCode.ExternalPaymentId).Returns(payment);
+    
+        await _manipulator.RefusePayment(payment.QRCode.ExternalPaymentId);
+    
+        await _paymentRepository
+            .Received()
+            .Update(Arg.Is<Payment>(p =>
+                p.Id == payment.Id &&
+                p.Status == PaymentStatus.Refused));
+    }
 
     [Fact]
     public async Task ShouldThrowErrorWhenRefusedPaymentNotFound()
