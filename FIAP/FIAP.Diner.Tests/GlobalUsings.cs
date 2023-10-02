@@ -1,1 +1,13 @@
 global using Xunit;
+global using FluentAssertions;
+global using NSubstitute;
+global using NSubstitute.ReturnsExtensions;
+global using Microsoft.EntityFrameworkCore;
+global using Microsoft.Extensions.Configuration;
+global using Npgsql.EntityFrameworkCore.PostgreSQL.Infrastructure.Internal;
+global using FIAP.Diner.Infrastructure.Data;
+global using FIAP.Diner.Domain.Onboarding;
+global using FIAP.Diner.Domain.Customers;
+global using FIAP.Diner.Domain.Customers.DomainServices;
+global using FIAP.Diner.Domain.Common;
+global using FIAP.Diner.Domain.Checkout;
