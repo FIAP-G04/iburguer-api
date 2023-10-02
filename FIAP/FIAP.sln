@@ -3,25 +3,25 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FIAP.Diner.API", "FIAP.LANCHONETE.API\FIAP.Diner.API.csproj", "{2DD0F9FD-0D3E-4F12-A0BF-96A144A5ED4C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FIAP.Diner.API", "FIAP.Diner.API\FIAP.Diner.API.csproj", "{2DD0F9FD-0D3E-4F12-A0BF-96A144A5ED4C}"
 	ProjectSection(ProjectDependencies) = postProject
 		{82C57841-82C6-402E-A3AC-02948D4FB9A8} = {82C57841-82C6-402E-A3AC-02948D4FB9A8}
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FIAP.Diner.Application", "FIAP.Lanchonete.Application\FIAP.Diner.Application.csproj", "{82C57841-82C6-402E-A3AC-02948D4FB9A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FIAP.Diner.Application", "FIAP.Diner.Application\FIAP.Diner.Application.csproj", "{82C57841-82C6-402E-A3AC-02948D4FB9A8}"
 	ProjectSection(ProjectDependencies) = postProject
 		{BD2A46C9-9C63-4628-AF70-B191D352FDC6} = {BD2A46C9-9C63-4628-AF70-B191D352FDC6}
 		{C3FA4645-BAAE-4AD6-9C8E-BB880E3FFEBF} = {C3FA4645-BAAE-4AD6-9C8E-BB880E3FFEBF}
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FIAP.Diner.Domain", "FIAP.Lanchonete.Domain\FIAP.Diner.Domain.csproj", "{C3FA4645-BAAE-4AD6-9C8E-BB880E3FFEBF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FIAP.Diner.Domain", "FIAP.Diner.Domain\FIAP.Diner.Domain.csproj", "{C3FA4645-BAAE-4AD6-9C8E-BB880E3FFEBF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FIAP.Diner.Infrastructure", "FIAP.Lanchonete.Infrastructure\FIAP.Diner.Infrastructure.csproj", "{BD2A46C9-9C63-4628-AF70-B191D352FDC6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FIAP.Diner.Infrastructure", "FIAP.Diner.Infrastructure\FIAP.Diner.Infrastructure.csproj", "{BD2A46C9-9C63-4628-AF70-B191D352FDC6}"
 	ProjectSection(ProjectDependencies) = postProject
 		{C3FA4645-BAAE-4AD6-9C8E-BB880E3FFEBF} = {C3FA4645-BAAE-4AD6-9C8E-BB880E3FFEBF}
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FIAP.Diner.Tests", "FIAP.Lanchonete.Tests\FIAP.Diner.Tests.csproj", "{CC99466E-9B25-4067-B68A-D09A1B647012}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FIAP.Diner.Tests", "FIAP.Diner.Tests\FIAP.Diner.Tests.csproj", "{CC99466E-9B25-4067-B68A-D09A1B647012}"
 	ProjectSection(ProjectDependencies) = postProject
 		{2DD0F9FD-0D3E-4F12-A0BF-96A144A5ED4C} = {2DD0F9FD-0D3E-4F12-A0BF-96A144A5ED4C}
 		{82C57841-82C6-402E-A3AC-02948D4FB9A8} = {82C57841-82C6-402E-A3AC-02948D4FB9A8}
