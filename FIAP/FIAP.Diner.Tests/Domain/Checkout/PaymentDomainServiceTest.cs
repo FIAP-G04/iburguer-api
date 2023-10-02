@@ -1,120 +1,113 @@
-using FIAP.Diner.Domain.Checkout;
-using FIAP.Diner.Domain.Common;
-using FluentAssertions;
-using NSubstitute;
-using NSubstitute.ReturnsExtensions;
+namespace FIAP.Diner.Tests.Domain.Checkout;
 
-namespace FIAP.Diner.Tests.Domain.Checkout
+public class PaymentDomainServiceTest
 {
-    public class PaymentDomainServiceTest
+    private readonly IPaymentRepository _paymentRepository;
+    private readonly IExternalPaymentService _externalPaymentService;
+
+    private readonly PaymentDomainService _manipulator;
+
+    public PaymentDomainServiceTest()
     {
-        private readonly IPaymentRepository _paymentRepository;
-        private readonly IExternalPaymentService _externalPaymentService;
+        _paymentRepository = Substitute.For<IPaymentRepository>();
+        _externalPaymentService = Substitute.For<IExternalPaymentService>();
 
-        private readonly PaymentDomainService _manipulator;
+        _manipulator = new(_paymentRepository, _externalPaymentService);
+    }
 
-        public PaymentDomainServiceTest()
-        {
-            _paymentRepository = Substitute.For<IPaymentRepository>();
-            _externalPaymentService = Substitute.For<IExternalPaymentService>();
+    [Fact]
+    public async Task ShouldRequirePayment()
+    {
+        var orderId = Guid.NewGuid();
+        var amount = 11.11;
 
-            _manipulator = new(_paymentRepository, _externalPaymentService);
-        }
+        var externalPaymentId = Guid.NewGuid().ToString();
+        var qrCodeValue = Guid.NewGuid().ToString();
 
-        [Fact]
-        public async Task ShouldRequirePayment()
-        {
-            var orderId = Guid.NewGuid();
-            var amount = 11.11;
+        _externalPaymentService.GenerateQRCode(amount).Returns((externalPaymentId, qrCodeValue));
 
-            var externalPaymentId = Guid.NewGuid().ToString();
-            var qrCodeValue = Guid.NewGuid().ToString();
+        var result = await _manipulator.RequirePayment(orderId, amount);
 
-            _externalPaymentService.GenerateQRCode(amount).Returns((externalPaymentId, qrCodeValue));
+        result.Should().NotBeNull();
+        result.OrderId.Should().Be(orderId);
+        result.Amount.Should().Be(amount);
+        result.QRCode.Value.Should().Be(qrCodeValue);
+        // result.QRCode.ExternalId.Should().Be(externalPaymentId);
 
-            var result = await _manipulator.RequirePayment(orderId, amount);
+        await _paymentRepository.Received().Save(result);
+    }
 
-            result.Should().NotBeNull();
-            result.OrderId.Should().Be(orderId);
-            result.Amount.Should().Be(amount);
-            result.QRCode.Value.Should().Be(qrCodeValue);
-            // result.QRCode.ExternalId.Should().Be(externalPaymentId);
+    [Fact]
+    public async Task ShouldThrowErrorWhenQRCodeGenerationNotSuccessful()
+    {
+        var orderId = Guid.NewGuid();
+        var amount = 11.11;
 
-            await _paymentRepository.Received().Save(result);
-        }
+        _externalPaymentService.GenerateQRCode(amount).Returns((string.Empty, string.Empty));
 
-        [Fact]
-        public async Task ShouldThrowErrorWhenQRCodeGenerationNotSuccessful()
-        {
-            var orderId = Guid.NewGuid();
-            var amount = 11.11;
+        var action = async () => await _manipulator.RequirePayment(orderId, amount);
 
-            _externalPaymentService.GenerateQRCode(amount).Returns((string.Empty, string.Empty));
+        await action.Should().ThrowAsync<DomainException>()
+            .WithMessage(CheckoutExceptions.ErrorGeneratingPayment);
 
-            var action = async () => await _manipulator.RequirePayment(orderId, amount);
+        await _paymentRepository.DidNotReceiveWithAnyArgs().Save(Arg.Any<Payment>());
+    }
 
-            await action.Should().ThrowAsync<DomainException>()
-                .WithMessage(CheckoutExceptions.ErrorGeneratingPayment);
+    // [Fact]
+    // public async Task ShouldConfirmPayment()
+    // {
+    //     var payment = new Payment(Guid.NewGuid(), 11.11, new QRCode(Guid.NewGuid().ToString(), Guid.NewGuid().ToString()));
+    //
+    //     _paymentRepository.Get(payment.QRCode.ExternalId).Returns(payment);
+    //
+    //     await _manipulator.ConfirmPayment(payment.QRCode.ExternalId, DateTime.Now);
+    //
+    //     await _paymentRepository
+    //         .Received()
+    //         .Update(Arg.Is<Payment>(p =>
+    //             p.Id == payment.Id &&
+    //             p.Status == PaymentStatus.Confirmed));
+    // }
 
-            await _paymentRepository.DidNotReceiveWithAnyArgs().Save(Arg.Any<Payment>());
-        }
+    [Fact]
+    public async Task ShouldThrowErrorWhenConfirmedPaymentNotFound()
+    {
+        _paymentRepository.Get(Arg.Any<string>()).ReturnsNull();
 
-        // [Fact]
-        // public async Task ShouldConfirmPayment()
-        // {
-        //     var payment = new Payment(Guid.NewGuid(), 11.11, new QRCode(Guid.NewGuid().ToString(), Guid.NewGuid().ToString()));
-        //
-        //     _paymentRepository.Get(payment.QRCode.ExternalId).Returns(payment);
-        //
-        //     await _manipulator.ConfirmPayment(payment.QRCode.ExternalId, DateTime.Now);
-        //
-        //     await _paymentRepository
-        //         .Received()
-        //         .Update(Arg.Is<Payment>(p =>
-        //             p.Id == payment.Id &&
-        //             p.Status == PaymentStatus.Confirmed));
-        // }
+        var action = async () => await _manipulator.ConfirmPayment(Guid.NewGuid().ToString(), DateTime.Now);
 
-        [Fact]
-        public async Task ShouldThrowErrorWhenConfirmedPaymentNotFound()
-        {
-            _paymentRepository.Get(Arg.Any<string>()).ReturnsNull();
+        await action.Should().ThrowAsync<DomainException>()
+            .WithMessage(CheckoutExceptions.PaymentDoesNotExist);
 
-            var action = async () => await _manipulator.ConfirmPayment(Guid.NewGuid().ToString(), DateTime.Now);
+        await _paymentRepository.DidNotReceiveWithAnyArgs().Update(Arg.Any<Payment>());
+    }
 
-            await action.Should().ThrowAsync<DomainException>()
-                .WithMessage(CheckoutExceptions.PaymentDoesNotExist);
+    // [Fact]
+    // public async Task ShouldRefusePayment()
+    // {
+    //     var payment = new Payment(Guid.NewGuid(), 11.11, new QRCode(Guid.NewGuid().ToString(), Guid.NewGuid().ToString()));
+    //
+    //     _paymentRepository.Get(payment.QRCode.ExternalId).Returns(payment);
+    //
+    //     await _manipulator.RefusePayment(payment.QRCode.ExternalId);
+    //
+    //     await _paymentRepository
+    //         .Received()
+    //         .Update(Arg.Is<Payment>(p =>
+    //             p.Id == payment.Id &&
+    //             p.Status == PaymentStatus.Refused));
+    // }
 
-            await _paymentRepository.DidNotReceiveWithAnyArgs().Update(Arg.Any<Payment>());
-        }
+    [Fact]
+    public async Task ShouldThrowErrorWhenRefusedPaymentNotFound()
+    {
+        _paymentRepository.Get(Arg.Any<string>()).ReturnsNull();
 
-        // [Fact]
-        // public async Task ShouldRefusePayment()
-        // {
-        //     var payment = new Payment(Guid.NewGuid(), 11.11, new QRCode(Guid.NewGuid().ToString(), Guid.NewGuid().ToString()));
-        //
-        //     _paymentRepository.Get(payment.QRCode.ExternalId).Returns(payment);
-        //
-        //     await _manipulator.RefusePayment(payment.QRCode.ExternalId);
-        //
-        //     await _paymentRepository
-        //         .Received()
-        //         .Update(Arg.Is<Payment>(p =>
-        //             p.Id == payment.Id &&
-        //             p.Status == PaymentStatus.Refused));
-        // }
+        var action = async () => await _manipulator.RefusePayment(Guid.NewGuid().ToString());
 
-        [Fact]
-        public async Task ShouldThrowErrorWhenRefusedPaymentNotFound()
-        {
-            _paymentRepository.Get(Arg.Any<string>()).ReturnsNull();
+        await action.Should().ThrowAsync<DomainException>()
+            .WithMessage(CheckoutExceptions.PaymentDoesNotExist);
 
-            var action = async () => await _manipulator.RefusePayment(Guid.NewGuid().ToString());
-
-            await action.Should().ThrowAsync<DomainException>()
-                .WithMessage(CheckoutExceptions.PaymentDoesNotExist);
-
-            await _paymentRepository.DidNotReceiveWithAnyArgs().Update(Arg.Any<Payment>());
-        }
+        await _paymentRepository.DidNotReceiveWithAnyArgs().Update(Arg.Any<Payment>());
     }
 }

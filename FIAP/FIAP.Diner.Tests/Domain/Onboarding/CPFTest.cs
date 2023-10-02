@@ -1,6 +1,3 @@
-using FIAP.Diner.Domain.Onboarding;
-using FluentAssertions;
-
 namespace FIAP.Diner.Tests.Domain.Onboarding;
 
 public class CPFTest

@@ -1,41 +1,36 @@
-using FIAP.Diner.Domain.Common;
-using FIAP.Diner.Domain.Customers;
-using FluentAssertions;
+namespace FIAP.Diner.Tests.Domain.Customers;
 
-namespace FIAP.Diner.Tests.Domain.Customers
+public class EmailTest
 {
-    public class EmailTest
+    [Fact]
+    public void ShouldCreateEmail()
     {
-        [Fact]
-        public void ShouldCreateEmail()
-        {
-            var emailValue = "valid.email@fiap.com";
+        var emailValue = "valid.email@fiap.com";
 
-            var email = new Email(emailValue);
+        var email = new Email(emailValue);
 
-            email.Value.Should().Be(emailValue);
-        }
+        email.Value.Should().Be(emailValue);
+    }
 
-        [Theory]
-        [InlineData(null)]
-        [InlineData("")]
-        public void ShouldThrowErrorWhenEmailNotProvided(string emailValue)
-        {
-            var action = () => new Email(emailValue);
+    [Theory]
+    [InlineData(null)]
+    [InlineData("")]
+    public void ShouldThrowErrorWhenEmailNotProvided(string emailValue)
+    {
+        var action = () => new Email(emailValue);
 
-            action.Should().Throw<DomainException>()
-                .WithMessage(CustomerExceptions.EmailRequired);
-        }
+        action.Should().Throw<DomainException>()
+            .WithMessage(CustomerExceptions.EmailRequired);
+    }
 
-        [Fact]
-        public void ShouldThrowErrorWhenEmailInvalid()
-        {
-            var emailValue = "abc123";
+    [Fact]
+    public void ShouldThrowErrorWhenEmailInvalid()
+    {
+        var emailValue = "abc123";
 
-            var action = () => new Email(emailValue);
+        var action = () => new Email(emailValue);
 
-            action.Should().Throw<DomainException>()
-                .WithMessage(CustomerExceptions.InvalidEmail);
-        }
+        action.Should().Throw<DomainException>()
+            .WithMessage(CustomerExceptions.InvalidEmail);
     }
 }

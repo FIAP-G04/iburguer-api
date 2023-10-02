@@ -1,47 +1,40 @@
-using FIAP.Diner.Domain.Common;
-using FIAP.Diner.Domain.Customers;
-using FIAP.Diner.Domain.Customers.DomainServices;
-using FluentAssertions;
-using NSubstitute;
+namespace FIAP.Diner.Tests.Domain.Customers;
 
-namespace FIAP.Diner.Tests.Domain.Customers
+public class IdentificationDomainServiceTest
 {
-    public class IdentificationDomainServiceTest
+    private readonly ICustomerRepository _customerRepository = Substitute.For<ICustomerRepository>();
+
+    private readonly IdentificationDomainService _manipulator;
+
+    public IdentificationDomainServiceTest()
     {
-        private readonly ICustomerRepository _customerRepository = Substitute.For<ICustomerRepository>();
+        _manipulator = new(_customerRepository);
+    }
 
-        private readonly IdentificationDomainService _manipulator;
+    [Fact]
+    public async Task ShouldIdentifyCustomer()
+    {
+        var cpf = "1111111111";
+        var customer = new Customer(cpf, "Customer Name", new Email("email@fiap.com"));
 
-        public IdentificationDomainServiceTest()
-        {
-            _manipulator = new(_customerRepository);
-        }
+        _customerRepository.Get(cpf).Returns(customer);
 
-        [Fact]
-        public async Task ShouldIdentifyCustomer()
-        {
-            var cpf = "1111111111";
-            var customer = new Customer(cpf, "Customer Name", new Email("email@fiap.com"));
+        var result = await _manipulator.IdentifyCustomer(cpf);
 
-            _customerRepository.Get(cpf).Returns(customer);
+        result.CPF.Should().Be(cpf);
+        result.Email.Should().Be(customer.Email);
+        result.Name.Should().Be(customer.Name);
+        result.Type.Should().Be(CustomerType.Identified);
+    }
 
-            var result = await _manipulator.IdentifyCustomer(cpf);
+    [Fact]
+    public async Task ShouldThrowErrorWhenCpfNotIdentified()
+    {
+        var cpf = "1111111111";
 
-            result.CPF.Should().Be(cpf);
-            result.Email.Should().Be(customer.Email);
-            result.Name.Should().Be(customer.Name);
-            result.Type.Should().Be(CustomerType.Identified);
-        }
+        var action = async () => await _manipulator.IdentifyCustomer(cpf);
 
-        [Fact]
-        public async Task ShouldThrowErrorWhenCpfNotIdentified()
-        {
-            var cpf = "1111111111";
-
-            var action = async () => await _manipulator.IdentifyCustomer(cpf);
-
-            await action.Should().ThrowAsync<DomainException>()
-                .WithMessage(CustomerExceptions.CustomerWithCPFDoesNotExist);
-        }
+        await action.Should().ThrowAsync<DomainException>()
+            .WithMessage(CustomerExceptions.CustomerWithCPFDoesNotExist);
     }
 }
