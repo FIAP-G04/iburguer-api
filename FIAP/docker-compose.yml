@@ -1,0 +1,32 @@
+﻿version: "3.8"
+
+services:
+    fiap.diner.api:
+        image: fiap.diner.api
+        build:
+            context: .
+            dockerfile: FIAP.Diner.API/Dockerfile
+        ports:
+            - "5000:80"
+        networks:
+            - development
+        depends_on:
+            - postgres
+    postgres:
+        container_name: postgres_container
+        image: postgres
+        environment:
+            POSTGRES_USER: ${POSTGRES_USER}
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+            PGDATA: /data/postgres
+        volumes:
+            - postgres:/data/postgres
+        ports:
+            - "5432:5432"
+        networks:
+            - development
+        restart: unless-stopped
+
+networks:
+    development:
+        driver: bridge
