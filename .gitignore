@@ -15,10 +15,9 @@ docker-compose/
 *.exe
 *.pdb
 *.aps
+FIAP/global.json
 
 # User-specific files
-*.suo
-*.user
 *.userosscache
 *.sln.docstates
 *.env
@@ -72,7 +71,6 @@ artifacts/
 *.meta
 *.obj
 *.pch
-*.pdb
 *.pgc
 *.pgd
 *.rsp
@@ -84,12 +82,9 @@ artifacts/
 *.tmp_proj
 *.[Cc]ache
 *.bak
-*.ncb
-*.ilk
 *.log
 *.lib
 *.vsidx
-*.sbr
 *.sdf
 ipch/
 *.dbmdl
@@ -99,7 +94,6 @@ ipch/
 *.vspscc
 *.vssscc
 *.bak.*
-*.bak
 .builds
 *.pidb
 *.svclog
@@ -109,12 +103,8 @@ ipch/
 _Chutzpah*
 
 # Visual C++ cache files
-ipch/
-*.aps
-*.ncb
 *.opendb
 *.opensdf
-*.sdf
 *.cachefile
 *.VC.db
 *.VC.VC.opendb
@@ -212,9 +202,6 @@ BundleArtifacts/
 Package.StoreAssociation.xml
 _pkginfo.txt
 
-# Visual Studio cache files
-# files ending in .cache can be ignored
-*.[Cc]ache
 # but keep track of directories ending in .cache
 !*.[Cc]ache/
 
@@ -222,7 +209,6 @@ _pkginfo.txt
 ClientBin/
 ~$*
 *~
-*.dbmdl
 *.dbproj.schemaview
 *.jfm
 *.pfx
@@ -297,7 +283,6 @@ __pycache__/
 
 #Tools
 _ReSharper.*
-_ReSharper*/
 *.resharper
 *.resharper.user
 [Nn][Dd]epend[Oo]ut*/
@@ -305,9 +290,6 @@ Ankh.NoLoad
 
 # Visual Studio Code
 .vscode
-
-# Visual Studio 2015
-.vs/
 
 #Other
 .svn
