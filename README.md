@@ -64,6 +64,7 @@ Esse projeto foi feito utilizando as seguintes tecnologias:
 - [PostgreSQL](https://www.postgresql.org/)
 - [Docker](https://www.docker.com/)
 - [Swagger](https://swagger.io/)
+- [SEQ](https://datalust.co/seq)
 
 <!-- Funcionalidades do projeto -->
 
@@ -83,7 +84,9 @@ Em construção ...
 
 Antes de começar, você vai precisar ter instalado em sua máquina as seguintes ferramentas:
 
-[Git](https://git-scm.com), [.NET 8.0](https://dotnet.microsoft.com/pt-br/download/dotnet/8.0) e [Visual Studio Professional](https://visualstudio.microsoft.com/pt-br/vs/professional/)
+[Git](https://git-scm.com), [.NET 8.0](https://dotnet.microsoft.com/pt-br/download/dotnet/8.0) e [Visual Studio Professional](https://visualstudio.microsoft.com/pt-br/vs/professional/).
+
+Caso queira utilizar o [SEQ](https://docs.datalust.co/docs/getting-started) siga o passo-a-passo no link. Porem essa ferramente é opcional.
 
 <!-- Como rodar o projeto -->
 
