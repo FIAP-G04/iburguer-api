@@ -1,8 +1,8 @@
-using FIAP.Diner.Domain.Common;
+using FIAP.Diner.Domain.Abstractions;
 
 namespace FIAP.Diner.Domain.Checkout
 {
-    public class Payment : Entity<Guid>, IAggregateRoot
+    public class Payment : Entity<PaymentId>, IAggregateRoot
     {
         public Guid OrderId { get; private set; }
         public double Amount { get; private set; }
@@ -13,7 +13,7 @@ namespace FIAP.Diner.Domain.Checkout
 
         public Payment(Guid orderId, double amount, QRCode qrCode)
         {
-            Id = Guid.NewGuid();
+            Id = new();
             OrderId = orderId;
             Amount = amount;
             QRCode = qrCode;

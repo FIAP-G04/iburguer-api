@@ -1,3 +1,4 @@
+using FIAP.Diner.Domain.Abstractions;
 using FIAP.Diner.Domain.Common;
 
 namespace FIAP.Diner.Domain.Products
@@ -15,7 +16,7 @@ namespace FIAP.Diner.Domain.Products
             await _repository.Save(product);
         }
 
-        public async Task Remove(Guid id)
+        public async Task Remove(ProductId id)
         {
             var product = await _repository.Get(id);
 
@@ -25,7 +26,7 @@ namespace FIAP.Diner.Domain.Products
             await _repository.Remove(product);
         }
 
-        public async Task Update(Guid id, string name, string description, decimal price, Category category, TimeSpan readyTimeExpectation, IEnumerable<string> imageURLs)
+        public async Task Update(ProductId id, string name, string description, decimal price, Category category, TimeSpan readyTimeExpectation, IEnumerable<string> imageURLs)
         {
             var product = await _repository.Get(id);
 

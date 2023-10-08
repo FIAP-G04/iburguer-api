@@ -4,8 +4,8 @@ namespace FIAP.Diner.Domain.Products
     {
         Task Register(string name, string description, decimal price, Category category, TimeSpan readyTimeExpectation, IEnumerable<string> imageURLs);
 
-        Task Update(Guid id, string name, string description, decimal price, Category category, TimeSpan readyTimeExpectation, IEnumerable<string> imageURLs);
+        Task Update(ProductId id, string name, string description, decimal price, Category category, TimeSpan readyTimeExpectation, IEnumerable<string> imageURLs);
 
-        Task Remove(Guid id);
+        Task Remove(ProductId id);
     }
 }

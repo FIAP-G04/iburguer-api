@@ -1,8 +1,8 @@
-using FIAP.Diner.Domain.Common;
+using FIAP.Diner.Domain.Abstractions;
 
 namespace FIAP.Diner.Domain.Products
 {
-    public class Product : Entity<Guid>, IAggregateRoot
+    public class Product : Entity<ProductId>, IAggregateRoot
     {public string Name { get; private set; }
         public string Description { get; private set; }
         public decimal Price { get; private set; }
@@ -14,7 +14,7 @@ namespace FIAP.Diner.Domain.Products
 
         public Product(string name, string description, decimal price, Category category, TimeSpan readyTimeExpectation, IEnumerable<ImageURL> imageURLs)
         {
-            Id = Guid.NewGuid();
+            Id = new();
             Name = name;
             Description = description;
             Price = price;

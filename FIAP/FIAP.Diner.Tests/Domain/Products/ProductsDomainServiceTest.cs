@@ -1,3 +1,4 @@
+using FIAP.Diner.Domain.Abstractions;
 using FIAP.Diner.Domain.Common;
 using FIAP.Diner.Domain.Products;
 using FluentAssertions;

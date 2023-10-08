@@ -1,4 +1,4 @@
-using FIAP.Diner.Domain.Common;
+using FIAP.Diner.Domain.Abstractions;
 
 namespace FIAP.Diner.Domain.Products
 {
@@ -10,6 +10,6 @@ namespace FIAP.Diner.Domain.Products
 
         Task Remove(Product product);
 
-        Task<Product> Get(Guid id);
+        Task<Product> Get(ProductId id);
     }
 }

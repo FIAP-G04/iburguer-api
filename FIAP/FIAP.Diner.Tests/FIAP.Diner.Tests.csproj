@@ -25,12 +25,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FIAP.Diner.Application\FIAP.Diner.Application.csproj" />
     <ProjectReference Include="..\FIAP.Diner.Domain\FIAP.Diner.Domain.csproj" />
     <ProjectReference Include="..\FIAP.Diner.Infrastructure\FIAP.Diner.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Compile Remove="UnitTest1.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Domain\Onboarding\" />
   </ItemGroup>
 
 </Project>

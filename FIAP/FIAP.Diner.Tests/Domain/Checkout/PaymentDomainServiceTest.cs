@@ -1,3 +1,5 @@
+using FIAP.Diner.Domain.Abstractions;
+
 namespace FIAP.Diner.Tests.Domain.Checkout;
 
 public class PaymentDomainServiceTest
