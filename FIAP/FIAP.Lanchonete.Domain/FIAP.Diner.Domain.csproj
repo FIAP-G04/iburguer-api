@@ -9,6 +9,22 @@
   <ItemGroup>
     <Folder Include="Checkout\" />
     <Folder Include="Order\" />
+    <Folder Include="Shared\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Onboarding\Email.cs" />
+    <Compile Remove="Onboarding\**" />
+    <Compile Remove="Shared\CustomerId.cs" />
+    <Compile Remove="Abstractions\Identitier.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="Onboarding\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Onboarding\**" />
   </ItemGroup>
 
 </Project>

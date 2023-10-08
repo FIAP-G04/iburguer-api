@@ -2,7 +2,7 @@ using FIAP.Diner.Domain.Common;
 
 namespace FIAP.Diner.Domain.Catalog;
 
-public class Product : Entity<Guid>, IAggregateRoot
+public class Product
 {
     public string Name { get; private set; }
     public string Description { get; private set; }
