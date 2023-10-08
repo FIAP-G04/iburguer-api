@@ -6,7 +6,7 @@ public class PaymentTest
     public void ShouldCreatePayment()
     {
         var orderId = Guid.NewGuid();
-        var amount = 11.11;
+        var amount = 11.11M;
         var qrCode = new QRCode(Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
 
         var payment = new Payment(orderId, amount, qrCode);
@@ -23,7 +23,7 @@ public class PaymentTest
     public void ShouldConfirmPayment()
     {
         var orderId = Guid.NewGuid();
-        var amount = 11.11;
+        var amount = 11.11M;
         var qrCode = new QRCode(Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
 
         var payment = new Payment(orderId, amount, qrCode);
@@ -46,7 +46,7 @@ public class PaymentTest
     public void ShouldRefusePayment()
     {
         var orderId = Guid.NewGuid();
-        var amount = 11.11;
+        var amount = 11.11M;
         var qrCode = new QRCode(Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
 
         var payment = new Payment(orderId, amount, qrCode);
