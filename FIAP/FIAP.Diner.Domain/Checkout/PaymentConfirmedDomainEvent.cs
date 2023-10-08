@@ -1,4 +1,4 @@
-using FIAP.Diner.Domain.Common;
+using FIAP.Diner.Domain.Abstractions;
 
 namespace FIAP.Diner.Domain.Checkout
 {
