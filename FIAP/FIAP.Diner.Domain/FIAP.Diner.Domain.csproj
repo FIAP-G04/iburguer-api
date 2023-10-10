@@ -12,4 +12,9 @@
     <Folder Include="Order\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="Checkout\IPaymentDomainService.cs" />
+    <Compile Remove="Checkout\PaymentDomainService.cs" />
+  </ItemGroup>
+
 </Project>
