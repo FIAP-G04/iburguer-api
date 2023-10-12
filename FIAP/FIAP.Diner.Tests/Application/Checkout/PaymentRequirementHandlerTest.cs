@@ -60,7 +60,7 @@ public class PaymentRequirementHandlerTest
         var action = async () => await _manipulator.Handle(query, default);
 
         await action.Should().ThrowAsync<DomainException>()
-            .WithMessage(CheckoutExceptions.ErrorGeneratingPayment);
+            .WithMessage(string.Format(PaymentGenerationException.error, orderId));
 
         await _paymentRepository.DidNotReceiveWithAnyArgs().Save(Arg.Any<Payment>());
     }

@@ -19,7 +19,7 @@ public class PaymentConfirmationHandler : ICommandHandler<ConfirmPaymentCommand>
         var payment = await _paymentRepository.Get(command.ExternalPaymentServiceId);
 
         if (payment is null)
-            throw new DomainException(CheckoutExceptions.PaymentDoesNotExist);
+            throw new PaymentNotExistsException(command.ExternalPaymentServiceId);
 
         payment.Confirm(command.PayedAt);
 
@@ -31,7 +31,7 @@ public class PaymentConfirmationHandler : ICommandHandler<ConfirmPaymentCommand>
         var payment = await _paymentRepository.Get(command.ExternalPaymentServiceId);
 
         if (payment is null)
-            throw new DomainException(CheckoutExceptions.PaymentDoesNotExist);
+            throw new PaymentNotExistsException(command.ExternalPaymentServiceId);
 
         payment.Refuse();
 

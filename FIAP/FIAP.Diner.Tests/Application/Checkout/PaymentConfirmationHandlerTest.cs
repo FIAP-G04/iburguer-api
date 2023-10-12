@@ -44,7 +44,7 @@ public class PaymentConfirmationHandlerTest
         var action = async () => await _manipulator.Handle(command, default);
 
         await action.Should().ThrowAsync<DomainException>()
-            .WithMessage(CheckoutExceptions.PaymentDoesNotExist);
+            .WithMessage(string.Format(PaymentNotExistsException.error, command.ExternalPaymentServiceId));
 
         await _paymentRepository.DidNotReceiveWithAnyArgs().Update(Arg.Any<Payment>());
     }
@@ -77,7 +77,7 @@ public class PaymentConfirmationHandlerTest
         var action = async () => await _manipulator.Handle(command, default);
 
         await action.Should().ThrowAsync<DomainException>()
-            .WithMessage(CheckoutExceptions.PaymentDoesNotExist);
+            .WithMessage(string.Format(PaymentNotExistsException.error, command.ExternalPaymentServiceId));
 
         await _paymentRepository.DidNotReceiveWithAnyArgs().Update(Arg.Any<Payment>());
     }

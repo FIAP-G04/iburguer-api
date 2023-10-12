@@ -29,8 +29,8 @@ public class OrderTest
 
         var raisedEvent = order.Events.First(e =>
             e.GetType().Equals(typeof(OrderStatusUpdatedDomainEvent))) as OrderStatusUpdatedDomainEvent;
-        raisedEvent.OrderId.Should().Be(order.OrderId);
-        raisedEvent.CustomerId.Should().Be(order.CustomerId);
-        raisedEvent.Status.Should().Be(order.Status);
+        raisedEvent!.OrderId.Should().Be(order.OrderId);
+        raisedEvent!.CustomerId.Should().Be(order.CustomerId);
+        raisedEvent!.Status.Should().Be(order.Status);
     }
 }

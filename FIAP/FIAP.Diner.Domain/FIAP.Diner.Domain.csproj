@@ -18,6 +18,7 @@
     <Compile Remove="Tracking\IOrderTrackingDomainService.cs" />
     <Compile Remove="Tracking\OrderTrackingDomainService.cs" />
     <Compile Remove="Tracking\OrderTrackingExceptions.cs" />
+    <Compile Remove="Checkout\CheckoutExceptions.cs" />
   </ItemGroup>
 
 </Project>
