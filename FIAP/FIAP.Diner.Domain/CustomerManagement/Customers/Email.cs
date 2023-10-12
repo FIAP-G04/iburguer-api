@@ -6,7 +6,7 @@ namespace FIAP.Diner.Domain.CustomerManagement.Customers
 {
     public sealed record Email
     {
-        private const string emailPattern = @"^[\w-\.]+@[\w]([\w-]+\.)+[\w-]{2,4}$";//@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
+        private const string emailPattern = @"^[\w-\.]+@[A-Za-z0-9]([A-Za-z0-9-]+\.)+[A-Za-z0-9-]{2,4}$";
 
         public string Value { get; private set; }
 
