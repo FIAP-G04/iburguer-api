@@ -22,8 +22,9 @@ namespace FIAP.Diner.Domain.CustomerManagement.Customers
                 throw new DomainException(Errors.EmailRequired);
 
             if (!new Regex(emailPattern).IsMatch(email))
+                throw new DomainException(Errors.InvalidEmail);
 
-                Value = email;
+            Value = email;
         }
 
         public static class Errors

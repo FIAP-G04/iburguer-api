@@ -15,6 +15,9 @@
   <ItemGroup>
     <Compile Remove="Checkout\IPaymentDomainService.cs" />
     <Compile Remove="Checkout\PaymentDomainService.cs" />
+    <Compile Remove="Tracking\IOrderTrackingDomainService.cs" />
+    <Compile Remove="Tracking\OrderTrackingDomainService.cs" />
+    <Compile Remove="Tracking\OrderTrackingExceptions.cs" />
   </ItemGroup>
 
 </Project>

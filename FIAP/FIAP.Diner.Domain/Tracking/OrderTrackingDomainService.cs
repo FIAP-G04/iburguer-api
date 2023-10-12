@@ -5,29 +5,29 @@ namespace FIAP.Diner.Domain.Tracking;
 
 public class OrderTrackingDomainService : IOrderTrackingDomainService
 {
-    private readonly IOrderRepository _orderRepository;
+    private readonly IOrderTrackingRepository orderTrackingRepository;
 
-    public OrderTrackingDomainService(IOrderRepository orderRepository)
+    public OrderTrackingDomainService(IOrderTrackingRepository orderTrackingRepository)
     {
-        _orderRepository = orderRepository;
+        this.orderTrackingRepository = orderTrackingRepository;
     }
 
     public async Task RegisterOrderTracking(Guid orderId, Guid customerId)
     {
         var order = new OrderTracking(orderId, customerId);
 
-        await _orderRepository.Save(order);
+        await orderTrackingRepository.Save(order);
     }
 
     public async Task UpdateOrderTracking(Guid orderId, OrderStatus orderStatus)
     {
-        var order = await _orderRepository.GetByOrderId(orderId);
+        var order = await orderTrackingRepository.GetByOrderId(orderId);
 
         if (order == null)
             throw new DomainException(OrderTrackingExceptions.OrderNotFound);
 
         order.UpdateStatus(orderStatus);
 
-        await _orderRepository.Update(order);
+        await orderTrackingRepository.Update(order);
     }
 }
