@@ -12,6 +12,8 @@ public class OrderTest
 
         var order = new Diner.Domain.Tracking.OrderTracking(orderId, customerId);
 
+        order.Id.Should().NotBeNull();
+        order.Id.Value.Should().NotBe(Guid.Empty);
         order.OrderId.Should().Be(orderId);
         order.CustomerId.Should().Be(customerId);
 

@@ -1,7 +1,5 @@
 using FIAP.Diner.Domain.Abstractions;
-using FIAP.Diner.Domain.Common;
 using FIAP.Diner.Domain.Products;
-using FluentAssertions;
 
 namespace FIAP.Diner.Tests.Domain.Products
 {
@@ -19,6 +17,8 @@ namespace FIAP.Diner.Tests.Domain.Products
 
             var product = new Product(name, description, price, category, readyTime, imageUrls);
 
+            product.Id.Should().NotBeNull();
+            product.Id.Value.Should().NotBe(Guid.Empty);
             product.Name.Should().Be(name);
             product.Description.Should().Be(description);
             product.Price.Should().Be(price);
@@ -119,7 +119,7 @@ namespace FIAP.Diner.Tests.Domain.Products
             var imageUrls = new List<ImageURL>() { new("abc.url.com") };
 
             var product = new Product(name, description, price, category, readyTime, imageUrls);
-            
+
             var descriptionUpdated = "Product description Updated";
             var priceUpdated = 22.22M;
             var categoryUpdated = Category.Drink;

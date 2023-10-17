@@ -1,5 +1,4 @@
 using FIAP.Diner.Domain.Abstractions;
-using FIAP.Diner.Domain.Common;
 
 namespace FIAP.Diner.Domain.CustomerManagement.Customers
 {
@@ -16,7 +15,7 @@ namespace FIAP.Diner.Domain.CustomerManagement.Customers
 
         public Customer(string cpf, FullName name, Email email) : base()
         {
-            Id = CustomerId.New;
+            Id = Guid.NewGuid();
             CPF = cpf;
             Name = name;
             Email = email;

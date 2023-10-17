@@ -9,7 +9,7 @@ public class TrackingStatus : Entity<TrackingStatusId>
 
     public TrackingStatus(OrderStatus orderStatus)
     {
-        Id = TrackingStatusId.New;
+        Id = Guid.NewGuid();
         OrderStatus = orderStatus;
         DateTime = DateTime.Now;
     }

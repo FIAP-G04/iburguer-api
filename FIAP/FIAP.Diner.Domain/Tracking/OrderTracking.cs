@@ -15,7 +15,7 @@ public class OrderTracking : Entity<OrderTrackingId>, IAggregateRoot
 
     public OrderTracking(Guid orderId, Guid customerId)
     {
-        Id = OrderTrackingId.New;
+        Id = Guid.NewGuid();
 
         OrderId = orderId;
         CustomerId = customerId;

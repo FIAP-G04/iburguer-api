@@ -1,7 +1,4 @@
-using FIAP.Diner.Domain.Abstractions;
-using FIAP.Diner.Domain.Common;
 using FIAP.Diner.Domain.CustomerManagement.Customers;
-using FluentAssertions;
 
 namespace FIAP.Diner.Tests.Domain.CustomerManagement.Customers
 {
@@ -21,6 +18,7 @@ namespace FIAP.Diner.Tests.Domain.CustomerManagement.Customers
 
             //Assert
             customer.Id.Should().NotBeNull();
+            customer.Id.Value.Should().NotBe(Guid.Empty);
             customer.CPF.Number.Should().Be(cpf);
             customer.Name.Should().Be(name);
             customer.Email.Value.Should().Be(email);
@@ -44,6 +42,7 @@ namespace FIAP.Diner.Tests.Domain.CustomerManagement.Customers
 
             //Assert
             customer.Id.Should().NotBeNull();
+            customer.Id.Value.Should().NotBe(Guid.Empty);
             customer.CPF.Number.Should().Be(cpf);
             customer.Name.Should().Be(name);
             customer.Email.Value.Should().Be(email);
