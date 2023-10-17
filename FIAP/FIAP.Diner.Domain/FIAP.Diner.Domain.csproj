@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Common\" />
     <Folder Include="Onboarding\" />
     <Folder Include="Order\" />
   </ItemGroup>
@@ -15,6 +14,13 @@
   <ItemGroup>
     <Compile Remove="Checkout\IPaymentDomainService.cs" />
     <Compile Remove="Checkout\PaymentDomainService.cs" />
+    <Compile Remove="Tracking\IOrderTrackingDomainService.cs" />
+    <Compile Remove="Tracking\OrderTrackingDomainService.cs" />
+    <Compile Remove="Tracking\OrderTrackingExceptions.cs" />
+    <Compile Remove="Checkout\CheckoutExceptions.cs" />
+    <Compile Remove="Cart\Combo.cs" />
+    <Compile Remove="Cart\Product.cs" />
+    <Compile Remove="Cart\Category.cs" />
   </ItemGroup>
 
 </Project>

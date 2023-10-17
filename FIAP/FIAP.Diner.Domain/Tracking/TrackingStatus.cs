@@ -1,6 +1,16 @@
+using FIAP.Diner.Domain.Abstractions;
+
 namespace FIAP.Diner.Domain.Tracking;
 
-public record TrackingStatus(OrderStatus OrderStatus)
+public class TrackingStatus : Entity<TrackingStatusId>
 {
-    public DateTime DateTime = DateTime.Now;
+    public OrderStatus OrderStatus { get; private set; }
+    public DateTime DateTime { get; }
+
+    public TrackingStatus(OrderStatus orderStatus)
+    {
+        Id = Guid.NewGuid();
+        OrderStatus = orderStatus;
+        DateTime = DateTime.Now;
+    }
 }

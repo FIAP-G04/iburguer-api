@@ -13,7 +13,7 @@ namespace FIAP.Diner.Domain.Checkout
 
         public Payment(Guid orderId, decimal amount, QRCode qrCode)
         {
-            Id = PaymentId.New;
+            Id = Guid.NewGuid();
             OrderId = orderId;
             Amount = amount;
             QRCode = qrCode;

@@ -1,13 +1,12 @@
 using FIAP.Diner.Domain.Abstractions;
-using FIAP.Diner.Domain.Common;
 
 namespace FIAP.Diner.Domain.Cart;
 
 public sealed record Quantity
 {
-    public ushort Value { get; private set; }
+    public int Value { get; private set; }
 
-    public Quantity(ushort quantity)
+    public Quantity(int quantity)
     {
         if (quantity < 1)
             throw new DomainException(Errors.InvalidQuantity);
@@ -20,6 +19,8 @@ public sealed record Quantity
     public static implicit operator Quantity(int value) => new(value);
 
     public override string ToString() => Value.ToString();
+
+    public bool IsMinimum() => Value == 1;
 
     public static class Errors
     {

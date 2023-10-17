@@ -11,6 +11,8 @@ public class PaymentTest
 
         var payment = new Payment(orderId, amount, qrCode);
 
+        payment.Id.Should().NotBeNull();
+        payment.Id.Value.Should().NotBe(Guid.Empty);
         payment.Status.Should().Be(PaymentStatus.Processing);
         payment.Amount.Should().Be(amount);
         payment.OrderId.Should().Be(orderId);
