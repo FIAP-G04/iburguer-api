@@ -1,6 +1,6 @@
 using FIAP.Diner.Domain.Abstractions;
 
-namespace FIAP.Diner.Application.OrderTracking.Tracking;
+namespace FIAP.Diner.Application.Order.Tracking;
 
 public class OrderTrackingNotFoundException : DomainException
 {

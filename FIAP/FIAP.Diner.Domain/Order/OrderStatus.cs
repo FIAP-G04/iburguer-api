@@ -1,4 +1,4 @@
-namespace FIAP.Diner.Domain.Tracking;
+namespace FIAP.Diner.Domain.Order;
 
 public enum OrderStatus
 {

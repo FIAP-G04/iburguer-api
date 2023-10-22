@@ -1,13 +1,13 @@
 using FIAP.Diner.Domain.Abstractions;
 
-namespace FIAP.Diner.Domain.Tracking;
+namespace FIAP.Diner.Domain.Order;
 
-public class TrackingStatus : Entity<TrackingStatusId>
+public class OrderTracking : Entity<OrderTrackingId>
 {
     public OrderStatus OrderStatus { get; private set; }
     public DateTime DateTime { get; }
 
-    public TrackingStatus(OrderStatus orderStatus)
+    public OrderTracking(OrderStatus orderStatus)
     {
         Id = Guid.NewGuid();
         OrderStatus = orderStatus;
