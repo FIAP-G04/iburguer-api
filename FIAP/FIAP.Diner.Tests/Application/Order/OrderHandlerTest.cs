@@ -25,12 +25,15 @@ public class OrderHandlerTest
 
         var command = new RegisterOrderCommand(cartId, customerId);
 
+        orderRepository.GetNextWithdrawCode(Arg.Any<CancellationToken>()).Returns("ABC-123");
+
         await _manipulator.Handle(command, default);
 
         await orderRepository.Received()
             .Save(Arg.Is<Diner.Domain.Order.Order>(o =>
                 o.CartId.Value == cartId &&
-                o.CustomerId.Value == customerId));
+                o.CustomerId.Value == customerId &&
+                o.WithdrawCode == "ABC-123"), Arg.Any<CancellationToken>());
     }
 
     [Fact]
@@ -40,20 +43,20 @@ public class OrderHandlerTest
 
         var command = new UpdateOrderTrackingCommand(orderTracking.Id, OrderStatus.Ready);
 
-        orderRepository.Get(orderTracking.Id).Returns(orderTracking);
+        orderRepository.Get(orderTracking.Id, Arg.Any<CancellationToken>()).Returns(orderTracking);
 
         await _manipulator.Handle(command, default);
 
         await orderRepository.Received()
             .Update(Arg.Is<Diner.Domain.Order.Order>(o =>
                 o.Id == orderTracking.Id &&
-                o.Status.OrderStatus == command.OrderStatus));
+                o.Status.OrderStatus == command.OrderStatus), Arg.Any<CancellationToken>());
     }
 
     [Fact]
     public async Task ShouldThrowErrorWhenOrderDoesNotExist()
     {
-        orderRepository.Get(Arg.Any<Guid>()).ReturnsNull();
+        orderRepository.Get(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).ReturnsNull();
 
         var command = new UpdateOrderTrackingCommand(Guid.NewGuid(), OrderStatus.Finished);
 

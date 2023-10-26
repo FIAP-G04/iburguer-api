@@ -5,30 +5,44 @@ public class PaymentTest
     [Fact]
     public void ShouldCreatePayment()
     {
-        var orderId = Guid.NewGuid();
+        var cartId = Guid.NewGuid();
         var amount = 11.11M;
         var qrCode = new QRCode(Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
 
-        var payment = new Payment(orderId, amount, qrCode);
+        var payment = new Payment(cartId, amount);
 
         payment.Id.Should().NotBeNull();
         payment.Id.Value.Should().NotBe(Guid.Empty);
         payment.Status.Should().Be(PaymentStatus.Processing);
         payment.Amount.Should().Be(amount);
-        payment.OrderId.Should().Be(orderId);
-        payment.QRCode.Should().Be(qrCode);
+        payment.CartId.Should().Be(cartId);
+        payment.QRCode.Should().BeNull();
         payment.Confirmed.Should().BeFalse();
         payment.PayedAt.Should().BeNull();
     }
 
     [Fact]
-    public void ShouldConfirmPayment()
+    public void ShouldAddQRCode()
     {
-        var orderId = Guid.NewGuid();
+        var cartId = Guid.NewGuid();
         var amount = 11.11M;
         var qrCode = new QRCode(Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
 
-        var payment = new Payment(orderId, amount, qrCode);
+        var payment = new Payment(cartId, amount);
+
+        payment.AddQRCode(qrCode);
+
+        payment.QRCode.Should().Be(qrCode);
+    }
+
+    [Fact]
+    public void ShouldConfirmPayment()
+    {
+        var cartId = Guid.NewGuid();
+        var amount = 11.11M;
+        var qrCode = new QRCode(Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
+
+        var payment = new Payment(cartId, amount);
 
         var payedAt = DateTime.UtcNow;
         payment.Confirm(payedAt);
@@ -41,17 +55,17 @@ public class PaymentTest
         var raisedEvent = payment.Events.First(e => e.GetType().Equals(typeof(PaymentConfirmedDomainEvent))) as PaymentConfirmedDomainEvent;
 
         raisedEvent.Should().NotBeNull();
-        raisedEvent?.OrderId.Should().Be(orderId);
+        raisedEvent?.OrderId.Should().Be(cartId);
     }
 
     [Fact]
     public void ShouldRefusePayment()
     {
-        var orderId = Guid.NewGuid();
+        var cartId = Guid.NewGuid();
         var amount = 11.11M;
         var qrCode = new QRCode(Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
 
-        var payment = new Payment(orderId, amount, qrCode);
+        var payment = new Payment(cartId, amount);
 
         payment.Refuse();
 
@@ -63,6 +77,6 @@ public class PaymentTest
         var raisedEvent = payment.Events.First(e => e.GetType().Equals(typeof(PaymentRefusedDomainEvent))) as PaymentRefusedDomainEvent;
 
         raisedEvent.Should().NotBeNull();
-        raisedEvent?.OrderId.Should().Be(orderId);
+        raisedEvent?.OrderId.Should().Be(cartId);
     }
 }

@@ -4,14 +4,14 @@ namespace FIAP.Diner.Application.Checkout.Requirement;
 
 public class RequiredPayment
 {
-    public PaymentId Id { get; private set; }
+    public Guid Id { get; private set; }
     public decimal Amount { get; private set; }
-    public QRCode QRCode { get; private set; }
+    public string QRCode { get; private set; }
 
     public RequiredPayment(Payment payment)
     {
-        Id = payment.Id;
+        Id = payment.Id.Value;
         Amount = payment.Amount;
-        QRCode = payment.QRCode;
+        QRCode = payment.QRCode.Value;
     }
 }

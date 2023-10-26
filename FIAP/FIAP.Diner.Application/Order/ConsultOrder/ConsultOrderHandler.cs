@@ -10,7 +10,7 @@ namespace FIAP.Diner.Application.Order.ConsultOrder
         public ConsultOrderHandler(IOrderRepository orderRepository) => _orderRepository = orderRepository;
 
         public async Task<OrderDetails> Handle(ConsultOrderQuery query, CancellationToken cancellation)
-            => await _orderRepository.GetDetails(query.OrderId)
+            => await _orderRepository.GetDetails(query.OrderId, cancellation)
                 ?? throw new OrderNotFoundException(query.OrderId);
     }
 }

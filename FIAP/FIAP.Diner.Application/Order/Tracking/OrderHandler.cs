@@ -17,18 +17,22 @@ public class OrderHandler : ICommandHandler<RegisterOrderCommand>,
     {
         var order = new Domain.Order.Order(command.CartId, command.CustomerId);
 
-        await orderRepository.Save(order);
+        var withdrawCode = await orderRepository.GetNextWithdrawCode(cancellation);
+
+        order.AddWithdrawCode(withdrawCode);
+
+        await orderRepository.Save(order, cancellation);
     }
 
     public async Task Handle(UpdateOrderTrackingCommand command, CancellationToken cancellation)
     {
-        var order = await orderRepository.Get(command.OrderId);
+        var order = await orderRepository.Get(command.OrderId, cancellation);
 
         if (order == null)
             throw new OrderTrackingNotFoundException(command.OrderId);
 
         order.UpdateStatus(command.OrderStatus);
 
-        await orderRepository.Update(order);
+        await orderRepository.Update(order, cancellation);
     }
 }

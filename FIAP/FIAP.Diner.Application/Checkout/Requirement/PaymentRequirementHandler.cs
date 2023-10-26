@@ -20,13 +20,14 @@ public class PaymentRequirementHandler : IQueryHandler<RequirePaymentQuery, Requ
         var (externalPaymentId, qrCodeValue) = await _externalPaymentService.GenerateQRCode(query.Amount);
 
         if (string.IsNullOrEmpty(externalPaymentId) || string.IsNullOrEmpty(qrCodeValue))
-            throw new PaymentGenerationException(query.OrderId);
+            throw new PaymentGenerationException(query.CartId);
 
         var qrCode = new QRCode(externalPaymentId, qrCodeValue);
 
-        var payment = new Payment(query.OrderId, query.Amount, qrCode);
+        var payment = await _paymentRepository.Get(query.CartId, cancellation);
+        payment.AddQRCode(qrCode);
 
-        await _paymentRepository.Save(payment);
+        await _paymentRepository.Update(payment, cancellation);
 
         return new(payment);
     }

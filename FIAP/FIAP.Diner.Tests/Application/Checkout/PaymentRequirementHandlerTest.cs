@@ -21,30 +21,32 @@ public class PaymentRequirementHandlerTest
     [Fact]
     public async Task ShouldRequirePayment()
     {
-        var orderId = Guid.NewGuid();
+        var cartId = Guid.NewGuid();
         var amount = 11.11M;
+
+        var payment = new Payment(cartId, amount);
 
         var externalPaymentId = Guid.NewGuid().ToString();
         var qrCodeValue = Guid.NewGuid().ToString();
 
-        var query = new RequirePaymentQuery(orderId, amount);
+        var query = new RequirePaymentQuery(cartId, amount);
 
         _externalPaymentService.GenerateQRCode(amount).Returns((externalPaymentId, qrCodeValue));
+        _paymentRepository.Get(query.CartId, Arg.Any<CancellationToken>()).Returns(payment);
 
         var result = await _manipulator.Handle(query, default);
 
         result.Should().NotBeNull();
         result.Amount.Should().Be(amount);
-        result.QRCode.Value.Should().Be(qrCodeValue);
-        result.QRCode.ExternalPaymentId.Should().Be(externalPaymentId);
+        result.QRCode.Should().Be(qrCodeValue);
 
         await _paymentRepository
             .Received()
-            .Save(Arg.Is<Payment>(p =>
-                p.OrderId == orderId &&
+            .Update(Arg.Is<Payment>(p =>
+                p.CartId == cartId &&
                 p.Amount == amount &&
                 p.QRCode.Value == qrCodeValue &&
-                p.QRCode.ExternalPaymentId == externalPaymentId));
+                p.QRCode.ExternalPaymentId == externalPaymentId), Arg.Any<CancellationToken>());
     }
 
     [Fact]
@@ -62,6 +64,6 @@ public class PaymentRequirementHandlerTest
         await action.Should().ThrowAsync<DomainException>()
             .WithMessage(string.Format(PaymentGenerationException.error, orderId));
 
-        await _paymentRepository.DidNotReceiveWithAnyArgs().Save(Arg.Any<Payment>());
+        await _paymentRepository.DidNotReceiveWithAnyArgs().Update(Arg.Any<Payment>(), Arg.Any<CancellationToken>());
     }
 }
