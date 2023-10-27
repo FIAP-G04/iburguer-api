@@ -1,4 +1,4 @@
-namespace FIAP.Diner.Domain.Products
+namespace FIAP.Diner.Domain.Menu
 {
     public enum Category
     {

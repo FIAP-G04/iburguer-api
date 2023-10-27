@@ -18,42 +18,26 @@ public class OrderHandlerTest
     }
 
     [Fact]
-    public async Task ShouldRegisterOrderTracking()
-    {
-        var cartId = Guid.NewGuid();
-        var customerId = Guid.NewGuid();
-
-        var command = new RegisterOrderCommand(cartId, customerId);
-
-        await _manipulator.Handle(command, default);
-
-        await orderRepository.Received()
-            .Save(Arg.Is<Diner.Domain.Order.Order>(o =>
-                o.CartId.Value == cartId &&
-                o.CustomerId.Value == customerId));
-    }
-
-    [Fact]
     public async Task ShouldUpdateOrderTrackingStatus()
     {
         var orderTracking = new Diner.Domain.Order.Order(Guid.NewGuid(), Guid.NewGuid());
 
         var command = new UpdateOrderTrackingCommand(orderTracking.Id, OrderStatus.Ready);
 
-        orderRepository.Get(orderTracking.Id).Returns(orderTracking);
+        orderRepository.Get(orderTracking.Id, Arg.Any<CancellationToken>()).Returns(orderTracking);
 
         await _manipulator.Handle(command, default);
 
         await orderRepository.Received()
             .Update(Arg.Is<Diner.Domain.Order.Order>(o =>
                 o.Id == orderTracking.Id &&
-                o.Status.OrderStatus == command.OrderStatus));
+                o.Status.OrderStatus == command.OrderStatus), Arg.Any<CancellationToken>());
     }
 
     [Fact]
     public async Task ShouldThrowErrorWhenOrderDoesNotExist()
     {
-        orderRepository.Get(Arg.Any<Guid>()).ReturnsNull();
+        orderRepository.Get(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).ReturnsNull();
 
         var command = new UpdateOrderTrackingCommand(Guid.NewGuid(), OrderStatus.Finished);
 

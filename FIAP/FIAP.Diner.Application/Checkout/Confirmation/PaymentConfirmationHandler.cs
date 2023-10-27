@@ -16,25 +16,25 @@ public class PaymentConfirmationHandler : ICommandHandler<ConfirmPaymentCommand>
 
     public async Task Handle(ConfirmPaymentCommand command, CancellationToken cancellation)
     {
-        var payment = await _paymentRepository.Get(command.ExternalPaymentServiceId);
+        var payment = await _paymentRepository.Get(command.ExternalPaymentServiceId, cancellation);
 
         if (payment is null)
             throw new PaymentNotExistsException(command.ExternalPaymentServiceId);
 
         payment.Confirm(command.PayedAt);
 
-        await _paymentRepository.Update(payment);
+        await _paymentRepository.Update(payment, cancellation);
     }
 
     public async Task Handle(RefusePaymentCommand command, CancellationToken cancellation)
     {
-        var payment = await _paymentRepository.Get(command.ExternalPaymentServiceId);
+        var payment = await _paymentRepository.Get(command.ExternalPaymentServiceId, cancellation);
 
         if (payment is null)
             throw new PaymentNotExistsException(command.ExternalPaymentServiceId);
 
         payment.Refuse();
 
-        await _paymentRepository.Update(payment);
+        await _paymentRepository.Update(payment, cancellation);
     }
 }

@@ -25,4 +25,9 @@
     <PackageReference Include="Serilog.Sinks.Seq" Version="5.2.3-dev-00262" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\FIAP.Diner.Application\FIAP.Diner.Application.csproj" />
+    <ProjectReference Include="..\FIAP.Diner.Domain\FIAP.Diner.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

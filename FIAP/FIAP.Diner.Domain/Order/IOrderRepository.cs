@@ -4,9 +4,13 @@ namespace FIAP.Diner.Domain.Order;
 
 public interface IOrderRepository : IRepository<Order>
 {
-    Task<Order> Get(Guid id);
+    Task<Order> Get(Guid id, CancellationToken cancellation);
 
-    Task<OrderDetails> GetDetails(Guid id);
-    Task Save(Order order);
-    Task Update(Order order);
+    Task<OrderDetails> GetDetails(Guid customerId, CancellationToken cancellation);
+
+    Task<IEnumerable<OrderDetails>> GetQueue(CancellationToken cancellation);
+
+    Task<string> GetNextWithdrawCode(CancellationToken cancellation);
+    Task Save(Order order, CancellationToken cancellation);
+    Task Update(Order order, CancellationToken cancellation);
 }

@@ -17,16 +17,18 @@ public class PaymentRequirementHandler : IQueryHandler<RequirePaymentQuery, Requ
 
     public async Task<RequiredPayment> Handle(RequirePaymentQuery query, CancellationToken cancellation)
     {
-        var (externalPaymentId, qrCodeValue) = await _externalPaymentService.GenerateQRCode(query.Amount);
+        var payment = await _paymentRepository.Get(query.CartId, cancellation);
+
+        var (externalPaymentId, qrCodeValue) = await _externalPaymentService.GenerateQRCode(payment.Amount);
 
         if (string.IsNullOrEmpty(externalPaymentId) || string.IsNullOrEmpty(qrCodeValue))
-            throw new PaymentGenerationException(query.OrderId);
+            throw new PaymentGenerationException(query.CartId);
 
         var qrCode = new QRCode(externalPaymentId, qrCodeValue);
 
-        var payment = new Payment(query.OrderId, query.Amount, qrCode);
+        payment.AddQRCode(qrCode);
 
-        await _paymentRepository.Save(payment);
+        await _paymentRepository.Update(payment, cancellation);
 
         return new(payment);
     }

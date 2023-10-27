@@ -28,7 +28,7 @@ namespace FIAP.Diner.Tests.Application.Order
                 Products = new List<OrderProductDetail>()
             };
 
-            _orderRepository.GetDetails(details.OrderId).Returns(details);
+            _orderRepository.GetDetails(details.OrderId, Arg.Any<CancellationToken>()).Returns(details);
 
             var query = new ConsultOrderQuery(details.OrderId);
 
@@ -43,13 +43,13 @@ namespace FIAP.Diner.Tests.Application.Order
         {
             var query = new ConsultOrderQuery(Guid.NewGuid());
 
-            _orderRepository.GetDetails(query.OrderId).ReturnsNull();
+            _orderRepository.GetDetails(query.CustomerId, Arg.Any<CancellationToken>()).ReturnsNull();
 
             var action = async () => await _manipulator.Handle(query, default);
 
             await action.Should()
                 .ThrowAsync<OrderNotFoundException>()
-                .WithMessage(string.Format(OrderNotFoundException.error, query.OrderId));
+                .WithMessage(string.Format(OrderNotFoundException.error, query.CustomerId));
 
         }
 

@@ -2,6 +2,7 @@ using Serilog;
 using Microsoft.EntityFrameworkCore;
 using FIAP.Diner.Infrastructure.Configuration;
 using FIAP.Diner.Infrastructure.Data;
+using FIAP.Diner.API.Configuration;
 
 try
 {
@@ -15,6 +16,7 @@ try
     {
         options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
     });
+    builder.Services.AddDependencyInjection();
 
     var app = builder.Build();
 
@@ -25,6 +27,8 @@ try
     }
 
     app.UseHttpsRedirection();
+
+    app.MapControllers();
 
     Log.Information("Application ready to start");
 

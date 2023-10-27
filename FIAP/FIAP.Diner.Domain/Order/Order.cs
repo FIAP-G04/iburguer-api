@@ -12,6 +12,7 @@ public class Order : Entity<OrderId>, IAggregateRoot
     public OrderTracking Status => _statusHistory.OrderByDescending(s => s.DateTime).FirstOrDefault();
     public CartId CartId { get; private set; }
     public CustomerId CustomerId { get; private set; }
+    public string WithdrawCode { get; private set; }
 
     public Order(CartId cartId, CustomerId customerId)
     {
@@ -20,9 +21,13 @@ public class Order : Entity<OrderId>, IAggregateRoot
         CartId = cartId;
         CustomerId = customerId;
 
-        _statusHistory = new List<OrderTracking>();
-        _statusHistory.Add(new OrderTracking(OrderStatus.WaitingForPayment));
+        _statusHistory = new List<OrderTracking>
+        {
+            new OrderTracking(OrderStatus.WaitingForPayment)
+        };
     }
+
+    public void AddWithdrawCode(string withdrawCode) => WithdrawCode = withdrawCode;
 
     public void UpdateStatus(OrderStatus orderStatus)
     {
