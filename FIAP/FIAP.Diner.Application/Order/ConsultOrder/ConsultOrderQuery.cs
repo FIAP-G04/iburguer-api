@@ -1,4 +1,4 @@
 namespace FIAP.Diner.Application.Order.ConsultOrder
 {
-    public record ConsultOrderQuery(Guid OrderId);
+    public record ConsultOrderQuery(Guid CustomerId);
 }

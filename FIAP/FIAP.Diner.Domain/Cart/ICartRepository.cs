@@ -10,6 +10,8 @@ public interface ICartRepository : IRepository<Cart>
 
     Task<Cart> Get(CustomerId customerId, CancellationToken cancellationToken);
 
+    Task<CustomerId> GetCustomerId(CartId cartId, CancellationToken cancellationToken);
+
     Task<CartDetails> GetDetailed(CustomerId customerId, CancellationToken cancellationToken);
 
     Task<IEnumerable<Cart>> GetByProductInCart(ProductId productId, CancellationToken cancellationToken);

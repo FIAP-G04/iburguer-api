@@ -6,7 +6,7 @@ public interface IOrderRepository : IRepository<Order>
 {
     Task<Order> Get(Guid id, CancellationToken cancellation);
 
-    Task<OrderDetails> GetDetails(Guid id, CancellationToken cancellation);
+    Task<OrderDetails> GetDetails(Guid customerId, CancellationToken cancellation);
 
     Task<IEnumerable<OrderDetails>> GetQueue(CancellationToken cancellation);
 

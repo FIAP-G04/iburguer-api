@@ -1,5 +1,6 @@
 using FIAP.Diner.Application.Checkout.Requirement;
 using FIAP.Diner.Domain.Abstractions;
+using FIAP.Diner.Domain.Checkout;
 
 namespace FIAP.Diner.Tests.Application.Checkout;
 
@@ -29,7 +30,7 @@ public class PaymentRequirementHandlerTest
         var externalPaymentId = Guid.NewGuid().ToString();
         var qrCodeValue = Guid.NewGuid().ToString();
 
-        var query = new RequirePaymentQuery(cartId, amount);
+        var query = new RequirePaymentQuery(cartId);
 
         _externalPaymentService.GenerateQRCode(amount).Returns((externalPaymentId, qrCodeValue));
         _paymentRepository.Get(query.CartId, Arg.Any<CancellationToken>()).Returns(payment);
@@ -52,17 +53,21 @@ public class PaymentRequirementHandlerTest
     [Fact]
     public async Task ShouldThrowErrorWhenQRCodeGenerationNotSuccessful()
     {
-        var orderId = Guid.NewGuid();
+        var cartId = Guid.NewGuid();
         var amount = 11.11M;
 
-        var query = new RequirePaymentQuery(orderId, amount);
+        var payment = new Payment(cartId, amount);
+
+        var query = new RequirePaymentQuery(cartId);
+
+        _paymentRepository.Get(query.CartId, Arg.Any<CancellationToken>()).Returns(payment);
 
         _externalPaymentService.GenerateQRCode(amount).Returns((string.Empty, string.Empty));
 
         var action = async () => await _manipulator.Handle(query, default);
 
         await action.Should().ThrowAsync<DomainException>()
-            .WithMessage(string.Format(PaymentGenerationException.error, orderId));
+            .WithMessage(string.Format(PaymentGenerationException.error, cartId));
 
         await _paymentRepository.DidNotReceiveWithAnyArgs().Update(Arg.Any<Payment>(), Arg.Any<CancellationToken>());
     }

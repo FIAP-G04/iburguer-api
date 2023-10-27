@@ -55,7 +55,7 @@ public class PaymentTest
         var raisedEvent = payment.Events.First(e => e.GetType().Equals(typeof(PaymentConfirmedDomainEvent))) as PaymentConfirmedDomainEvent;
 
         raisedEvent.Should().NotBeNull();
-        raisedEvent?.OrderId.Should().Be(cartId);
+        raisedEvent?.CartId.Should().Be(cartId);
     }
 
     [Fact]

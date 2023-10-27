@@ -18,25 +18,6 @@ public class OrderHandlerTest
     }
 
     [Fact]
-    public async Task ShouldRegisterOrderTracking()
-    {
-        var cartId = Guid.NewGuid();
-        var customerId = Guid.NewGuid();
-
-        var command = new RegisterOrderCommand(cartId, customerId);
-
-        orderRepository.GetNextWithdrawCode(Arg.Any<CancellationToken>()).Returns("ABC-123");
-
-        await _manipulator.Handle(command, default);
-
-        await orderRepository.Received()
-            .Save(Arg.Is<Diner.Domain.Order.Order>(o =>
-                o.CartId.Value == cartId &&
-                o.CustomerId.Value == customerId &&
-                o.WithdrawCode == "ABC-123"), Arg.Any<CancellationToken>());
-    }
-
-    [Fact]
     public async Task ShouldUpdateOrderTrackingStatus()
     {
         var orderTracking = new Diner.Domain.Order.Order(Guid.NewGuid(), Guid.NewGuid());

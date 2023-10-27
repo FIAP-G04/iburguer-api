@@ -65,7 +65,7 @@ namespace FIAP.Diner.Tests.Domain.Menu
         }
 
         [Fact]
-        public async Task ShouldNotRaiseEventWhenPriceIsTheSame()
+        public void ShouldNotRaiseEventWhenPriceIsTheSame()
         {
             var name = "Product Name";
             var description = "Product description";
