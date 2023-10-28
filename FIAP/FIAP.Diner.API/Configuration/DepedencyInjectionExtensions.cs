@@ -10,9 +10,12 @@ using FIAP.Diner.Application.Order.ConsultOrder;
 using FIAP.Diner.Application.Order.Tracking;
 using FIAP.Diner.Domain.Cart;
 using FIAP.Diner.Domain.Checkout;
+using FIAP.Diner.Domain.CustomerManagement.Customers;
 using FIAP.Diner.Domain.Menu;
 using FIAP.Diner.Domain.Order;
 using FIAP.Diner.Infrastructure.CQRS;
+using FIAP.Diner.Infrastructure.Data;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace FIAP.Diner.API.Configuration
 {
@@ -22,6 +25,8 @@ namespace FIAP.Diner.API.Configuration
         {
             services.AddDispatchers();
             services.AddApplication();
+
+            services.MockRepository();
         }
 
         private static void AddDispatchers(this IServiceCollection services)
@@ -63,6 +68,16 @@ namespace FIAP.Diner.API.Configuration
 
             services.AddScoped<IEventHandler<PaymentConfirmedDomainEvent>, OrderRegisterEventHandler>();
 
+        }
+
+        private static void MockRepository(this IServiceCollection services)
+        {
+            services.AddScoped<ICartRepository, MockRepository>();
+            services.AddScoped<IPaymentRepository, MockRepository>();
+            services.AddScoped<ICustomerRepository, MockRepository>();
+            services.AddScoped<IProductRepository, MockRepository>();
+            services.AddScoped<IOrderRepository, MockRepository>();
+            services.AddScoped<IExternalPaymentService, MockRepository>();
         }
     }
 }
