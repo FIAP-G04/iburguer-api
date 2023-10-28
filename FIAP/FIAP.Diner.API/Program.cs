@@ -17,6 +17,7 @@ try
         options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
     });
     builder.Services.AddDependencyInjection();
+    builder.Services.AddControllers();
 
     var app = builder.Build();
 
