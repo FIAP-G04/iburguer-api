@@ -2,13 +2,12 @@ namespace FIAP.Diner.Domain.Cart;
 
 public record ProductId
 {
-    public Guid Value { get; }
-
     private ProductId() => Value = Guid.Empty;
 
     private ProductId(Guid value) => Value = value;
 
     private ProductId(string value) => Value = Guid.Parse(value);
+    public Guid Value { get; }
 
     public static ProductId New => new();
 

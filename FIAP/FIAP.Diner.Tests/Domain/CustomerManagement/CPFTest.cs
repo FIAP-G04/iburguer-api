@@ -1,4 +1,4 @@
-using FIAP.Diner.Domain.CustomerManagement.Customers;
+using FIAP.Diner.Domain.Customers;
 
 namespace FIAP.Diner.Tests.Domain.CustomerManagement;
 
@@ -37,7 +37,8 @@ public class CPFTest
     [InlineData("12345678909")]
     [InlineData("11066001774")]
     [InlineData("29414805010")]
-    public void ShouldCheckTheCpfNumberSuccessfully(string cpf) => new CPF(cpf).Number.Should().Be(cpf);
+    public void ShouldCheckTheCpfNumberSuccessfully(string cpf) =>
+        new CPF(cpf).Number.Should().Be(cpf);
 
     [Fact]
     public void ShouldDisplayTheCpfNumberWithFormatting()

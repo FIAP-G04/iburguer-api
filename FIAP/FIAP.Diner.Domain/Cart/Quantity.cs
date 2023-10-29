@@ -4,8 +4,6 @@ namespace FIAP.Diner.Domain.Cart;
 
 public sealed record Quantity
 {
-    public int Value { get; private set; }
-
     public Quantity(int quantity)
     {
         if (quantity < 1)
@@ -13,6 +11,8 @@ public sealed record Quantity
 
         Value = quantity;
     }
+
+    public int Value { get; }
 
     public static implicit operator int(Quantity quantity) => quantity.Value;
 
@@ -24,6 +24,7 @@ public sealed record Quantity
 
     public static class Errors
     {
-        public static readonly string InvalidQuantity = "Deve ser informado um valor superior a 1 para o campo quantidade.";
+        public static readonly string InvalidQuantity =
+            "Deve ser informado um valor superior a 1 para o campo quantidade.";
     }
 }

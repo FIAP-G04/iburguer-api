@@ -16,7 +16,8 @@ public static class LoggingConfiguration
             .Enrich.WithExceptionDetails()
             .Enrich.With(new HttpHeaderEnricher("X-Correlation-Id", "CorrelationId"))
             .WriteTo.Conditional(_ => context.HostingEnvironment.IsDevelopment(), c => c.Console())
-            .WriteTo.Conditional(_ => !context.HostingEnvironment.IsDevelopment(), c => c.Console(new JsonFormatter()))
+            .WriteTo.Conditional(_ => !context.HostingEnvironment.IsDevelopment(),
+                c => c.Console(new JsonFormatter()))
             .WriteTo.Seq("http://localhost:5341")
         );
 

@@ -1,7 +1,6 @@
-namespace FIAP.Diner.Domain.Checkout
+namespace FIAP.Diner.Domain.Checkout;
+
+public interface IExternalPaymentService
 {
-    public interface IExternalPaymentService
-    {
-        Task<(string, string)> GenerateQRCode(decimal amount);
-    }
+    Task<(string, string)> GenerateQRCode(decimal amount);
 }

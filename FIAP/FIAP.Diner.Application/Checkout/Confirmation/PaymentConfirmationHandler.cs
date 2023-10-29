@@ -1,18 +1,15 @@
 using FIAP.Diner.Application.Abstractions;
-using FIAP.Diner.Domain.Abstractions;
 using FIAP.Diner.Domain.Checkout;
 
 namespace FIAP.Diner.Application.Checkout.Confirmation;
 
-public class PaymentConfirmationHandler : ICommandHandler<ConfirmPaymentCommand>,
-                                          ICommandHandler<RefusePaymentCommand>
+public class PaymentConfirmationHandler : IHandler<ConfirmPaymentCommand>,
+    IHandler<RefusePaymentCommand>
 {
     private readonly IPaymentRepository _paymentRepository;
 
-    public PaymentConfirmationHandler(IPaymentRepository paymentRepository)
-    {
+    public PaymentConfirmationHandler(IPaymentRepository paymentRepository) =>
         _paymentRepository = paymentRepository;
-    }
 
     public async Task Handle(ConfirmPaymentCommand command, CancellationToken cancellation)
     {

@@ -1,25 +1,27 @@
 using FIAP.Diner.Application.Abstractions;
-using FIAP.Diner.Domain.Abstractions;
 using FIAP.Diner.Domain.Checkout;
 
 namespace FIAP.Diner.Application.Checkout.Requirement;
 
 public class PaymentRequirementHandler : IQueryHandler<RequirePaymentQuery, RequiredPayment>
 {
-    private readonly IPaymentRepository _paymentRepository;
     private readonly IExternalPaymentService _externalPaymentService;
+    private readonly IPaymentRepository _paymentRepository;
 
-    public PaymentRequirementHandler(IPaymentRepository paymentRepository, IExternalPaymentService externalPaymentService)
+    public PaymentRequirementHandler(IPaymentRepository paymentRepository,
+        IExternalPaymentService externalPaymentService)
     {
         _paymentRepository = paymentRepository;
         _externalPaymentService = externalPaymentService;
     }
 
-    public async Task<RequiredPayment> Handle(RequirePaymentQuery query, CancellationToken cancellation)
+    public async Task<RequiredPayment> Handle(RequirePaymentQuery query,
+        CancellationToken cancellation)
     {
         var payment = await _paymentRepository.Get(query.CartId, cancellation);
 
-        var (externalPaymentId, qrCodeValue) = await _externalPaymentService.GenerateQRCode(payment.Amount);
+        var (externalPaymentId, qrCodeValue) =
+            await _externalPaymentService.GenerateQRCode(payment.Amount);
 
         if (string.IsNullOrEmpty(externalPaymentId) || string.IsNullOrEmpty(qrCodeValue))
             throw new PaymentGenerationException(query.CartId);
@@ -30,6 +32,6 @@ public class PaymentRequirementHandler : IQueryHandler<RequirePaymentQuery, Requ
 
         await _paymentRepository.Update(payment, cancellation);
 
-        return new(payment);
+        return new RequiredPayment(payment);
     }
 }

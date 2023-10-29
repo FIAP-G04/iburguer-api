@@ -6,15 +6,14 @@ namespace FIAP.Diner.Tests.Application.Order;
 
 public class OrderHandlerTest
 {
-    private readonly IOrderRepository orderRepository;
-
     private readonly OrderHandler _manipulator;
+    private readonly IOrderRepository orderRepository;
 
     public OrderHandlerTest()
     {
         orderRepository = Substitute.For<IOrderRepository>();
 
-        _manipulator = new(orderRepository);
+        _manipulator = new OrderHandler(orderRepository);
     }
 
     [Fact]
@@ -45,6 +44,7 @@ public class OrderHandlerTest
             await _manipulator.Handle(command, default);
 
         await action.Should().ThrowAsync<DomainException>()
-            .WithMessage(string.Format(OrderTrackingNotFoundException.error, command.OrderId.Value));
+            .WithMessage(string.Format(OrderTrackingNotFoundException.error,
+                command.OrderId.Value));
     }
 }

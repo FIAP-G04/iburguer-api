@@ -2,82 +2,84 @@ using FIAP.Diner.Application.Abstractions;
 using FIAP.Diner.Application.Cart;
 using FIAP.Diner.Application.Checkout.Confirmation;
 using FIAP.Diner.Application.Checkout.Requirement;
-using FIAP.Diner.Application.CustomerManagement.Identification;
-using FIAP.Diner.Application.CustomerManagement.Registration;
-using FIAP.Diner.Application.Menu.Management;
-using FIAP.Diner.Application.Menu.Query;
+using FIAP.Diner.Application.Customers.Identification;
+using FIAP.Diner.Application.Customers.Registration;
+using FIAP.Diner.Application.Menu;
 using FIAP.Diner.Application.Order.ConsultOrder;
 using FIAP.Diner.Application.Order.Tracking;
 using FIAP.Diner.Domain.Cart;
 using FIAP.Diner.Domain.Checkout;
-using FIAP.Diner.Domain.CustomerManagement.Customers;
 using FIAP.Diner.Domain.Menu;
 using FIAP.Diner.Domain.Order;
 using FIAP.Diner.Infrastructure.CQRS;
 using FIAP.Diner.Infrastructure.Data;
-using Microsoft.Extensions.DependencyInjection;
 
-namespace FIAP.Diner.API.Configuration
+namespace FIAP.Diner.API.Configuration;
+
+public static class DepedencyInjectionExtensions
 {
-    public static class DepedencyInjectionExtensions
+    public static void AddDependencyInjection(this IServiceCollection services)
     {
-        public static void AddDependencyInjection(this IServiceCollection services)
-        {
-            services.AddDispatchers();
-            services.AddApplication();
+        services.AddDispatchers();
+        services.AddApplication();
 
-            services.MockRepository();
-        }
+        services.MockRepository();
 
-        private static void AddDispatchers(this IServiceCollection services)
-        {
-            services.AddScoped<ICommandDispatcher, CommandDispatcher>();
-            services.AddScoped<IQueryDispatcher, QueryDispatcher>();
-            services.AddScoped<IEventDispatcher, EventDispatcher>();
-        }
+        services.AddCustomerModule();
+        services.AddMenuModule();
+    }
 
-        private static void AddApplication(this IServiceCollection services)
-        {
-            services.AddScoped<ICommandHandler<AddItemToCartCommand>, CartManagementHandler>();
-            services.AddScoped<ICommandHandler<RemoveItemFromCartCommand>, CartManagementHandler>();
-            services.AddScoped<ICommandHandler<UpdateCartItemProductInformation>, CartManagementHandler>();
-            services.AddScoped<ICommandHandler<CloseCartCommand>, CartManagementHandler>();
-            services.AddScoped<IQueryHandler<GetCartItemsQuery, CartDetails>, CartManagementHandler>();
+    private static void AddCustomerModule(this IServiceCollection services)
+    {
+        services.AddScoped<ICustomerIdentifier, CustomerIdentificationService>();
+        services.AddScoped<ICustomerAccount, CustomerAccountService>();
+    }
 
-            services.AddScoped<ICommandHandler<ConfirmPaymentCommand>, PaymentConfirmationHandler>();
-            services.AddScoped<ICommandHandler<RefusePaymentCommand>, PaymentConfirmationHandler>();
+    private static void AddMenuModule(this IServiceCollection services)
+    {
+        services.AddScoped<IMenuManagement, MenuService>();
+    }
 
-            services.AddScoped<IEventHandler<CartClosedDomainEvent>, GeneratePaymentEventHandler>();
-            services.AddScoped<IQueryHandler<RequirePaymentQuery, RequiredPayment>, PaymentRequirementHandler>();
+    private static void AddDispatchers(this IServiceCollection services)
+    {
+        services.AddScoped<ICommandDispatcher, CommandDispatcher>();
+        services.AddScoped<IQueryDispatcher, QueryDispatcher>();
+        services.AddScoped<IEventDispatcher, EventDispatcher>();
+    }
 
-            services.AddScoped<IQueryHandler<IdentifyCustomerQuery, IdentifiedCustomer>, CustomerIdentificationHandler>();
+    private static void AddApplication(this IServiceCollection services)
+    {
+        services.AddScoped<IHandler<AddItemToCartCommand>, CartManagementHandler>();
+        services.AddScoped<IHandler<RemoveItemFromCartCommand>, CartManagementHandler>();
+        services
+            .AddScoped<IHandler<UpdateCartItemProductInformation>, CartManagementHandler>();
+        services.AddScoped<IHandler<CloseCartCommand>, CartManagementHandler>();
+        services.AddScoped<IQueryHandler<GetCartItemsQuery, CartDetails>, CartManagementHandler>();
 
-            services.AddScoped<ICommandHandler<RegisterCustomerCommand>, CustomerRegistrationHandler>();
-            services.AddScoped<ICommandHandler<UpdateCustomerRegistrationInformationCommand>, CustomerRegistrationHandler>();
+        services.AddScoped<IHandler<ConfirmPaymentCommand>, PaymentConfirmationHandler>();
+        services.AddScoped<IHandler<RefusePaymentCommand>, PaymentConfirmationHandler>();
 
-            services.AddScoped<ICommandHandler<RegisterProductCommand>, ProductManagementHandler>();
-            services.AddScoped<ICommandHandler<UpdateProductCommand>, ProductManagementHandler>();
-            services.AddScoped<ICommandHandler<RemoveProductCommand>, ProductManagementHandler>();
-            services.AddScoped<IQueryHandler<GetProductsQuery, IEnumerable<Product>>, ProductManagementHandler>();
+        services.AddScoped<IEventHandler<CartClosedDomainEvent>, GeneratePaymentEventHandler>();
+        services
+            .AddScoped<IQueryHandler<RequirePaymentQuery, RequiredPayment>,
+                PaymentRequirementHandler>();
 
-            services.AddScoped<IQueryHandler<GetProductsByCategoryQuery, IEnumerable<ProductDetails>>, ProductsByCategoryQueryHandler>();
 
-            services.AddScoped<IQueryHandler<ConsultOrderQuery, OrderDetails>, ConsultOrderHandler>();
 
-            services.AddScoped<ICommandHandler<UpdateOrderTrackingCommand>, OrderHandler>();
 
-            services.AddScoped<IEventHandler<PaymentConfirmedDomainEvent>, OrderRegisterEventHandler>();
 
-        }
+        services.AddScoped<IQueryHandler<ConsultOrderQuery, OrderDetails>, ConsultOrderHandler>();
 
-        private static void MockRepository(this IServiceCollection services)
-        {
-            services.AddScoped<ICartRepository, MockRepository>();
-            services.AddScoped<IPaymentRepository, MockRepository>();
-            services.AddScoped<ICustomerRepository, MockRepository>();
-            services.AddScoped<IProductRepository, MockRepository>();
-            services.AddScoped<IOrderRepository, MockRepository>();
-            services.AddScoped<IExternalPaymentService, MockRepository>();
-        }
+        services.AddScoped<IHandler<UpdateOrderTrackingCommand>, OrderHandler>();
+
+        services.AddScoped<IEventHandler<PaymentConfirmedDomainEvent>, OrderRegisterEventHandler>();
+    }
+
+    private static void MockRepository(this IServiceCollection services)
+    {
+        services.AddScoped<ICartRepository, MockRepository>();
+        services.AddScoped<IPaymentRepository, MockRepository>();
+        services.AddScoped<IOrderRepository, MockRepository>();
+        services.AddScoped<IExternalPaymentService, MockRepository>();
     }
 }

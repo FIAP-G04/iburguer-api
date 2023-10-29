@@ -14,7 +14,7 @@ public class CartTest
 
         cart.Id.Should().NotBeNull();
         cart.Id.Value.Should().NotBe(Guid.Empty);
-        cart.CustomerId.Value.Should().Be(customerId);
+        cart.CustomerId2.Value.Should().Be(customerId);
         cart.CartItems.Should().NotBeNull();
         cart.CartItems.Should().BeEmpty();
         cart.Closed.Should().BeFalse();
@@ -70,7 +70,7 @@ public class CartTest
             .Should()
             .ContainSingle(c =>
                 c.ProductId.Value == productId &&
-                c.Quantity.Value == (quantity + quantity));
+                c.Quantity.Value == quantity + quantity);
     }
 
     [Fact]
@@ -95,7 +95,7 @@ public class CartTest
             .Should()
             .ContainSingle(c =>
                 c.ProductId.Value == productId &&
-                c.Quantity.Value == (quantity -1));
+                c.Quantity.Value == quantity - 1);
     }
 
     [Fact]
@@ -252,7 +252,9 @@ public class CartTest
         cart.Close();
 
         cart.Closed.Should().BeTrue();
-        var raisedEvent = cart.Events.First(e => e.GetType().Equals(typeof(CartClosedDomainEvent))) as CartClosedDomainEvent;
+        var raisedEvent =
+            cart.Events.First(e => e.GetType().Equals(typeof(CartClosedDomainEvent))) as
+                CartClosedDomainEvent;
 
         raisedEvent.Should().NotBeNull();
         raisedEvent?.Cart.Id.Should().Be(cart.Id);

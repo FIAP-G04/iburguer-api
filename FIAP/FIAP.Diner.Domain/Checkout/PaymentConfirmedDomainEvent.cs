@@ -1,6 +1,5 @@
 using FIAP.Diner.Domain.Abstractions;
 
-namespace FIAP.Diner.Domain.Checkout
-{
-    public record PaymentConfirmedDomainEvent(Guid CartId) : IDomainEvent;
-}
+namespace FIAP.Diner.Domain.Checkout;
+
+public record PaymentConfirmedDomainEvent(Guid CartId) : IDomainEvent;

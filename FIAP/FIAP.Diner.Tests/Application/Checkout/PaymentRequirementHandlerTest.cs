@@ -1,22 +1,21 @@
 using FIAP.Diner.Application.Checkout.Requirement;
 using FIAP.Diner.Domain.Abstractions;
-using FIAP.Diner.Domain.Checkout;
 
 namespace FIAP.Diner.Tests.Application.Checkout;
 
 public class PaymentRequirementHandlerTest
 {
-    private readonly IPaymentRepository _paymentRepository;
     private readonly IExternalPaymentService _externalPaymentService;
 
     private readonly PaymentRequirementHandler _manipulator;
+    private readonly IPaymentRepository _paymentRepository;
 
     public PaymentRequirementHandlerTest()
     {
         _paymentRepository = Substitute.For<IPaymentRepository>();
         _externalPaymentService = Substitute.For<IExternalPaymentService>();
 
-        _manipulator = new(_paymentRepository, _externalPaymentService);
+        _manipulator = new PaymentRequirementHandler(_paymentRepository, _externalPaymentService);
     }
 
     [Fact]
@@ -69,6 +68,7 @@ public class PaymentRequirementHandlerTest
         await action.Should().ThrowAsync<DomainException>()
             .WithMessage(string.Format(PaymentGenerationException.error, cartId));
 
-        await _paymentRepository.DidNotReceiveWithAnyArgs().Update(Arg.Any<Payment>(), Arg.Any<CancellationToken>());
+        await _paymentRepository.DidNotReceiveWithAnyArgs()
+            .Update(Arg.Any<Payment>(), Arg.Any<CancellationToken>());
     }
 }

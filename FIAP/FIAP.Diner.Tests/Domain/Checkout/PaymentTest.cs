@@ -52,7 +52,9 @@ public class PaymentTest
         payment.Confirmed.Should().BeTrue();
 
         payment.Events.Should().HaveCount(1);
-        var raisedEvent = payment.Events.First(e => e.GetType().Equals(typeof(PaymentConfirmedDomainEvent))) as PaymentConfirmedDomainEvent;
+        var raisedEvent =
+            payment.Events.First(e => e.GetType().Equals(typeof(PaymentConfirmedDomainEvent))) as
+                PaymentConfirmedDomainEvent;
 
         raisedEvent.Should().NotBeNull();
         raisedEvent?.CartId.Should().Be(cartId);
@@ -74,7 +76,9 @@ public class PaymentTest
         payment.Confirmed.Should().BeFalse();
 
         payment.Events.Should().HaveCount(1);
-        var raisedEvent = payment.Events.First(e => e.GetType().Equals(typeof(PaymentRefusedDomainEvent))) as PaymentRefusedDomainEvent;
+        var raisedEvent =
+            payment.Events.First(e => e.GetType().Equals(typeof(PaymentRefusedDomainEvent))) as
+                PaymentRefusedDomainEvent;
 
         raisedEvent.Should().NotBeNull();
         raisedEvent?.OrderId.Should().Be(cartId);
