@@ -1,6 +1,5 @@
 using FIAP.Diner.Application.Cart;
 using FIAP.Diner.Domain.Cart;
-using NSubstitute.ReceivedExtensions;
 
 namespace FIAP.Diner.Tests.Application.Cart;
 
@@ -14,7 +13,7 @@ public class CartManagementHandlerTest
     {
         _cartRepositoty = Substitute.For<ICartRepository>();
 
-        _manipulator = new(_cartRepositoty);
+        _manipulator = new CartManagementHandler(_cartRepositoty);
     }
 
     [Fact]
@@ -27,15 +26,15 @@ public class CartManagementHandlerTest
         await _cartRepositoty
             .Received()
             .Save(Arg.Is<Diner.Domain.Cart.Cart>(c =>
-                c.CustomerId.Value == command.CustomerId), Arg.Any<CancellationToken>());
+                c.CustomerId2.Value == command.CustomerId), Arg.Any<CancellationToken>());
 
         await _cartRepositoty
             .Received()
             .Update(Arg.Is<Diner.Domain.Cart.Cart>(c =>
-                c.CartItems.Any(ci =>
-                    ci.ProductId.Value == command.ProductId &&
-                    ci.Price == command.Price &&
-                    ci.Quantity.Value == command.Quantity)),
+                    c.CartItems.Any(ci =>
+                        ci.ProductId.Value == command.ProductId &&
+                        ci.Price == command.Price &&
+                        ci.Quantity.Value == command.Quantity)),
                 Arg.Any<CancellationToken>());
     }
 
@@ -123,7 +122,7 @@ public class CartManagementHandlerTest
 
         var cartItem = cart.CartItems.First(ci => ci.ProductId.Value == productId);
 
-        var cartItemDetails = new List<CartItemDetails>()
+        var cartItemDetails = new List<CartItemDetails>
         {
             new()
             {
@@ -135,11 +134,9 @@ public class CartManagementHandlerTest
             }
         };
 
-        var cartDetail = new CartDetails()
+        var cartDetail = new CartDetails
         {
-            CustomerId = customerId,
-            CartItems = cartItemDetails,
-            TotalPrice = cart.TotalPrice
+            CustomerId = customerId, CartItems = cartItemDetails, TotalPrice = cart.TotalPrice
         };
 
         _cartRepositoty.GetDetailed(customerId, Arg.Any<CancellationToken>()).Returns(cartDetail);
@@ -148,7 +145,7 @@ public class CartManagementHandlerTest
 
         var result = await _manipulator.Handle(query, default);
 
-        result.CustomerId.Should().Be(cart.CustomerId.Value);
+        result.CustomerId.Should().Be(cart.CustomerId2.Value);
         result.TotalPrice.Should().Be(cart.TotalPrice);
         result.CartItems.Should().NotBeNull();
         result.CartItems.Should().NotBeEmpty();
@@ -208,9 +205,9 @@ public class CartManagementHandlerTest
         await _cartRepositoty
             .Received(1)
             .Update(Arg.Is<Diner.Domain.Cart.Cart>(c =>
-                c.Id == cart1.Id &&
-                c.CartItems.Any(ci => ci.ProductId.Value == productId &&
-                                      ci.Price == newPrice)),
+                    c.Id == cart1.Id &&
+                    c.CartItems.Any(ci => ci.ProductId.Value == productId &&
+                                          ci.Price == newPrice)),
                 Arg.Any<CancellationToken>());
 
         await _cartRepositoty

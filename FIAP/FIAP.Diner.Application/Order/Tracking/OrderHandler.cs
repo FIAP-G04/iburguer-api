@@ -3,14 +3,11 @@ using FIAP.Diner.Domain.Order;
 
 namespace FIAP.Diner.Application.Order.Tracking;
 
-public class OrderHandler : ICommandHandler<UpdateOrderTrackingCommand>
+public class OrderHandler : IHandler<UpdateOrderTrackingCommand>
 {
     private readonly IOrderRepository orderRepository;
 
-    public OrderHandler(IOrderRepository orderRepository)
-    {
-        this.orderRepository = orderRepository;
-    }
+    public OrderHandler(IOrderRepository orderRepository) => this.orderRepository = orderRepository;
 
     public async Task Handle(UpdateOrderTrackingCommand command, CancellationToken cancellation)
     {

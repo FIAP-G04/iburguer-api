@@ -1,31 +1,32 @@
 using FIAP.Diner.Domain.Abstractions;
+using FIAP.Diner.Domain.Common;
 
 namespace FIAP.Diner.Domain.Cart;
 
 public class Cart : Entity<CartId>, IAggregateRoot
 {
-    private IList<CartItem> _cartItems { get; set; }
+    public Cart(CustomerId2 customerId2)
+    {
+        Id = Guid.NewGuid();
+        CustomerId2 = customerId2;
+        _cartItems = new List<CartItem>();
+        Closed = false;
+    }
+
+    private IList<CartItem> _cartItems { get; }
     public IReadOnlyCollection<CartItem> CartItems => _cartItems.AsReadOnly();
 
-    public CustomerId CustomerId { get; private set; }
+    public CustomerId2 CustomerId2 { get; private set; }
 
     public Price TotalPrice => _cartItems.Sum(x => x.TotalPrice);
 
     public bool Closed { get; private set; }
 
-    public Cart(CustomerId customerId)
-    {
-        Id = Guid.NewGuid();
-        CustomerId = customerId;
-        _cartItems = new List<CartItem>();
-        Closed = false;
-    }
-
     public void AddItem(ProductId productId, Price price, ushort quantity)
     {
         var item = _cartItems.FirstOrDefault(i => i.ProductId == productId);
 
-        if(item is null)
+        if (item is null)
             _cartItems.Add(new CartItem(productId, price, quantity));
         else
             item.Increase(quantity);
@@ -39,7 +40,9 @@ public class Cart : Entity<CartId>, IAggregateRoot
             throw new DomainException(string.Format(Errors.ItemNotPresentInCart, productId.Value));
 
         if (removeAll)
+        {
             _cartItems.Remove(item);
+        }
         else
         {
             if (item.Quantity.IsMinimum())

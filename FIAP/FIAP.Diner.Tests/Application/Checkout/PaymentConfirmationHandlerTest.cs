@@ -5,15 +5,14 @@ namespace FIAP.Diner.Tests.Application.Checkout;
 
 public class PaymentConfirmationHandlerTest
 {
-    private readonly IPaymentRepository _paymentRepository;
-
     private readonly PaymentConfirmationHandler _manipulator;
+    private readonly IPaymentRepository _paymentRepository;
 
     public PaymentConfirmationHandlerTest()
     {
         _paymentRepository = Substitute.For<IPaymentRepository>();
 
-        _manipulator = new(_paymentRepository);
+        _manipulator = new PaymentConfirmationHandler(_paymentRepository);
     }
 
     [Fact]
@@ -24,7 +23,8 @@ public class PaymentConfirmationHandlerTest
 
         var command = new ConfirmPaymentCommand(payment.QRCode.ExternalPaymentId, DateTime.Now);
 
-        _paymentRepository.Get(payment.QRCode.ExternalPaymentId, Arg.Any<CancellationToken>()).Returns(payment);
+        _paymentRepository.Get(payment.QRCode.ExternalPaymentId, Arg.Any<CancellationToken>())
+            .Returns(payment);
 
         await _manipulator.Handle(command, default);
 
@@ -45,9 +45,11 @@ public class PaymentConfirmationHandlerTest
         var action = async () => await _manipulator.Handle(command, default);
 
         await action.Should().ThrowAsync<DomainException>()
-            .WithMessage(string.Format(PaymentNotExistsException.error, command.ExternalPaymentServiceId));
+            .WithMessage(string.Format(PaymentNotExistsException.error,
+                command.ExternalPaymentServiceId));
 
-        await _paymentRepository.DidNotReceiveWithAnyArgs().Update(Arg.Any<Payment>(), Arg.Any<CancellationToken>());
+        await _paymentRepository.DidNotReceiveWithAnyArgs()
+            .Update(Arg.Any<Payment>(), Arg.Any<CancellationToken>());
     }
 
     [Fact]
@@ -58,7 +60,8 @@ public class PaymentConfirmationHandlerTest
 
         var command = new RefusePaymentCommand(payment.QRCode.ExternalPaymentId);
 
-        _paymentRepository.Get(payment.QRCode.ExternalPaymentId, Arg.Any<CancellationToken>()).Returns(payment);
+        _paymentRepository.Get(payment.QRCode.ExternalPaymentId, Arg.Any<CancellationToken>())
+            .Returns(payment);
 
         await _manipulator.Handle(command, default);
 
@@ -79,8 +82,10 @@ public class PaymentConfirmationHandlerTest
         var action = async () => await _manipulator.Handle(command, default);
 
         await action.Should().ThrowAsync<DomainException>()
-            .WithMessage(string.Format(PaymentNotExistsException.error, command.ExternalPaymentServiceId));
+            .WithMessage(string.Format(PaymentNotExistsException.error,
+                command.ExternalPaymentServiceId));
 
-        await _paymentRepository.DidNotReceiveWithAnyArgs().Update(Arg.Any<Payment>(), Arg.Any<CancellationToken>());
+        await _paymentRepository.DidNotReceiveWithAnyArgs()
+            .Update(Arg.Any<Payment>(), Arg.Any<CancellationToken>());
     }
 }

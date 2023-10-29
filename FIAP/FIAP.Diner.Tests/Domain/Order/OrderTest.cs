@@ -15,7 +15,7 @@ public class OrderTest
         order.Id.Should().NotBeNull();
         order.Id.Value.Should().NotBe(Guid.Empty);
         order.CartId.Value.Should().Be(cartId);
-        order.CustomerId.Value.Should().Be(customerId);
+        order.CustomerId3.Value.Should().Be(customerId);
 
         order.Status.OrderStatus.Should().Be(OrderStatus.WaitingForPayment);
     }
@@ -30,9 +30,10 @@ public class OrderTest
         order.Status.OrderStatus.Should().Be(OrderStatus.Received);
 
         var raisedEvent = order.Events.First(e =>
-            e.GetType().Equals(typeof(OrderStatusUpdatedDomainEvent))) as OrderStatusUpdatedDomainEvent;
+                e.GetType().Equals(typeof(OrderStatusUpdatedDomainEvent))) as
+            OrderStatusUpdatedDomainEvent;
         raisedEvent!.OrderId.Should().Be(order.Id);
-        raisedEvent!.CustomerId.Should().Be(order.CustomerId);
+        raisedEvent!.CustomerId3.Should().Be(order.CustomerId3);
         raisedEvent!.Status.Should().Be(order.Status);
     }
 }

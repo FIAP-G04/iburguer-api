@@ -1,10 +1,9 @@
-namespace FIAP.Diner.Domain.Menu
+namespace FIAP.Diner.Domain.Menu;
+
+public enum Category
 {
-    public enum Category
-    {
-        MainDish,
-        Dessert,
-        SideDish,
-        Drink
-    }
+    MainDish,
+    Dessert,
+    SideDish,
+    Drink
 }

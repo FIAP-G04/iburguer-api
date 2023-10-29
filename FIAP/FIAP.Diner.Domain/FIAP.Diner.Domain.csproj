@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Onboarding\" />
+    <Folder Include="Onboarding\"/>
   </ItemGroup>
 
 </Project>

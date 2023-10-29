@@ -1,18 +1,17 @@
-using FIAP.Diner.Application.CustomerManagement.Registration;
-using FIAP.Diner.Domain.CustomerManagement.Customers;
-using NSubstitute;
+using FIAP.Diner.Application.Customers.Registration;
+using FIAP.Diner.Domain.Customers;
 
 namespace FIAP.Diner.Tests.Application.CustomerManagement.Registration;
 
 public class CustomerRegistrationHandlerTest
 {
     private readonly ICustomerRepository _repository;
-    private readonly CustomerRegistrationHandler _sut;
+    private readonly CustomerAccountService _sut;
 
     public CustomerRegistrationHandlerTest()
     {
         _repository = Substitute.For<ICustomerRepository>();
-        _sut = new CustomerRegistrationHandler(_repository);
+        _sut = new CustomerAccountService(_repository);
     }
 
     [Fact]
@@ -39,7 +38,7 @@ public class CustomerRegistrationHandlerTest
         //Arrange
         var cpf = "12345678909";
 
-        var customer = new Customer(cpf, FullName.From("Old", "Name"), "customer@old.com");
+        var customer = new Customer(cpf, PersonName.From("Old", "Name"), "customer@old.com");
 
         _repository.GetById(customer.Id, CancellationToken.None).Returns(customer);
 

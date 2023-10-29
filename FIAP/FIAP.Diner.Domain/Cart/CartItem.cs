@@ -1,15 +1,10 @@
 using FIAP.Diner.Domain.Abstractions;
+using FIAP.Diner.Domain.Common;
 
 namespace FIAP.Diner.Domain.Cart;
 
 public class CartItem : Entity<CartItemId>
 {
-    public ProductId ProductId { get; private set; }
-    public Price Price { get; private set; }
-    public Quantity Quantity { get; private set; }
-
-    public Price TotalPrice => Quantity.Value * Price;
-
     public CartItem(ProductId productId, Price price, ushort quantity)
     {
         Id = Guid.NewGuid();
@@ -18,18 +13,15 @@ public class CartItem : Entity<CartItemId>
         Quantity = new Quantity(quantity);
     }
 
-    public void Increase(ushort quantity = 1)
-    {
-        Quantity += quantity;
-    }
+    public ProductId ProductId { get; private set; }
+    public Price Price { get; private set; }
+    public Quantity Quantity { get; private set; }
 
-    public void Decrease()
-    {
-        Quantity--;
-    }
+    public Price TotalPrice => Quantity.Value * Price;
 
-    public void Update(Price price)
-    {
-        Price = price;
-    }
+    public void Increase(ushort quantity = 1) => Quantity += quantity;
+
+    public void Decrease() => Quantity--;
+
+    public void Update(Price price) => Price = price;
 }

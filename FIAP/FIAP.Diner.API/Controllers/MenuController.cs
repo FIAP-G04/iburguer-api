@@ -1,64 +1,66 @@
 using FIAP.Diner.Application.Abstractions;
-using FIAP.Diner.Application.Menu.Management;
-using FIAP.Diner.Application.Menu.Query;
+using FIAP.Diner.Application.Menu;
 using FIAP.Diner.Domain.Menu;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FIAP.Diner.API.Controllers
+namespace FIAP.Diner.API.Controllers;
+
+[Route("api/menu")]
+[ApiController]
+public class MenuController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class MenuController : ControllerBase
+    private readonly IMenuManagement _menu;
+
+    public MenuController(IMenuManagement menu)
     {
-        private readonly ICommandDispatcher _commandDispatcher;
-        private readonly IQueryDispatcher _queryDispatcher;
+        _menu = menu;
+    }
 
-        public MenuController(ICommandDispatcher commandDispatcher, IQueryDispatcher queryDispatcher)
-        {
-            _commandDispatcher = commandDispatcher;
-            _queryDispatcher = queryDispatcher;
-        }
+    [HttpPost]
+    [Route("products")]
+    public async Task<IActionResult> AddProductToMenu(ProductDTO dto, CancellationToken cancellation)
+    {
+        await _menu.AddProductToMenu(dto, cancellation);
+        return Ok();
+    }
 
-        [HttpGet]
-        [Route("product")]
-        public async Task<IActionResult> GetProducts([FromQuery] Guid? productId, [FromQuery] string? name, [FromQuery] string? description, [FromQuery] Category? category)
-        {
-            var query = new GetProductsQuery(productId, name, description, category);
-            var result = await _queryDispatcher.Dispatch<GetProductsQuery, IEnumerable<ProductDetails>>(query, default);
-            return Ok(result);
-        }
+    [HttpPut]
+    [Route("products")]
+    public async Task<IActionResult> ChangeMenuProduct(ProductDTO dto, CancellationToken cancellation)
+    {
+        await _menu.ChangeMenuProduct(dto, cancellation);
+        return Ok();
+    }
 
-        [HttpPost]
-        [Route("product")]
-        public async Task<IActionResult> RegisterProduct(RegisterProductCommand command)
-        {
-            await _commandDispatcher.Dispatch(command, default);
-            return Ok();
-        }
+    [HttpDelete]
+    [Route("products")]
+    public async Task<IActionResult> RemoveProduct(Guid productId, CancellationToken cancellation)
+    {
+        await _menu.RemoveProductFromMenu(productId, cancellation);
+        return Ok();
+    }
 
-        [HttpPut]
-        [Route("product")]
-        public async Task<IActionResult> UpdateProduct(UpdateProductCommand command)
-        {
-            await _commandDispatcher.Dispatch(command, default);
-            return Ok();
-        }
+    [HttpPatch]
+    [Route("products/enabled")]
+    public async Task<IActionResult> EnableMenuProduct(Guid productId, CancellationToken cancellation)
+    {
+        await _menu.EnableMenuProduct(productId, cancellation);
+        return Ok();
+    }
 
-        [HttpDelete]
-        [Route("product")]
-        public async Task<IActionResult> RemoveProduct(RemoveProductCommand command)
-        {
-            await _commandDispatcher.Dispatch(command, default);
-            return Ok();
-        }
+    [HttpPatch]
+    [Route("products/disabled")]
+    public async Task<IActionResult> DisableMenuProduct(Guid productId, CancellationToken cancellation)
+    {
+        await _menu.DisableMenuProduct(productId, cancellation);
+        return Ok();
+    }
 
-        [HttpGet]
-        [Route("product/{category}")]
-        public async Task<IActionResult> GetProductsByCategory(Category category)
-        {
-            var query = new GetProductsByCategoryQuery(category);
-            var result = await _queryDispatcher.Dispatch<GetProductsByCategoryQuery, IEnumerable<ProductDetails>>(query, default);
-            return Ok(result);
-        }
+    [HttpGet]
+    [Route("products/{category}")]
+    public async Task<IActionResult> GetProductsByCategory(Category category, CancellationToken cancellation)
+    {
+        var products = await _menu.GetByCategory(category, cancellation);
+        return Ok(products);
     }
 }

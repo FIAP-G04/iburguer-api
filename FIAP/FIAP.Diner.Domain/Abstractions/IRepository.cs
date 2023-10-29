@@ -1,6 +1,5 @@
-namespace FIAP.Diner.Domain.Abstractions
+namespace FIAP.Diner.Domain.Abstractions;
+
+public interface IRepository<T> where T : IAggregateRoot
 {
-    public interface IRepository<T> where T : IAggregateRoot
-    {
-    }
 }

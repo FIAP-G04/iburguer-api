@@ -1,40 +1,80 @@
 using FIAP.Diner.Domain.Abstractions;
+using FIAP.Diner.Domain.Common;
 
-namespace FIAP.Diner.Domain.Menu
+namespace FIAP.Diner.Domain.Menu;
+
+public class Product : Entity<ProductId>, IAggregateRoot
 {
-    public class Product : Entity<ProductId>, IAggregateRoot
+    private IList<ProductImage> _images;
+    private Price _price;
+
+    public string Name { get; private set; }
+
+    public string Description { get; private set; }
+
+    public Price Price
     {
-        public string Name { get; private set; }
-        public string Description { get; private set; }
-        public decimal Price { get; private set; }
-        public Category Category { get; private set; }
-        public TimeSpan ReadyTimeExpectation { get; private set; }
-
-        private IEnumerable<ImageURL> _imageURLs;
-        public IReadOnlyCollection<ImageURL> ImageURLs => _imageURLs.ToList().AsReadOnly();
-
-        public Product(string name, string description, decimal price, Category category, TimeSpan readyTimeExpectation, IEnumerable<string> imageURLs)
+        get => _price;
+        private set
         {
-            Id = Guid.NewGuid();
-            Name = name;
-            Description = description;
-            Price = price;
-            Category = category;
-            ReadyTimeExpectation = readyTimeExpectation;
-            _imageURLs = ImageURL.FromURLs(imageURLs);
+            if (_price != value)
+            {
+                RaiseEvent(new ProductUpdatedDomainEvent(Id, value, _price));
+            }
+
+            _price = value;
+        }
+    }
+
+    public Category Category { get; private set; }
+
+    public PreparationTime PreparationTime { get; private set; }
+
+    public bool Enabled { get; private set; } = true;
+
+    public IReadOnlyCollection<ProductImage> Images => _images.ToList().AsReadOnly();
+
+    public IReadOnlyCollection<string> Urls => _images.Select(i => i.Url.ToString()).ToList();
+
+    public Product(string name, string description, Price price, Category category,
+        ushort preparationTime, IEnumerable<Url> images)
+    {
+        Id = ProductId.New;
+        Name = name;
+        Description = description;
+        Price = price;
+        Category = category;
+        PreparationTime = preparationTime;
+
+        SetImages(images);
+    }
+
+    public void Update(string name, string description, Price price, Category category,
+        ushort preparationTime, IEnumerable<Url> images)
+    {
+        Name = name;
+        Description = description;
+        Category = category;
+        Price = price;
+        PreparationTime = preparationTime;
+
+        SetImages(images);
+    }
+
+    public void Enable() => Enabled = true;
+
+    public void Disable() => Enabled = false;
+
+    private void SetImages(IEnumerable<Url> urls)
+    {
+        if (_images.Any())
+        {
+            _images.Clear();
         }
 
-        public void Update(string name, string description, decimal price, Category category, TimeSpan readyTimeExpectation, IEnumerable<string> imageURLs)
+        foreach (var url in urls)
         {
-            if (price != Price)
-                RaiseEvent(new ProductUpdatedDomainEvent(Id, price));
-
-            Name = name;
-            Description = description;
-            Price = price;
-            Category = category;
-            ReadyTimeExpectation = readyTimeExpectation;
-            _imageURLs = ImageURL.FromURLs(imageURLs);
+            _images.Add(new ProductImage(Id, url));
         }
     }
 }

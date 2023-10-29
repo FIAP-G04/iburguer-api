@@ -3,18 +3,16 @@ using FIAP.Diner.Domain.Cart;
 
 namespace FIAP.Diner.Application.Cart;
 
-public class CartManagementHandler : ICommandHandler<AddItemToCartCommand>,
-                                     ICommandHandler<RemoveItemFromCartCommand>,
-                                     ICommandHandler<UpdateCartItemProductInformation>,
-                                     ICommandHandler<CloseCartCommand>,
-                                     IQueryHandler<GetCartItemsQuery, CartDetails>
+public class CartManagementHandler : IHandler<AddItemToCartCommand>,
+    IHandler<RemoveItemFromCartCommand>,
+    IHandler<UpdateCartItemProductInformation>,
+    IHandler<CloseCartCommand>,
+    IQueryHandler<GetCartItemsQuery, CartDetails>
 {
     private readonly ICartRepository _cartRepository;
 
-    public CartManagementHandler(ICartRepository cartRepository)
-    {
+    public CartManagementHandler(ICartRepository cartRepository) =>
         _cartRepository = cartRepository;
-    }
 
     public async Task Handle(AddItemToCartCommand command, CancellationToken cancellation)
     {
@@ -32,14 +30,22 @@ public class CartManagementHandler : ICommandHandler<AddItemToCartCommand>,
         await _cartRepository.Update(cart, cancellation);
     }
 
+    public async Task Handle(CloseCartCommand command, CancellationToken cancellation)
+    {
+        var cart = await _cartRepository.Get(command.CustomerId, cancellation);
+
+        if (cart == null) throw new CartNotFoundException(command.CustomerId);
+
+        cart.Close();
+
+        await _cartRepository.Update(cart, cancellation);
+    }
+
     public async Task Handle(RemoveItemFromCartCommand command, CancellationToken cancellation)
     {
         var cart = await _cartRepository.Get(command.CustomerId, cancellation);
 
-        if (cart == null)
-        {
-            throw new CartNotFoundException(command.CustomerId);
-        }
+        if (cart == null) throw new CartNotFoundException(command.CustomerId);
 
         cart.RemoveItem(command.ProductId, command.RemoveAll);
 
@@ -63,25 +69,8 @@ public class CartManagementHandler : ICommandHandler<AddItemToCartCommand>,
     {
         var cartDetail = await _cartRepository.GetDetailed(query.CustomerId, cancellation);
 
-        if (cartDetail == null)
-        {
-            throw new CartNotFoundException(query.CustomerId);
-        }
+        if (cartDetail == null) throw new CartNotFoundException(query.CustomerId);
 
         return cartDetail;
-    }
-
-    public async Task Handle(CloseCartCommand command, CancellationToken cancellation)
-    {
-        var cart = await _cartRepository.Get(command.CustomerId, cancellation);
-
-        if (cart == null)
-        {
-            throw new CartNotFoundException(command.CustomerId);
-        }
-
-        cart.Close();
-
-        await _cartRepository.Update(cart, cancellation);
     }
 }

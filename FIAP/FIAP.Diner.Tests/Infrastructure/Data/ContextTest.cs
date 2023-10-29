@@ -6,9 +6,10 @@ public class ContextTest
     public void OnConfiguring_WithValidConnectionString_SetsConnectionString()
     {
         // Arrange
-        var configuration = Substitute.For<IConfiguration>();
-        const string connectionString = "Host=localhost; Database=fiap-diner; Username=postgres; Password=admin";
-        configuration.GetConnectionString("DefaultConnection").Returns(connectionString);
+        var configuration = Substitute.For<DbContextOptions<Context>>();
+        const string connectionString =
+            "Host=localhost; Database=fiap-diner; Username=postgres; Password=admin";
+
 
         var context = new TestContext(configuration);
         var optionsBuilder = new DbContextOptionsBuilder<Context>();
@@ -19,15 +20,16 @@ public class ContextTest
         // Assert
         optionsBuilder.Options.Should().BeOfType<DbContextOptions<Context>>();
         var contextOptions = optionsBuilder.Options;
-        contextOptions.Extensions.Should().ContainSingle(e => e is NpgsqlOptionsExtension && ((NpgsqlOptionsExtension)e).ConnectionString == connectionString);
+        contextOptions.Extensions.Should().ContainSingle(e =>
+            e is NpgsqlOptionsExtension &&
+            ((NpgsqlOptionsExtension)e).ConnectionString == connectionString);
     }
 
     [Fact]
     public void OnConfiguring_WithNullConnectionString_ThrowsArgumentNullException()
     {
         // Arrange
-        var configuration = Substitute.For<IConfiguration>();
-        configuration.GetConnectionString("DefaultConnection").Returns(string.Empty);
+        var configuration = Substitute.For<DbContextOptions<Context>>();
 
         var context = new TestContext(configuration);
 
@@ -40,8 +42,9 @@ public class ContextTest
 
     private class TestContext : Context
     {
-        public TestContext(IConfiguration configuration) : base(configuration) { }
+        public TestContext(DbContextOptions<Context> options) : base(options) { }
 
-        public new void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => base.OnConfiguring(optionsBuilder);
+        public new void OnConfiguring(DbContextOptionsBuilder optionsBuilder) =>
+            base.OnConfiguring(optionsBuilder);
     }
 }

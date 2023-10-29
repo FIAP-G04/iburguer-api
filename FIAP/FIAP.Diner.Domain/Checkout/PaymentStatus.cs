@@ -1,9 +1,8 @@
-namespace FIAP.Diner.Domain.Checkout
+namespace FIAP.Diner.Domain.Checkout;
+
+public enum PaymentStatus
 {
-    public enum PaymentStatus
-    {
-        Processing,
-        Confirmed,
-        Refused
-    }
+    Processing,
+    Confirmed,
+    Refused
 }

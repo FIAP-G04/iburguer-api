@@ -8,6 +8,5 @@ public class PaymentGenerationException : DomainException
 
     public PaymentGenerationException(Guid orderId) : base(string.Format(error, orderId.ToString()))
     {
-
     }
 }
