@@ -2,8 +2,8 @@ namespace FIAP.Diner.Application.Customers.Registration;
 
 public interface ICustomerAccount
 {
-    Task RegisterCustomer(RegisterCustomerDTO command, CancellationToken cancellation);
+    Task RegisterCustomer(RegisterCustomerDTO dto, CancellationToken cancellation);
 
-    Task UpdateCustomerRegistrationInformation(UpdateCustomerRegistrationInformationDTO command,
+    Task UpdateCustomerRegistrationInformation(UpdateCustomerRegistrationInformationDTO dto,
         CancellationToken cancellation);
 }

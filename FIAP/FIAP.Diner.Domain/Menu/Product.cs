@@ -5,7 +5,7 @@ namespace FIAP.Diner.Domain.Menu;
 
 public class Product : Entity<ProductId>, IAggregateRoot
 {
-    private IList<ProductImage> _images;
+    private IList<ProductImage> _images = new List<ProductImage>();
     private Price _price;
 
     public string Name { get; private set; }
@@ -35,6 +35,8 @@ public class Product : Entity<ProductId>, IAggregateRoot
     public IReadOnlyCollection<ProductImage> Images => _images.ToList().AsReadOnly();
 
     public IReadOnlyCollection<string> Urls => _images.Select(i => i.Url.ToString()).ToList();
+
+    private Product() {}
 
     public Product(string name, string description, Price price, Category category,
         ushort preparationTime, IEnumerable<Url> images)

@@ -47,7 +47,7 @@ public class MenuService : IMenuManagement
     {
         var product = await Load(productId, cancellation);
 
-        product.Enable();
+        product.Disable();
 
         await _repository.Update(product, cancellation);
     }

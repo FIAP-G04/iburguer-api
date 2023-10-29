@@ -13,21 +13,19 @@ public class CustomerAccountService : ICustomerAccount
         _repository = customerRepository;
     }
 
-    public async Task RegisterCustomer(RegisterCustomerDTO command, CancellationToken cancellation)
+    public async Task RegisterCustomer(RegisterCustomerDTO dto, CancellationToken cancellation)
     {
-        var customer = new Customer(command.cpf,
-            PersonName.From(command.firstName, command.lastName),
-            command.email);
+        var customer = new Customer(dto.cpf, PersonName.From(dto.firstName, dto.lastName), dto.email);
 
         await _repository.Register(customer, cancellation);
     }
 
-    public async Task UpdateCustomerRegistrationInformation(UpdateCustomerRegistrationInformationDTO command,
+    public async Task UpdateCustomerRegistrationInformation(UpdateCustomerRegistrationInformationDTO dto,
         CancellationToken cancellation)
     {
-        var customer = await _repository.GetById(command.customerId, cancellation);
+        var customer = await _repository.GetById(dto.customerId, cancellation);
 
-        customer.Change(PersonName.From(command.firstName, command.lastName), command.email);
+        customer.Change(PersonName.From(dto.firstName, dto.lastName), dto.email);
 
         await _repository.UpdateCustomerRegistration(customer, cancellation);
     }

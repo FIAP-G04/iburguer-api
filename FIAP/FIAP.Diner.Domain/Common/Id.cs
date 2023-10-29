@@ -7,15 +7,20 @@ public record Id
     public Id(Guid value) => Value = value;
 
     private Id(string value) => Value = Guid.Parse(value);
-    public Guid Value { get; }
+    public Guid Value { get; private set; }
 
-    public static Id New => new();
+    public static Id New => Guid.NewGuid();
 
     public static Id Undefined => new(Guid.Empty);
 
     public static implicit operator Id(Guid id) => new(id);
 
-    public static implicit operator Guid(Id id) => new(id);
+    public static implicit operator Guid(Id id)
+    {
+        var xxx = id.Value.ToString();
+
+        return new Guid(xxx);
+    }
 
     public static implicit operator Id(string id) => new(id);
 

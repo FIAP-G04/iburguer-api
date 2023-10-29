@@ -14,7 +14,7 @@ public class CustomerRepository : ICustomerRepository
     public DbSet<Customer> Set => _context.Set<Customer>();
 
     public async Task<Customer?> GetByCpf(CPF cpf, CancellationToken cancellationToken) =>
-        await Set.FirstOrDefaultAsync(e => e.CPF == cpf, cancellationToken);
+        await Set.FirstOrDefaultAsync(e => e.CPF == cpf.Number, cancellationToken);
 
     public async Task<Customer?> GetById(CustomerId id, CancellationToken cancellationToken) =>
         await Set.FirstOrDefaultAsync(e => e.Id == id, cancellationToken);

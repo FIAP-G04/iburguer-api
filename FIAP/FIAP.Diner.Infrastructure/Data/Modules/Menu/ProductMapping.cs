@@ -1,4 +1,5 @@
 using FIAP.Diner.Domain.Menu;
+using FIAP.Diner.Infrastructure.Data.Configurations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
@@ -11,14 +12,12 @@ public class ProductMapping : IEntityTypeConfiguration<Product>
     {
         builder.ToTable("Products");
 
-        builder.Property(p => p.Id)
-            .HasConversion(new ValueConverter<ProductId, Guid>(
-                v => v.Value,
-                v => new ProductId(v)
-            ))
-            .IsRequired();
-
         builder.HasKey(c => c.Id);
+
+        builder.Property(c => c.Id)
+            .IsId()
+            .HasColumnName("Id")
+            .IsRequired();
 
         builder.Property(p => p.Name)
                .HasMaxLength(40)
@@ -29,17 +28,13 @@ public class ProductMapping : IEntityTypeConfiguration<Product>
             .IsRequired();
 
         builder.Property(p => p.Category)
-               .HasConversion(
-            c => c.ToString(),
-            c => (Category)Enum.Parse(typeof(Category), c))
+               .IsEnum()
                .IsRequired();
 
-        builder.OwnsOne(p => p.Price, price =>
-        {
-            price.Property(c => c.Amount)
-                 .HasColumnName("Price")
-                 .IsRequired();
-        });
+        builder.Property(c => c.Price)
+            .IsMoney()
+            .HasColumnName("Price")
+            .IsRequired();
 
         builder.OwnsOne(p => p.PreparationTime, time =>
         {
@@ -51,5 +46,9 @@ public class ProductMapping : IEntityTypeConfiguration<Product>
         builder.Property(p => p.Enabled)
             .IsRequired();
 
+        builder.HasMany(p => p.Images)
+            .WithOne()
+            .HasForeignKey(i => i.ProductId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

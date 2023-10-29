@@ -38,12 +38,15 @@ public class ProductRepository : IProductRepository
 
     public async Task<Product?> GetById(ProductId id, CancellationToken cancellationToken)
     {
-        return await Set.FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
+        return await Set.Include(p => p.Images)
+                        .FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
     }
 
     public async Task<IEnumerable<Product>> GetByCategory(Category category,
         CancellationToken cancellationToken)
     {
-        return await Set.Where(p => p.Enabled == true && p.Category == category).ToListAsync(cancellationToken);
+        return await Set.Include(p => p.Images)
+                        .Where(p => p.Enabled == true && p.Category == category)
+                        .ToListAsync(cancellationToken);
     }
 }

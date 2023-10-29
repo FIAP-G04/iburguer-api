@@ -2,7 +2,7 @@ using FIAP.Diner.Domain.Abstractions;
 
 namespace FIAP.Diner.Domain.Menu;
 
-public class ProductImage :  Entity<string>
+public class ProductImage :  Entity<ProductImageId>
 {
     public ProductId ProductId { get; private set; }
 

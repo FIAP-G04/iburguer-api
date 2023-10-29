@@ -7,7 +7,9 @@ public record Url
 {
     private const string urlPattern = @"^(http|https|ftp)://[A-Za-z0-9.-]+(/[A-Za-z0-9/_.-]+)*$";
 
-    public string Value { get; }
+    public string Value { get; private set; }
+
+    private Url() { }
 
     public Url(string url)
     {

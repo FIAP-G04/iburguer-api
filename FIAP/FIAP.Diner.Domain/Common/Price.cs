@@ -1,10 +1,13 @@
+using System.Globalization;
 using FIAP.Diner.Domain.Abstractions;
 
 namespace FIAP.Diner.Domain.Common;
 
 public sealed record Price
 {
-    public decimal Amount { get; }
+    public decimal Amount { get; private set; }
+
+    private Price() { }
 
     public Price(decimal amount)
     {
@@ -16,7 +19,7 @@ public sealed record Price
         Amount = amount;
     }
 
-    public override string ToString() => Amount.ToString();
+    public override string ToString() => Amount.ToString(CultureInfo.InvariantCulture);
 
     public static implicit operator decimal(Price price) => price.Amount;
 

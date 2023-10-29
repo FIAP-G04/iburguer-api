@@ -1,6 +1,6 @@
 namespace FIAP.Diner.Domain.Customers;
 
-public sealed record CPF
+public record CPF
 {
     private const int checkDigitsLength = 2;
     private const int numericalDigitsLength = 9;
@@ -19,7 +19,7 @@ public sealed record CPF
 
     public string CheckDigits => Number.AsSpan(numericalDigitsLength, checkDigitsLength).ToString();
 
-    public string Number { get; }
+    public string Number { get; private set; }
 
     public override string ToString() => Convert.ToUInt64(Number).ToString(@"000\.000\.000\-00");
 

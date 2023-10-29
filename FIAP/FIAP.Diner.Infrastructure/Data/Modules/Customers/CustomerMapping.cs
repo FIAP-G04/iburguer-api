@@ -1,8 +1,10 @@
+using System.Linq.Expressions;
 using FIAP.Diner.Domain.Customers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using FIAP.Diner.Domain.Common;
+using FIAP.Diner.Infrastructure.Data.Configurations;
 
 namespace FIAP.Diner.Infrastructure.Data.Modules.Customers;
 
@@ -12,21 +14,17 @@ public class CustomerMapping : IEntityTypeConfiguration<Customer>
     {
         builder.ToTable("Customers");
 
+        builder.HasKey(c => new { c.Id });
+
         builder.Property(c => c.Id)
-            .HasConversion(new ValueConverter<CustomerId, Guid>(
-                v => v.Value,
-                v => new CustomerId(v)
-            ))
-            .IsRequired();
+               .IsId()
+               .HasColumnName("Id")
+               .IsRequired();
 
-        builder.HasKey(c => c.Id);
-
-        builder.OwnsOne(c => c.CPF, cpf =>
-        {
-            cpf.Property(c => c.Number)
-                .HasColumnName("CPF")
-                .IsRequired();
-        });
+        builder.Property(c => c.CPF)
+               .IsCpf()
+               .HasColumnName("CPF")
+               .IsRequired();
 
         builder.OwnsOne(c => c.Email)
             .Property(x => x.Value)

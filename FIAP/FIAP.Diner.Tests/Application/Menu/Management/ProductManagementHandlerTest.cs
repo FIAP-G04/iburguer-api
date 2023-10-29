@@ -1,12 +1,11 @@
 using FIAP.Diner.Application.Menu;
-using FIAP.Diner.Application.Menu.Management;
 using FIAP.Diner.Domain.Menu;
 
 namespace FIAP.Diner.Tests.Application.Menu.Management;
 
 public class ProductManagementHandlerTest
 {
-    private readonly MenuManagementService _manipulator;
+    private readonly IMenuManagement _manipulator;
 
     private readonly Product _product;
     private readonly IProductRepository _repository;
@@ -15,7 +14,7 @@ public class ProductManagementHandlerTest
     {
         _repository = Substitute.For<IProductRepository>();
 
-        _manipulator = new MenuManagementService(_repository);
+        _manipulator = new MenuService(_repository);
 
         _product = new Product(
             "Product Name", "ProductDescription", 11.11M,
@@ -26,15 +25,15 @@ public class ProductManagementHandlerTest
     [Fact]
     public async Task ShouldRegisterProduct()
     {
-        var command = new AddProductToMenuCommand(
+        var dto = new ProductDTO(
             _product.Name,
             _product.Description,
             _product.Price,
             _product.Category,
-            _product.ReadyTimeExpectation,
-            _product.ImageURLs.Select(x => x.Url));
+            _product.PreparationTime,
+            _product.Urls.Select(u => u.)));
 
-        await _manipulator.Handle(command, default);
+        await _manipulator.AddProductToMenu(dto, default);
 
         await _repository
             .Received()

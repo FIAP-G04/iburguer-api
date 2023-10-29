@@ -21,7 +21,7 @@ public sealed record Email
         Value = email;
     }
 
-    public string Value { get; }
+    public string Value { get; private set; }
 
     public override string ToString() => Value;
 
