@@ -1,9 +1,9 @@
-﻿FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+﻿FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 COPY ["FIAP.Diner.API/FIAP.Diner.API.csproj", "FIAP.Diner.API/"]
 COPY ["FIAP.Diner.Infrastructure/FIAP.Diner.Infrastructure.csproj", "FIAP.Diner.Infrastructure/"]

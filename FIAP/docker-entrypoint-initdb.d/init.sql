@@ -1,0 +1,30 @@
+CREATE TABLE "Customers" (
+    "Id" UUID NOT NULL,
+    "CPF" TEXT NOT NULL,
+    "FirstName" CHARACTER VARYING(30) NOT NULL,
+    "LastName" CHARACTER VARYING(80) NOT NULL,
+    "Email" CHARACTER VARYING(60) NOT NULL,
+    "RegistrationDate" TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    "LastUpdated" TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    CONSTRAINT "PK_Customers" PRIMARY KEY("Id")
+);
+
+CREATE TABLE "Products" (
+    "Id" UUID NOT NULL,
+    "Name" CHARACTER VARYING(40) NOT NULL, 
+    "Description" CHARACTER VARYING(300) NOT NULL,
+    "Price" MONEY NOT NULL,
+    "Category" TEXT NOT NULL,
+    "PreparationTime" INTEGER NOT NULL, 
+    "Enabled" BOOLEAN NOT NULL,
+    CONSTRAINT "PK_Products" PRIMARY KEY("Id")
+);
+
+CREATE TABLE "Images" (
+    "Id" UUID NOT NULL,
+    "ProductId" UUID NOT NULL,
+    "Url" TEXT NOT NULL,
+    CONSTRAINT "PK_Images" PRIMARY KEY("Id"),
+    CONSTRAINT "FK_Images_Products_ProductId" FOREIGN KEY("ProductId") REFERENCES "Products" ("Id") ON DELETE CASCADE 
+);
+
