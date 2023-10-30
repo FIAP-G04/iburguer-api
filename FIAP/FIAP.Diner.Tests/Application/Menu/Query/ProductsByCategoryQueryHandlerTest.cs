@@ -1,4 +1,3 @@
-using FIAP.Diner.Application.Menu.Query;
 using FIAP.Diner.Domain.Menu;
 
 namespace FIAP.Diner.Tests.Application.Menu.Query;

@@ -1,7 +1,13 @@
+using FIAP.Diner.Domain.Checkout;
 using FIAP.Diner.Domain.Customers;
 using FIAP.Diner.Domain.Menu;
+using FIAP.Diner.Domain.Orders;
+using FIAP.Diner.Domain.ShoppingCarts;
+using FIAP.Diner.Infrastructure.Data.Modules.Checkout;
 using FIAP.Diner.Infrastructure.Data.Modules.Customers;
 using FIAP.Diner.Infrastructure.Data.Modules.Menu;
+using FIAP.Diner.Infrastructure.Data.Modules.Orders;
+using FIAP.Diner.Infrastructure.Data.Modules.ShoppingCarts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,6 +37,9 @@ public static class DependencyInjectionExtensions
     {
         services.AddScoped<ICustomerRepository, CustomerRepository>();
         services.AddScoped<IProductRepository, ProductRepository>();
+        services.AddScoped<IShoppingCartRepository, ShoppingCartRepository>();
+        services.AddScoped<IPaymentRepository, PaymentRepository>();
+        services.AddScoped<IOrderRepository, OrderRepository>();
     }
 
 }

@@ -10,7 +10,7 @@ public static class PropertyBuilderExtensions
     public static PropertyBuilder<ProductId> IsId(this PropertyBuilder<Id> propertyBuilder) =>
         propertyBuilder.HasConversion(
             id => id.Value,
-            value => new Id(new Guid(value.ToString())));
+            value => new Id(value));
 
     public static PropertyBuilder<CPF> IsCpf(this PropertyBuilder<CPF> propertyBuilder) =>
         propertyBuilder.HasConversion(

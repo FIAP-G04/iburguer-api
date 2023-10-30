@@ -12,6 +12,8 @@ public class ProductImageMapping : IEntityTypeConfiguration<ProductImage>
     {
         builder.ToTable("Images");
 
+        builder.HasKey(c => c.Id);
+
         builder.Property(c => c.Id)
             .IsId()
             .HasColumnName("Id")

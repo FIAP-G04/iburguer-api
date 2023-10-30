@@ -1,5 +1,5 @@
-using FIAP.Diner.Application.Order.ConsultOrder;
-using FIAP.Diner.Domain.Order;
+using FIAP.Diner.Application.Orders.ConsultOrder;
+using FIAP.Diner.Domain.Orders;
 
 namespace FIAP.Diner.Tests.Application.Order;
 

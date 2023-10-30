@@ -1,3 +1,4 @@
+using FIAP.Diner.Domain.Common;
 using FIAP.Diner.Domain.Menu;
 using Microsoft.EntityFrameworkCore;
 

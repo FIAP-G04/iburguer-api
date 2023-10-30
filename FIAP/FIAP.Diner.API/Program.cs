@@ -1,6 +1,11 @@
+using System.Net;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using FIAP.Diner.API.Configuration;
+using FIAP.Diner.Domain.Abstractions;
 using FIAP.Diner.Infrastructure.Configuration;
 using FIAP.Diner.Infrastructure.Data.Configurations;
+using Microsoft.AspNetCore.Diagnostics;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,11 +21,41 @@ builder.Services.AddControllers();
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
+app.UseSwagger();
+app.UseSwaggerUI();
+
+app.UseExceptionHandler(builder =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    builder.Run(async context =>
+    {
+        var exceptionHandlerFeatures = context.Features.Get<IExceptionHandlerFeature>();
+
+        if (exceptionHandlerFeatures != null)
+        {
+            var exception = exceptionHandlerFeatures.Error;
+            var message = exception.Message;
+
+            if (exception is DomainException)
+            {
+                context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+            }
+            else
+            {
+                context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            }
+
+            context.Response.ContentType = "application/json";
+
+            var json = new
+            {
+                statusCode = context.Response.StatusCode,
+                message = message,
+            };
+
+            await context.Response.WriteAsync(JsonSerializer.Serialize(json));
+        }
+    });
+});
 
 app.UseHttpsRedirection();
 

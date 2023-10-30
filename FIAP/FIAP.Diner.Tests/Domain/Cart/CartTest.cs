@@ -1,5 +1,5 @@
 using FIAP.Diner.Domain.Abstractions;
-using FIAP.Diner.Domain.Cart;
+using FIAP.Diner.Domain.ShoppingCarts;
 
 namespace FIAP.Diner.Tests.Domain.Cart;
 
@@ -10,7 +10,7 @@ public class CartTest
     {
         var customerId = Guid.NewGuid();
 
-        var cart = new Diner.Domain.Cart.Cart(customerId);
+        var cart = new ShoppingCart(customerId);
 
         cart.Id.Should().NotBeNull();
         cart.Id.Value.Should().NotBe(Guid.Empty);
@@ -25,7 +25,7 @@ public class CartTest
     {
         var customerId = Guid.NewGuid();
 
-        var cart = new Diner.Domain.Cart.Cart(customerId);
+        var cart = new ShoppingCart(customerId);
 
         var productId = Guid.NewGuid();
         var description = "abc";
@@ -49,7 +49,7 @@ public class CartTest
     {
         var customerId = Guid.NewGuid();
 
-        var cart = new Diner.Domain.Cart.Cart(customerId);
+        var cart = new ShoppingCart(customerId);
 
         var productId = Guid.NewGuid();
         var description = "abc";
@@ -78,7 +78,7 @@ public class CartTest
     {
         var customerId = Guid.NewGuid();
 
-        var cart = new Diner.Domain.Cart.Cart(customerId);
+        var cart = new ShoppingCart(customerId);
 
         var productId = Guid.NewGuid();
         var description = "abc";
@@ -103,7 +103,7 @@ public class CartTest
     {
         var customerId = Guid.NewGuid();
 
-        var cart = new Diner.Domain.Cart.Cart(customerId);
+        var cart = new ShoppingCart(customerId);
 
         var productId = Guid.NewGuid();
         var description = "abc";
@@ -124,7 +124,7 @@ public class CartTest
     {
         var customerId = Guid.NewGuid();
 
-        var cart = new Diner.Domain.Cart.Cart(customerId);
+        var cart = new ShoppingCart(customerId);
 
         var productId = Guid.NewGuid();
         var description = "abc";
@@ -145,7 +145,7 @@ public class CartTest
     {
         var customerId = Guid.NewGuid();
 
-        var cart = new Diner.Domain.Cart.Cart(customerId);
+        var cart = new ShoppingCart(customerId);
 
         var productId = Guid.NewGuid();
         var description = "abc";
@@ -163,7 +163,7 @@ public class CartTest
         action
             .Should()
             .Throw<DomainException>()
-            .WithMessage(string.Format(Diner.Domain.Cart.Cart.Errors.ItemNotPresentInCart,
+            .WithMessage(string.Format(ShoppingCart.Errors.ItemNotPresentInCart,
                 productToRemove.ToString()));
     }
 
@@ -172,7 +172,7 @@ public class CartTest
     {
         var customerId = Guid.NewGuid();
 
-        var cart = new Diner.Domain.Cart.Cart(customerId);
+        var cart = new ShoppingCart(customerId);
 
         var productId = Guid.NewGuid();
         var description = "abc";
@@ -205,7 +205,7 @@ public class CartTest
     {
         var customerId = Guid.NewGuid();
 
-        var cart = new Diner.Domain.Cart.Cart(customerId);
+        var cart = new ShoppingCart(customerId);
 
         var productId = Guid.NewGuid();
         var description = "abc";
@@ -231,7 +231,7 @@ public class CartTest
         action
             .Should()
             .Throw<DomainException>()
-            .WithMessage(string.Format(Diner.Domain.Cart.Cart.Errors.CantUpdateClosedCart,
+            .WithMessage(string.Format(ShoppingCart.Errors.CantUpdateClosedCart,
                 productId));
     }
 
@@ -240,7 +240,7 @@ public class CartTest
     {
         var customerId = Guid.NewGuid();
 
-        var cart = new Diner.Domain.Cart.Cart(customerId);
+        var cart = new ShoppingCart(customerId);
 
         var productId = Guid.NewGuid();
         var description = "abc";
@@ -257,6 +257,6 @@ public class CartTest
                 CartClosedDomainEvent;
 
         raisedEvent.Should().NotBeNull();
-        raisedEvent?.Cart.Id.Should().Be(cart.Id);
+        raisedEvent?.ShoppingCart.Id.Should().Be(cart.Id);
     }
 }
