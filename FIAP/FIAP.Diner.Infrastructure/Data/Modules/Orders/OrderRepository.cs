@@ -1,4 +1,3 @@
-using FIAP.Diner.Domain.Checkout;
 using FIAP.Diner.Domain.Orders;
 using Microsoft.EntityFrameworkCore;
 
@@ -27,16 +26,16 @@ public class OrderRepository : IOrderRepository
 
     public async Task<Order?> GetById(ProductId orderId, CancellationToken cancellation)
     {
-        return await Set.FirstOrDefaultAsync(o => o.Id == orderId, cancellation);
+        return await Set.Include(o => o.Trackings).FirstOrDefaultAsync(o => o.Id == orderId, cancellation);
     }
 
-    public async Task<int> GenerateOrderNumber()
+    public async Task<int> GenerateOrderNumber(CancellationToken cancellation)
     {
-        return await _context.Database.ExecuteSqlRawAsync("SELECT currval('sq_order_number')");
+        return await _context.Database.SqlQuery<int>($"SELECT NEXTVAL('sq_order_number') AS \"Value\"").FirstOrDefaultAsync();
     }
 
-    /* public async Task<OrderDetails> GetOrders(ProductId orderId, CancellationToken cancellation)
+    public async Task<Order?> GetOrderByShoppingCartId(Guid shoppingCartId, CancellationToken cancellation)
     {
-
-    }*/
+        return await Set.FirstOrDefaultAsync(o => o.ShoppingCart == shoppingCartId, cancellation);
+    }
 }

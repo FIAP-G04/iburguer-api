@@ -1,6 +1,4 @@
-using FIAP.Diner.Application.Abstractions;
 using FIAP.Diner.Application.Orders;
-using FIAP.Diner.Domain.Orders;
 using FIAP.Diner.Infrastructure.Data.Modules.Orders;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,14 +22,6 @@ public class OrderController : ControllerBase
         int limit = 10)
     {
         return Ok(await _retriever.GetPagedOrdersAsync(page, limit, cancellation));
-    }
-
-    [HttpGet]
-    [Route("{orderId}")]
-    public async Task<IActionResult> GetOrderById(Guid orderId, CancellationToken cancellation)
-    {
-
-        return Ok();
     }
 
     [HttpPatch]

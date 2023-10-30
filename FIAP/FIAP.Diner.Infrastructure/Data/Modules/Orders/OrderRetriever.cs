@@ -17,18 +17,18 @@ public class OrderRetriever : IOrderRetriever
         if (limit < 0) limit = 10;
         if (page < 1) page = 1;
 
-        var query = _context.Orders
+        var query = _context.Orders.Include(o => o.Trackings)
             .OrderByDescending(order => order.Number)
             .Skip((page - 1) * limit)
             .Take(limit)
             .Join(
-                _context.ShoppingCarts,
+                _context.ShoppingCarts.Include(s => s.Items),
                 order => order.ShoppingCart,
                 cart => cart.Id,
                 (order, cart) => new OrderSummaryDTO
                 {
                     OrderId = order.Id,
-                    OrderNumber = order.Number.Value,
+                    OrderNumber = order.Number,
                     OrderStatus = order.CurrentStatus,
                     ShoppingCartId = cart.Id,
                     CustomerId = cart.Customer,
@@ -65,24 +65,5 @@ public class OrderRetriever : IOrderRetriever
         };
 
         return paginatedList;
-
-}
-
-    private async Task<IEnumerable<OrderSummaryDTO>> GetOrderItemsByIds(Guid[] orderItemIds, CancellationToken cancellation)
-    {
-        var query = await _context.CartItems
-            .Where(item => orderItemIds.Contains(item.Id))
-            .Join(_context.Products,
-                cartItem => cartItem.Product,
-                product => product.Id,
-                (cartItem, product) => new OrderItemDTO()
-                {
-                    OrderItemId = cartItem.Id,
-                    ProductId = cartItem.Product,
-                    ProductName = product.Name,
-                })
-            .ToListAsync();
-
-        return new List<OrderSummaryDTO>();
     }
 }

@@ -1,6 +1,6 @@
-using System.Reflection;
 using FIAP.Diner.Application.Abstractions;
 using FIAP.Diner.Domain.Abstractions;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace FIAP.Diner.Infrastructure.Dispatchers;
 
@@ -23,6 +23,6 @@ public class EventDispatcher : IEventDispatcher
             throw new InvalidOperationException(
                 "Não foi possível encontrar nenhum EventHandler para tratar este evento.");
 
-        await instance.Handle(@event, cancellation);
+        await instance.Handle(@event as dynamic, cancellation);
     }
 }

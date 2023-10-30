@@ -1,5 +1,6 @@
 using FIAP.Diner.Application.Abstractions;
 using FIAP.Diner.Domain.Checkout;
+using FIAP.Diner.Domain.Orders;
 
 namespace FIAP.Diner.Application.Orders;
 

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FIAP.Diner.API.Controllers;
 
-[Route("api/checkouts")]
+[Route("api/checkout")]
 [ApiController]
 public class CheckoutController : ControllerBase
 {
@@ -17,6 +17,7 @@ public class CheckoutController : ControllerBase
     }
 
     [HttpPost]
+    [Route("cart/{shoppingCartId}")]
     public async Task<IActionResult> Checkout(Guid shoppingCartId, CancellationToken cancellation)
     {
         await _checkoutService.Checkout(shoppingCartId, cancellation);

@@ -43,6 +43,9 @@ public static class DepedencyInjectionExtensions
     {
         services.AddScoped<IOrderService, OrderService>();
         services.AddScoped<IOrderRetriever, OrderRetriever>();
+
+        services.AddScoped<IEventHandler<PaymentRequestedDomainEvent>, OrderEventHandler>();
+        services.AddScoped<IEventHandler<PaymentConfirmedDomainEvent>, OrderEventHandler>();
     }
 
     private static void AddCheckoutModule(this IServiceCollection services)

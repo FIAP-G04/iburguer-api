@@ -23,8 +23,7 @@ public static class DependencyInjectionExtensions
     {
         services.AddDbContext(configuration);
         services.AddRepositories();
-        services.AddScoped<IEventHandler<PaymentRequestedDomainEvent>, OrderEventHandler>();
-        services.AddScoped<IEventHandler<PaymentConfirmedDomainEvent>, OrderEventHandler>();
+
         return services;
     }
 
