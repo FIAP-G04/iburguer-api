@@ -37,7 +37,7 @@ public class MenuController : ControllerBase
     public async Task<IActionResult> RemoveProduct(Guid productId, CancellationToken cancellation)
     {
         await _menu.RemoveProductFromMenu(productId, cancellation);
-        return Ok();
+        return NoContent();
     }
 
     [HttpPatch]
