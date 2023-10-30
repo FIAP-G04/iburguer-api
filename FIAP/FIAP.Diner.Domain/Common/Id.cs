@@ -7,6 +7,7 @@ public record Id
     public Id(Guid value) => Value = value;
 
     private Id(string value) => Value = Guid.Parse(value);
+
     public Guid Value { get; private set; }
 
     public static Id New => Guid.NewGuid();
@@ -17,9 +18,9 @@ public record Id
 
     public static implicit operator Guid(Id id)
     {
-        var xxx = id.Value.ToString();
+        var value = id.Value.ToString();
 
-        return new Guid(xxx);
+        return new Guid(value);
     }
 
     public static implicit operator Id(string id) => new(id);
@@ -30,4 +31,6 @@ public record Id
 
     public static bool operator !=(Id id, string value) =>
         id.Value.CompareTo(value) is not 0;
+
+    public bool IsNullOrEmpty() => Value == Guid.Empty || Value == null;
 }

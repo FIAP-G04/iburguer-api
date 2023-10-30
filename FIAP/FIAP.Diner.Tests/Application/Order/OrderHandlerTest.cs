@@ -1,25 +1,25 @@
-using FIAP.Diner.Application.Order.Tracking;
+using FIAP.Diner.Application.Orders;
 using FIAP.Diner.Domain.Abstractions;
-using FIAP.Diner.Domain.Order;
+using FIAP.Diner.Domain.Orders;
 
 namespace FIAP.Diner.Tests.Application.Order;
 
 public class OrderHandlerTest
 {
-    private readonly OrderHandler _manipulator;
+    private readonly OrderService _manipulator;
     private readonly IOrderRepository orderRepository;
 
     public OrderHandlerTest()
     {
         orderRepository = Substitute.For<IOrderRepository>();
 
-        _manipulator = new OrderHandler(orderRepository);
+        _manipulator = new OrderService(orderRepository);
     }
 
     [Fact]
     public async Task ShouldUpdateOrderTrackingStatus()
     {
-        var orderTracking = new Diner.Domain.Order.Order(Guid.NewGuid(), Guid.NewGuid());
+        var orderTracking = new Diner.Domain.Orders.Order(Guid.NewGuid(), Guid.NewGuid());
 
         var command = new UpdateOrderTrackingCommand(orderTracking.Id, OrderStatus.Ready);
 
@@ -28,7 +28,7 @@ public class OrderHandlerTest
         await _manipulator.Handle(command, default);
 
         await orderRepository.Received()
-            .Update(Arg.Is<Diner.Domain.Order.Order>(o =>
+            .Update(Arg.Is<Diner.Domain.Orders.Order>(o =>
                 o.Id == orderTracking.Id &&
                 o.Status.OrderStatus == command.OrderStatus), Arg.Any<CancellationToken>());
     }

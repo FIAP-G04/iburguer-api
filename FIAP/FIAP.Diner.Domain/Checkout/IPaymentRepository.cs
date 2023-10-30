@@ -8,7 +8,5 @@ public interface IPaymentRepository : IRepository<Payment>
 
     Task Update(Payment payment, CancellationToken cancellation);
 
-    Task<Payment> Get(string externalId, CancellationToken cancellation);
-
-    Task<Payment> Get(CartId cartId, CancellationToken cancellation);
+    Task<Payment?> GetById(PaymentId paymentId, CancellationToken cancellation);
 }

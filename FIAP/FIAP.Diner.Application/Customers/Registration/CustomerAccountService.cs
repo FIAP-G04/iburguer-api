@@ -6,11 +6,11 @@ public class CustomerAccountService : ICustomerAccount
 {
     private readonly ICustomerRepository _repository;
 
-    public CustomerAccountService(ICustomerRepository customerRepository)
+    public CustomerAccountService(ICustomerRepository repository)
     {
-        ArgumentNullException.ThrowIfNull(customerRepository);
+        ArgumentNullException.ThrowIfNull(repository, nameof(ICustomerRepository));
 
-        _repository = customerRepository;
+        _repository = repository;
     }
 
     public async Task RegisterCustomer(RegisterCustomerDTO dto, CancellationToken cancellation)

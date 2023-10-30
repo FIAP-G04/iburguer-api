@@ -2,7 +2,7 @@ namespace FIAP.Diner.Domain.Checkout;
 
 public enum PaymentStatus
 {
-    Processing,
-    Confirmed,
+    Pending,
+    Received,
     Refused
 }

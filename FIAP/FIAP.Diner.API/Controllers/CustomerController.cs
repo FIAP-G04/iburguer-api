@@ -19,25 +19,25 @@ public class CustomerController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> RegisterCustomer(RegisterCustomerDTO dto)
+    public async Task<IActionResult> RegisterCustomer(RegisterCustomerDTO dto, CancellationToken cancellation)
     {
-        await _account.RegisterCustomer(dto, default);
+        await _account.RegisterCustomer(dto, cancellation);
         return Ok();
     }
 
     [HttpPut]
     public async Task<IActionResult> UpdateCustomerRegistrationInformation(
-        UpdateCustomerRegistrationInformationDTO dto)
+        UpdateCustomerRegistrationInformationDTO dto, CancellationToken cancellation)
     {
-        await _account.UpdateCustomerRegistrationInformation(dto, default);
+        await _account.UpdateCustomerRegistrationInformation(dto, cancellation);
         return Ok();
     }
 
     [HttpGet]
     [Route("{cpf}")]
-    public async Task<IActionResult> IdentifyCustomer(string cpf)
+    public async Task<IActionResult> IdentifyCustomer(string cpf, CancellationToken cancellation)
     {
-        var customer = await _identifier.Indentify(cpf, default);
+        var customer = await _identifier.Indentify(cpf, cancellation);
         return Ok(customer);
     }
 }

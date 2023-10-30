@@ -1,12 +1,12 @@
-using FIAP.Diner.Application.Order.Tracking;
-using FIAP.Diner.Domain.Cart;
-using FIAP.Diner.Domain.Order;
+using FIAP.Diner.Application.Orders;
+using FIAP.Diner.Domain.Orders;
+using FIAP.Diner.Domain.ShoppingCarts;
 
 namespace FIAP.Diner.Tests.Application.Order;
 
 public class OrderRegisterEventHandlerTest
 {
-    private readonly ICartRepository _cartRepository;
+    private readonly IShoppingCartRepository shoppingCartRepository;
 
     private readonly OrderRegisterEventHandler _manipulator;
     private readonly IOrderRepository _orderRepository;
@@ -14,9 +14,9 @@ public class OrderRegisterEventHandlerTest
     public OrderRegisterEventHandlerTest()
     {
         _orderRepository = Substitute.For<IOrderRepository>();
-        _cartRepository = Substitute.For<ICartRepository>();
+        shoppingCartRepository = Substitute.For<IShoppingCartRepository>();
 
-        _manipulator = new OrderRegisterEventHandler(_orderRepository, _cartRepository);
+        _manipulator = new OrderRegisterEventHandler(_orderRepository, shoppingCartRepository);
     }
 
     [Fact]
@@ -27,13 +27,13 @@ public class OrderRegisterEventHandlerTest
 
         var @event = new PaymentConfirmedDomainEvent(cartId);
 
-        _cartRepository.GetCustomerId(cartId, Arg.Any<CancellationToken>()).Returns(customerId);
+        shoppingCartRepository.GetCustomerId(cartId, Arg.Any<CancellationToken>()).Returns(customerId);
         _orderRepository.GetNextWithdrawCode(Arg.Any<CancellationToken>()).Returns("ABC-123");
 
         await _manipulator.Handle(@event, default);
 
         await _orderRepository.Received()
-            .Save(Arg.Is<Diner.Domain.Order.Order>(o =>
+            .Save(Arg.Is<Diner.Domain.Orders.Order>(o =>
                 o.CartId.Value == cartId &&
                 o.CustomerId3.Value == customerId &&
                 o.WithdrawCode == "ABC-123"), Arg.Any<CancellationToken>());

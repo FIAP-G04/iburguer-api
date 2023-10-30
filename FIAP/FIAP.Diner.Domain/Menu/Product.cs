@@ -5,8 +5,15 @@ namespace FIAP.Diner.Domain.Menu;
 
 public class Product : Entity<ProductId>, IAggregateRoot
 {
+    #region Attributes
+
     private IList<ProductImage> _images = new List<ProductImage>();
     private Price _price;
+
+    #endregion Attributes
+
+
+    #region Properties
 
     public string Name { get; private set; }
 
@@ -32,9 +39,10 @@ public class Product : Entity<ProductId>, IAggregateRoot
 
     public bool Enabled { get; private set; } = true;
 
-    public IReadOnlyCollection<ProductImage> Images => _images.ToList().AsReadOnly();
+    #endregion Properties
 
-    public IReadOnlyCollection<string> Urls => _images.Select(i => i.Url.ToString()).ToList();
+
+    #region Constructors
 
     private Product() {}
 
@@ -50,6 +58,15 @@ public class Product : Entity<ProductId>, IAggregateRoot
 
         SetImages(images);
     }
+
+    #endregion Constructors
+
+
+    #region Methods
+
+    public IReadOnlyCollection<ProductImage> Images => _images.AsReadOnly();
+
+    public IReadOnlyCollection<string> Urls => _images.Select(i => i.Url.ToString()).ToList();
 
     public void Update(string name, string description, Price price, Category category,
         ushort preparationTime, IEnumerable<Url> images)
@@ -79,4 +96,6 @@ public class Product : Entity<ProductId>, IAggregateRoot
             _images.Add(new ProductImage(Id, url));
         }
     }
+
+    #endregion Methods
 }

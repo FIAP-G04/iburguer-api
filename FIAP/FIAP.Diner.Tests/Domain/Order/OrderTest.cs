@@ -1,4 +1,4 @@
-using FIAP.Diner.Domain.Order;
+using FIAP.Diner.Domain.Orders;
 
 namespace FIAP.Diner.Tests.Domain.Order;
 
@@ -10,7 +10,7 @@ public class OrderTest
         var cartId = Guid.NewGuid();
         var customerId = Guid.NewGuid();
 
-        var order = new Diner.Domain.Order.Order(cartId, customerId);
+        var order = new Diner.Domain.Orders.Order(cartId, customerId);
 
         order.Id.Should().NotBeNull();
         order.Id.Value.Should().NotBe(Guid.Empty);
@@ -23,7 +23,7 @@ public class OrderTest
     [Fact]
     public void ShouldUpdateOrderStatus()
     {
-        var order = new Diner.Domain.Order.Order(Guid.NewGuid(), Guid.NewGuid());
+        var order = new Diner.Domain.Orders.Order(Guid.NewGuid(), Guid.NewGuid());
 
         order.UpdateStatus(OrderStatus.Received);
 

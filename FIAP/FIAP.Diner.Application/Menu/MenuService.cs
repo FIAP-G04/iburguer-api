@@ -6,7 +6,12 @@ public class MenuService : IMenuManagement
 {
     private readonly IProductRepository _repository;
 
-    public MenuService(IProductRepository repository) => _repository = repository;
+    public MenuService(IProductRepository repository)
+    {
+        ArgumentNullException.ThrowIfNull(repository, nameof(IProductRepository));
+
+        _repository = repository;
+    }
 
     public async Task AddProductToMenu(ProductDTO dto, CancellationToken cancellation)
     {

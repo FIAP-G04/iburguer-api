@@ -1,19 +1,19 @@
-using FIAP.Diner.Application.Cart;
-using FIAP.Diner.Domain.Cart;
+using FIAP.Diner.Application.ShoppingCarts;
+using FIAP.Diner.Domain.ShoppingCarts;
 
 namespace FIAP.Diner.Tests.Application.Cart;
 
 public class CartManagementHandlerTest
 {
-    private readonly ICartRepository _cartRepositoty;
+    private readonly IShoppingCartRepository shoppingCartRepositoty;
 
-    private readonly CartManagementHandler _manipulator;
+    private readonly ShoppingCartService _manipulator;
 
     public CartManagementHandlerTest()
     {
-        _cartRepositoty = Substitute.For<ICartRepository>();
+        shoppingCartRepositoty = Substitute.For<IShoppingCartRepository>();
 
-        _manipulator = new CartManagementHandler(_cartRepositoty);
+        _manipulator = new ShoppingCartService(shoppingCartRepositoty);
     }
 
     [Fact]
@@ -23,14 +23,14 @@ public class CartManagementHandlerTest
 
         await _manipulator.Handle(command, default);
 
-        await _cartRepositoty
+        await shoppingCartRepositoty
             .Received()
-            .Save(Arg.Is<Diner.Domain.Cart.Cart>(c =>
+            .Save(Arg.Is<ShoppingCart>(c =>
                 c.CustomerId2.Value == command.CustomerId), Arg.Any<CancellationToken>());
 
-        await _cartRepositoty
+        await shoppingCartRepositoty
             .Received()
-            .Update(Arg.Is<Diner.Domain.Cart.Cart>(c =>
+            .Update(Arg.Is<ShoppingCart>(c =>
                     c.CartItems.Any(ci =>
                         ci.ProductId.Value == command.ProductId &&
                         ci.Price == command.Price &&
@@ -43,25 +43,25 @@ public class CartManagementHandlerTest
     {
         var customerId = Guid.NewGuid();
 
-        var cart = new Diner.Domain.Cart.Cart(customerId);
+        var cart = new ShoppingCart(customerId);
 
         var command = new AddItemToCartCommand(customerId, Guid.NewGuid(), 11.11M, 2);
 
-        _cartRepositoty.Get(customerId, Arg.Any<CancellationToken>()).Returns(cart);
+        shoppingCartRepositoty.Get(customerId, Arg.Any<CancellationToken>()).Returns(cart);
 
         await _manipulator.Handle(command, default);
 
-        await _cartRepositoty
+        await shoppingCartRepositoty
             .Received()
-            .Update(Arg.Is<Diner.Domain.Cart.Cart>(c =>
+            .Update(Arg.Is<ShoppingCart>(c =>
                     c.CartItems.Any(ci =>
                         ci.ProductId.Value == command.ProductId &&
                         ci.Price == command.Price &&
                         ci.Quantity.Value == command.Quantity)),
                 Arg.Any<CancellationToken>());
 
-        await _cartRepositoty.DidNotReceive()
-            .Save(Arg.Any<Diner.Domain.Cart.Cart>(), Arg.Any<CancellationToken>());
+        await shoppingCartRepositoty.DidNotReceive()
+            .Save(Arg.Any<ShoppingCart>(), Arg.Any<CancellationToken>());
     }
 
     [Fact]
@@ -69,7 +69,7 @@ public class CartManagementHandlerTest
     {
         var customerId = Guid.NewGuid();
 
-        var cart = new Diner.Domain.Cart.Cart(customerId);
+        var cart = new ShoppingCart(customerId);
 
         var productId = Guid.NewGuid();
         var description = "abc";
@@ -78,15 +78,15 @@ public class CartManagementHandlerTest
 
         cart.AddItem(productId, price, quantity);
 
-        _cartRepositoty.Get(customerId, Arg.Any<CancellationToken>()).Returns(cart);
+        shoppingCartRepositoty.Get(customerId, Arg.Any<CancellationToken>()).Returns(cart);
 
         var command = new RemoveItemFromCartCommand(customerId, productId);
 
         await _manipulator.Handle(command, default);
 
-        await _cartRepositoty
+        await shoppingCartRepositoty
             .Received()
-            .Update(Arg.Is<Diner.Domain.Cart.Cart>(c =>
+            .Update(Arg.Is<ShoppingCart>(c =>
                     c.Id == cart.Id &&
                     c.CartItems.Any(ci =>
                         ci.ProductId.Value == command.ProductId)),
@@ -102,8 +102,8 @@ public class CartManagementHandlerTest
 
         await action
             .Should()
-            .ThrowAsync<CartNotFoundException>()
-            .WithMessage(string.Format(CartNotFoundException.error, command.CustomerId));
+            .ThrowAsync<CartItemNotFoundException>()
+            .WithMessage(string.Format(CartItemNotFoundException.error, command.CustomerId));
     }
 
     [Fact]
@@ -111,7 +111,7 @@ public class CartManagementHandlerTest
     {
         var customerId = Guid.NewGuid();
 
-        var cart = new Diner.Domain.Cart.Cart(customerId);
+        var cart = new ShoppingCart(customerId);
 
         var productId = Guid.NewGuid();
         var description = "abc";
@@ -139,7 +139,7 @@ public class CartManagementHandlerTest
             CustomerId = customerId, CartItems = cartItemDetails, TotalPrice = cart.TotalPrice
         };
 
-        _cartRepositoty.GetDetailed(customerId, Arg.Any<CancellationToken>()).Returns(cartDetail);
+        shoppingCartRepositoty.GetDetailed(customerId, Arg.Any<CancellationToken>()).Returns(cartDetail);
 
         var query = new GetCartItemsQuery(customerId);
 
@@ -153,7 +153,7 @@ public class CartManagementHandlerTest
             ci.ProductId == cartItem.ProductId.Value &&
             ci.Price == cartItem.Price &&
             ci.Quantity == cartItem.Quantity &&
-            ci.TotalPrice == cartItem.TotalPrice);
+            ci.TotalPrice == cartItem.Subtotal);
     }
 
     [Fact]
@@ -165,26 +165,26 @@ public class CartManagementHandlerTest
 
         await action
             .Should()
-            .ThrowAsync<CartNotFoundException>()
-            .WithMessage(string.Format(CartNotFoundException.error, query.CustomerId));
+            .ThrowAsync<CartItemNotFoundException>()
+            .WithMessage(string.Format(CartItemNotFoundException.error, query.CustomerId));
     }
 
     [Fact]
     public async Task ShouldUpdateCartItemProductsInformation()
     {
-        var carts = new List<Diner.Domain.Cart.Cart>();
+        var carts = new List<ShoppingCart>();
 
         var productId = Guid.NewGuid();
         var description = "abc";
         var price = 11.11M;
 
-        var cart1 = new Diner.Domain.Cart.Cart(Guid.NewGuid());
+        var cart1 = new ShoppingCart(Guid.NewGuid());
         cart1.AddItem(productId, price, 1);
 
-        var cart2 = new Diner.Domain.Cart.Cart(Guid.NewGuid());
+        var cart2 = new ShoppingCart(Guid.NewGuid());
         cart2.AddItem(productId, price, 1);
 
-        var cart3 = new Diner.Domain.Cart.Cart(Guid.NewGuid());
+        var cart3 = new ShoppingCart(Guid.NewGuid());
         cart3.AddItem(productId, price, 1);
 
         carts.Add(cart1);
@@ -196,31 +196,31 @@ public class CartManagementHandlerTest
 
         var command = new UpdateCartItemProductInformation(productId, newPrice);
 
-        _cartRepositoty
+        shoppingCartRepositoty
             .GetByProductInCart(Arg.Is<ProductId>(productId), Arg.Any<CancellationToken>())
             .Returns(carts);
 
         await _manipulator.Handle(command, default);
 
-        await _cartRepositoty
+        await shoppingCartRepositoty
             .Received(1)
-            .Update(Arg.Is<Diner.Domain.Cart.Cart>(c =>
+            .Update(Arg.Is<ShoppingCart>(c =>
                     c.Id == cart1.Id &&
                     c.CartItems.Any(ci => ci.ProductId.Value == productId &&
                                           ci.Price == newPrice)),
                 Arg.Any<CancellationToken>());
 
-        await _cartRepositoty
+        await shoppingCartRepositoty
             .Received(1)
-            .Update(Arg.Is<Diner.Domain.Cart.Cart>(c =>
+            .Update(Arg.Is<ShoppingCart>(c =>
                     c.Id == cart2.Id &&
                     c.CartItems.Any(ci => ci.ProductId.Value == productId &&
                                           ci.Price == newPrice)),
                 Arg.Any<CancellationToken>());
 
-        await _cartRepositoty
+        await shoppingCartRepositoty
             .Received(1)
-            .Update(Arg.Is<Diner.Domain.Cart.Cart>(c =>
+            .Update(Arg.Is<ShoppingCart>(c =>
                     c.Id == cart3.Id &&
                     c.CartItems.Any(ci => ci.ProductId.Value == productId &&
                                           ci.Price == newPrice)),
@@ -232,7 +232,7 @@ public class CartManagementHandlerTest
     {
         var customerId = Guid.NewGuid();
 
-        var cart = new Diner.Domain.Cart.Cart(customerId);
+        var cart = new ShoppingCart(customerId);
 
         var productId = Guid.NewGuid();
         var description = "abc";
@@ -241,15 +241,15 @@ public class CartManagementHandlerTest
 
         cart.AddItem(productId, price, quantity);
 
-        _cartRepositoty.Get(customerId, Arg.Any<CancellationToken>()).Returns(cart);
+        shoppingCartRepositoty.Get(customerId, Arg.Any<CancellationToken>()).Returns(cart);
 
-        var command = new CloseCartCommand(customerId);
+        var command = new CloseShoppingCartDTO(customerId);
 
         await _manipulator.Handle(command, default);
 
-        await _cartRepositoty
+        await shoppingCartRepositoty
             .Received()
-            .Update(Arg.Is<Diner.Domain.Cart.Cart>(c =>
+            .Update(Arg.Is<ShoppingCart>(c =>
                     c.Id == cart.Id &&
                     c.Closed == true),
                 Arg.Any<CancellationToken>());
@@ -260,15 +260,15 @@ public class CartManagementHandlerTest
     {
         var customerId = Guid.NewGuid();
 
-        _cartRepositoty.Get(customerId, Arg.Any<CancellationToken>()).ReturnsNull();
+        shoppingCartRepositoty.Get(customerId, Arg.Any<CancellationToken>()).ReturnsNull();
 
-        var command = new CloseCartCommand(customerId);
+        var command = new CloseShoppingCartDTO(customerId);
 
         var action = async () => await _manipulator.Handle(command, default);
 
         await action
             .Should()
-            .ThrowAsync<CartNotFoundException>()
-            .WithMessage(string.Format(CartNotFoundException.error, command.CustomerId));
+            .ThrowAsync<CartItemNotFoundException>()
+            .WithMessage(string.Format(CartItemNotFoundException.error, command.CustomerId));
     }
 }
