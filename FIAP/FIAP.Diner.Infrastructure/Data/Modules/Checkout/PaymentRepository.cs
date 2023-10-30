@@ -5,27 +5,23 @@ namespace FIAP.Diner.Infrastructure.Data.Modules.Checkout;
 
 public class PaymentRepository : IPaymentRepository
 {
-    private readonly Context _context;
+    private readonly IUnitOfWork<Payment> _unitOfWork;
 
-    public PaymentRepository(Context context) =>
-        _context = context ?? throw new ArgumentNullException(nameof(context));
-
-    public DbSet<Payment> Set => _context.Set<Payment>();
+    public PaymentRepository(IUnitOfWork<Payment> unitOfWork) =>
+        _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
 
     public async Task Save(Payment payment, CancellationToken cancellation)
     {
-        await Set.AddAsync(payment, cancellation);
-        await _context.SaveChangesAsync(cancellation);
+        await _unitOfWork.SaveAsync(payment, cancellation);
     }
 
     public async Task Update(Payment payment, CancellationToken cancellation)
     {
-        Set.Update(payment);
-        await _context.SaveChangesAsync(cancellation);
+        await _unitOfWork.UpdateAsync(payment, cancellation);
     }
 
     public async Task<Payment?> GetById(ProductId paymentId, CancellationToken cancellation)
     {
-        return await Set.FirstOrDefaultAsync(p => p.Id == paymentId, cancellation);
+        return await _unitOfWork.Set().FirstOrDefaultAsync(p => p.Id == paymentId, cancellation);
     }
 }

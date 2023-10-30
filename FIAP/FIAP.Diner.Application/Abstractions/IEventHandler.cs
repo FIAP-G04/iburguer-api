@@ -4,5 +4,5 @@ namespace FIAP.Diner.Application.Abstractions;
 
 public interface IEventHandler<in TEvent> where TEvent : IDomainEvent
 {
-    Task Handle(TEvent @event, CancellationToken cancellation);
+    Task Handle(TEvent evt, CancellationToken cancellation);
 }

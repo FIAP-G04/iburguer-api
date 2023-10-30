@@ -5,8 +5,9 @@ using FIAP.Diner.Application.Customers.Registration;
 using FIAP.Diner.Application.Menu;
 using FIAP.Diner.Application.Orders;
 using FIAP.Diner.Application.ShoppingCarts;
-using FIAP.Diner.Infrastructure.CQRS;
+using FIAP.Diner.Domain.Checkout;
 using FIAP.Diner.Infrastructure.Data.Modules.Orders;
+using FIAP.Diner.Infrastructure.Dispatchers;
 
 namespace FIAP.Diner.API.Configuration;
 
@@ -51,8 +52,6 @@ public static class DepedencyInjectionExtensions
 
     private static void AddDispatchers(this IServiceCollection services)
     {
-        services.AddScoped<ICommandDispatcher, CommandDispatcher>();
-        services.AddScoped<IQueryDispatcher, QueryDispatcher>();
         services.AddScoped<IEventDispatcher, EventDispatcher>();
     }
 }

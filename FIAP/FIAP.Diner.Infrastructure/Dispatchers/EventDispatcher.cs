@@ -1,7 +1,8 @@
+using System.Reflection;
 using FIAP.Diner.Application.Abstractions;
 using FIAP.Diner.Domain.Abstractions;
 
-namespace FIAP.Diner.Infrastructure.CQRS;
+namespace FIAP.Diner.Infrastructure.Dispatchers;
 
 public class EventDispatcher : IEventDispatcher
 {
@@ -13,8 +14,10 @@ public class EventDispatcher : IEventDispatcher
     public async Task Dispatch<TEvent>(TEvent @event, CancellationToken cancellation)
         where TEvent : IDomainEvent
     {
-        var instance =
-            _serviceProvider.GetService(typeof(IEventHandler<TEvent>)) as IEventHandler<TEvent>;
+        var eventType = @event.GetType();
+        var handlerType = typeof(IEventHandler<>).MakeGenericType(eventType);
+
+        dynamic instance = _serviceProvider.GetService(handlerType);
 
         if (instance == null)
             throw new InvalidOperationException(

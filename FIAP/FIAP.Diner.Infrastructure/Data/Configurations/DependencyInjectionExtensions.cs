@@ -1,3 +1,5 @@
+using FIAP.Diner.Application.Abstractions;
+using FIAP.Diner.Application.Orders;
 using FIAP.Diner.Domain.Checkout;
 using FIAP.Diner.Domain.Customers;
 using FIAP.Diner.Domain.Menu;
@@ -21,17 +23,24 @@ public static class DependencyInjectionExtensions
     {
         services.AddDbContext(configuration);
         services.AddRepositories();
-
+        services.AddScoped<IEventHandler<PaymentRequestedDomainEvent>, OrderEventHandler>();
+        services.AddScoped<IEventHandler<PaymentConfirmedDomainEvent>, OrderEventHandler>();
         return services;
     }
 
     private static void AddDbContext(this IServiceCollection services,
-        IConfiguration configuration) =>
+        IConfiguration configuration)
+    {
         services.AddDbContext<Context>(options =>
         {
             options.UseNpgsql(configuration.GetConnectionString("Connection"),
                 assembly => assembly.MigrationsAssembly("FIAP.Diner.Infrastructure"));
         });
+
+        services.AddScoped(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
+    }
+
+
 
     private static void AddRepositories(this IServiceCollection services)
     {
