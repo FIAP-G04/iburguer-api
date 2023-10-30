@@ -1,49 +1,68 @@
 using FIAP.Diner.Application.Abstractions;
-using FIAP.Diner.Application.Order.ConsultOrder;
-using FIAP.Diner.Application.Order.Tracking;
-using FIAP.Diner.Domain.Order;
+using FIAP.Diner.Application.Orders;
+using FIAP.Diner.Domain.Orders;
+using FIAP.Diner.Infrastructure.Data.Modules.Orders;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FIAP.Diner.API.Controllers;
 
-[Route("api/[controller]")]
+[Route("api/orders")]
 [ApiController]
 public class OrderController : ControllerBase
 {
-    private readonly ICommandDispatcher _commandDispatcher;
-    private readonly IQueryDispatcher _queryDispatcher;
+    private readonly IOrderService _orderService;
+    private readonly IOrderRetriever _retriever;
 
-    public OrderController(ICommandDispatcher commandDispatcher, IQueryDispatcher queryDispatcher)
+    public OrderController(IOrderService orderService, IOrderRetriever retriever)
     {
-        _commandDispatcher = commandDispatcher;
-        _queryDispatcher = queryDispatcher;
+        _orderService = orderService;
+        _retriever = retriever;
     }
 
     [HttpGet]
-    [Route("customer/{customerId}")]
-    public async Task<IActionResult> ConsultOrder(Guid customerId)
+    public async Task<IActionResult> GetPagedOrders(CancellationToken cancellation, int page = 1,
+        int limit = 10)
     {
-        var query = new ConsultOrderQuery(customerId);
-        var result =
-            await _queryDispatcher.Dispatch<ConsultOrderQuery, OrderDetails>(query, default);
-        return Ok(result);
+        return Ok(await _retriever.GetPagedOrdersAsync(page, limit, cancellation));
     }
 
     [HttpGet]
-    [Route("queue")]
-    public async Task<IActionResult> GetOrderQueue()
+    [Route("{orderId}")]
+    public async Task<IActionResult> GetOrderById(Guid orderId, CancellationToken cancellation)
     {
-        var result =
-            await _queryDispatcher.Dispatch<GetOrderQueueQuery, IEnumerable<OrderDetails>>(
-                new GetOrderQueueQuery(), default);
-        return Ok(result);
+
+        return Ok();
     }
 
-    [HttpPut]
-    [Route("order")]
-    public async Task<IActionResult> UpdateOrderTracking(UpdateOrderTrackingCommand command)
+    [HttpPatch]
+    [Route("{orderId}/start")]
+    public async Task<IActionResult> StartOrder(Guid orderId, CancellationToken cancellation)
     {
-        await _commandDispatcher.Dispatch(command, default);
+        await _orderService.StartOrder(orderId, cancellation);
+        return Ok();
+    }
+
+    [HttpPatch]
+    [Route("{orderId}/complete")]
+    public async Task<IActionResult> CompleteOrder(Guid orderId, CancellationToken cancellation)
+    {
+        await _orderService.CompleteOrder(orderId, cancellation);
+        return Ok();
+    }
+
+    [HttpPatch]
+    [Route("{orderId}/deliver")]
+    public async Task<IActionResult> DeliverOrder(Guid orderId, CancellationToken cancellation)
+    {
+        await _orderService.DeliverOrder(orderId, cancellation);
+        return Ok();
+    }
+
+    [HttpPatch]
+    [Route("{orderId}/cancel")]
+    public async Task<IActionResult> CancelOrder(Guid orderId, CancellationToken cancellation)
+    {
+        await _orderService.CancelOrder(orderId, cancellation);
         return Ok();
     }
 }

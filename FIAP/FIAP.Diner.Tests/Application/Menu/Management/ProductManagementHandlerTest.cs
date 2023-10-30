@@ -1,5 +1,6 @@
 using FIAP.Diner.Application.Menu;
 using FIAP.Diner.Domain.Menu;
+using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 
 namespace FIAP.Diner.Tests.Application.Menu.Management;
 
@@ -31,7 +32,7 @@ public class ProductManagementHandlerTest
             _product.Price,
             _product.Category,
             _product.PreparationTime,
-            _product.Urls.Select(u => u.)));
+            new List<string>().toE);
 
         await _manipulator.AddProductToMenu(dto, default);
 
@@ -42,8 +43,8 @@ public class ProductManagementHandlerTest
                     p.Description == _product.Description &&
                     p.Price == _product.Price &&
                     p.Category == _product.Category &&
-                    p.ReadyTimeExpectation == _product.ReadyTimeExpectation &&
-                    p.ImageURLs.Single(u => u.Url == _product.ImageURLs.First().Url) != null),
+                    p.PreparationTime == _product.PreparationTime &&
+                    p.Images.Single(u => u.Url == _product.Images.First().Url) != null),
                 Arg.Any<CancellationToken>());
     }
 

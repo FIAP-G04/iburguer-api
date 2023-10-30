@@ -26,8 +26,10 @@ public class CustomerMapping : IEntityTypeConfiguration<Customer>
                .HasColumnName("CPF")
                .IsRequired();
 
-        builder.OwnsOne(c => c.Email)
-            .Property(x => x.Value)
+        builder.Property(o => o.Email)
+            .HasConversion(
+                email => email.Value,
+                value => new Email(value))
             .HasColumnName("Email")
             .HasMaxLength(60)
             .IsRequired();

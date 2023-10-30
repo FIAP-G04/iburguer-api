@@ -22,6 +22,39 @@ namespace FIAP.Diner.Infrastructure.Data.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("FIAP.Diner.Domain.Checkout.Payment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("money")
+                        .HasColumnName("Amount");
+
+                    b.Property<string>("Method")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("PayedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime?>("RefusedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid>("ShoppingCart")
+                        .HasColumnType("uuid")
+                        .HasColumnName("ShoppingCartId");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Payments", (string)null);
+                });
+
             modelBuilder.Entity("FIAP.Diner.Domain.Customers.Customer", b =>
                 {
                     b.Property<Guid>("Id")
@@ -90,6 +123,87 @@ namespace FIAP.Diner.Infrastructure.Data.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("Images", (string)null);
+                });
+
+            modelBuilder.Entity("FIAP.Diner.Domain.Orders.Order", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
+
+                    b.Property<Guid>("ShoppingCart")
+                        .HasColumnType("uuid")
+                        .HasColumnName("ShoppingCartId");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Orders", (string)null);
+                });
+
+            modelBuilder.Entity("FIAP.Diner.Domain.Orders.OrderTracking", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
+
+                    b.Property<Guid>("Order")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("OrderStatus")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("Status");
+
+                    b.Property<DateTime>("When")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Order");
+
+                    b.ToTable("OrderTrackings", (string)null);
+                });
+
+            modelBuilder.Entity("FIAP.Diner.Domain.ShoppingCarts.CartItem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("money")
+                        .HasColumnName("Price");
+
+                    b.Property<Guid>("Product")
+                        .HasColumnType("uuid")
+                        .HasColumnName("ProductId");
+
+                    b.Property<Guid>("ShoppingCart")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ShoppingCart");
+
+                    b.ToTable("CartItems", (string)null);
+                });
+
+            modelBuilder.Entity("FIAP.Diner.Domain.ShoppingCarts.ShoppingCart", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
+
+                    b.Property<bool>("Closed")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid?>("Customer")
+                        .HasColumnType("uuid")
+                        .HasColumnName("CustomerId");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ShoppingCarts", (string)null);
                 });
 
             modelBuilder.Entity("FIAP.Diner.Domain.Customers.Customer", b =>
@@ -198,9 +312,101 @@ namespace FIAP.Diner.Infrastructure.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("FIAP.Diner.Domain.Orders.Order", b =>
+                {
+                    b.OwnsOne("FIAP.Diner.Domain.Orders.OrderNumber", "Number", b1 =>
+                        {
+                            b1.Property<Guid>("OrderId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<int>("Value")
+                                .HasColumnType("integer")
+                                .HasColumnName("OrderNumber");
+
+                            b1.HasKey("OrderId");
+
+                            b1.ToTable("Orders");
+
+                            b1.WithOwner()
+                                .HasForeignKey("OrderId");
+                        });
+
+                    b.OwnsOne("FIAP.Diner.Domain.Orders.WithdrawalCode", "WithdrawalCode", b1 =>
+                        {
+                            b1.Property<Guid>("OrderId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<string>("Code")
+                                .IsRequired()
+                                .HasColumnType("text")
+                                .HasColumnName("WithdrawalCode");
+
+                            b1.HasKey("OrderId");
+
+                            b1.ToTable("Orders");
+
+                            b1.WithOwner()
+                                .HasForeignKey("OrderId");
+                        });
+
+                    b.Navigation("Number")
+                        .IsRequired();
+
+                    b.Navigation("WithdrawalCode")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("FIAP.Diner.Domain.Orders.OrderTracking", b =>
+                {
+                    b.HasOne("FIAP.Diner.Domain.Orders.Order", null)
+                        .WithMany("Trackings")
+                        .HasForeignKey("Order")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("FIAP.Diner.Domain.ShoppingCarts.CartItem", b =>
+                {
+                    b.HasOne("FIAP.Diner.Domain.ShoppingCarts.ShoppingCart", null)
+                        .WithMany("Items")
+                        .HasForeignKey("ShoppingCart")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.OwnsOne("FIAP.Diner.Domain.ShoppingCarts.Quantity", "Quantity", b1 =>
+                        {
+                            b1.Property<Guid>("CartItemId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<int>("Value")
+                                .HasColumnType("integer")
+                                .HasColumnName("Quantity");
+
+                            b1.HasKey("CartItemId");
+
+                            b1.ToTable("CartItems");
+
+                            b1.WithOwner()
+                                .HasForeignKey("CartItemId");
+                        });
+
+                    b.Navigation("Quantity")
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("FIAP.Diner.Domain.Menu.Product", b =>
                 {
                     b.Navigation("Images");
+                });
+
+            modelBuilder.Entity("FIAP.Diner.Domain.Orders.Order", b =>
+                {
+                    b.Navigation("Trackings");
+                });
+
+            modelBuilder.Entity("FIAP.Diner.Domain.ShoppingCarts.ShoppingCart", b =>
+                {
+                    b.Navigation("Items");
                 });
 #pragma warning restore 612, 618
         }

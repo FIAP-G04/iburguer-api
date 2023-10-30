@@ -6,11 +6,11 @@ public class CustomerIdentificationService : ICustomerIdentifier
 {
     private readonly ICustomerRepository _repository;
 
-    public CustomerIdentificationService(ICustomerRepository customerRepository)
+    public CustomerIdentificationService(ICustomerRepository repository)
     {
-        ArgumentNullException.ThrowIfNull(customerRepository);
+        ArgumentNullException.ThrowIfNull(repository, nameof(ICustomerRepository));
 
-        _repository = customerRepository;
+        _repository = repository;
     }
 
     public async Task<IdentifiedCustomerDTO> Indentify(string cpf, CancellationToken cancellation)

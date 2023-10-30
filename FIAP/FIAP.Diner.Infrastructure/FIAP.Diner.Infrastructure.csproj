@@ -7,14 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Cart\"/>
-    <Folder Include="Catalog\"/>
-    <Folder Include="Checkout\"/>
-    <Folder Include="Customer\"/>
-    <Folder Include="Order\"/>
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.13"/>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.13">
       <PrivateAssets>all</PrivateAssets>

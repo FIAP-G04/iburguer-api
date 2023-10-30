@@ -1,4 +1,4 @@
-using FIAP.Diner.Domain.Cart;
+using FIAP.Diner.Domain.ShoppingCarts;
 
 namespace FIAP.Diner.Tests.Domain.Cart;
 
@@ -30,7 +30,7 @@ public class CartItemTest
 
         var cartItem = new CartItem(productId, price, quantity);
 
-        cartItem.TotalPrice.Should().Be(quantity * price);
+        cartItem.Subtotal.Should().Be(quantity * price);
     }
 
     [Fact]
@@ -43,7 +43,7 @@ public class CartItemTest
 
         var cartItem = new CartItem(productId, price, quantity);
 
-        cartItem.Increase();
+        cartItem.IncreaseQuantity();
 
         cartItem.Quantity.Value.Should().Be(quantity + 1);
     }
@@ -60,7 +60,7 @@ public class CartItemTest
 
         ushort quantityToIncrease = 5;
 
-        cartItem.Increase(quantityToIncrease);
+        cartItem.IncreaseQuantity(quantityToIncrease);
 
         cartItem.Quantity.Value.Should().Be(quantity + quantityToIncrease);
     }
