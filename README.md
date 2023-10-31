@@ -139,7 +139,7 @@ Ele deve ser acessado através do endpoint http://localhost:5000/swagger quando 
 
 A execução dos testes pode ser feita através do *Visual Studio* ou executando o seguinte comando a partir da pasta *FIAP*:
 
-``` dotnet teste ```
+``` dotnet test ```
 
 # 📕 License
 
