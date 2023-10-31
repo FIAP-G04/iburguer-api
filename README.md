@@ -24,7 +24,7 @@ ___________________________________________________
 <!-- Breve descrição sobre o projeto -->
 
 <div align="center">
-  <sub>Sistema com o objetivo de gerenciar os pedidos de uma lanchonete. Construído por ...
+  <sub>Sistema com o objetivo de gerenciar os pedidos de uma lanchonete. Construído por <a href="https://github.com/CarlosEduAC">Carlos Cardoso</a>, <a href="https://github.com/LuanPCunha">Luan Cunha</a>, <a href="https://github.com/matheusantonio">Matheus Cardoso</a> e <a href="https://github.com/vinisaeta">Vinicius Saeta</a>.
   </sub>
 </div>
 
@@ -36,6 +36,11 @@ ___________________________________________________
 - [📝 Sobre o Projeto](#-sobre-o-projeto)
   - [🎮 Tecnologias](#-tecnologias)
   - [🧮 Funcionalidades](#-funcionalidades)
+    - [Gerenciamento de Menu](#gerenciamento-de-menu)
+    - [Gerenciamento de Cliente](#gerenciamento-de-cliente)
+    - [Gerenciamento de Carrinho de Compras](#gerenciamento-de-carrinho-de-compras)
+    - [Gerenciamento de Pagamento](#gerenciamento-de-pagamento)
+    - [Gerenciamento de Pedidos](#gerenciamento-de-pedidos)
 - [➡️ Começando](#️-começando)
   - [🚧 Pré-requisitos](#-pré-requisitos)
   - [⚙️ Execução](#️-execução)
@@ -130,8 +135,7 @@ A partir da pasta *FIAP*, executar o comando
 Para facilitar na visualização, desenvolvimento e documentação da API, foi utilizado
 o [Swagger](https://swagger.io/).
 
-Ele deve ser acessado através do endpoint http://localhost:5000/swagger quando a aplicação estiver executando.
-
+Ele deve ser acessado através [desse link](http://localhost:5000/swagger) quando a aplicação estiver executando.
 
 <p align="right">(<a href="#readme-top">Volta ao topo</a>)</p>
 
@@ -145,13 +149,12 @@ A execução dos testes pode ser feita através do *Visual Studio* ou executando
 
 Lançado em 2023 📕 License
 
-Construído por ... 🚀.
+Construído por [Carlos Cardoso](https://github.com/CarlosEduAC), [Luan Cunha](https://github.com/LuanPCunha), [Matheus Cardoso](https://github.com/matheusantonio) e [Vinicius Saeta](https://github.com/vinisaeta) 🚀.
 Esse projeto esta sobre [MIT license](./LICENSE).
 
 <p align="right">(<a href="#readme-top">Volta ao topo</a>)</p>
 
 [swaggerlogo]: .github/images/swagger.svg
-[postmanlogo]: .github/images/postman.svg
 [menufunc]: .github/images/func_menu.png
 [customerfunc]: .github/images/func_customer.png
 [shoppingcartfunc]: .github/images/func_shopping_cart.png
