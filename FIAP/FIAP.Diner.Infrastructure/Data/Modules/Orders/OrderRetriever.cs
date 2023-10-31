@@ -75,7 +75,12 @@ public class OrderRetriever : IOrderRetriever
         if (page < 1) page = 1;
 
         var query = _context.Orders.Include(o => o.Trackings)
-            .Where(o => o.CurrentStatus == OrderStatus.Confirmed || o.CurrentStatus == OrderStatus.InProgress)
+            .Where(o => new List<OrderStatus>()
+                {
+                    OrderStatus.Confirmed ,
+                    OrderStatus.InProgress
+                }
+            .Contains( o.Trackings.OrderByDescending(t => t.When).First().OrderStatus))
             .OrderBy(order => order.Number)
             .Skip((page - 1) * limit)
             .Take(limit)
