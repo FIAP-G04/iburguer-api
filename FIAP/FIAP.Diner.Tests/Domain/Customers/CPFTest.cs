@@ -1,6 +1,6 @@
 using FIAP.Diner.Domain.Customers;
 
-namespace FIAP.Diner.Tests.Domain.CustomerManagement;
+namespace FIAP.Diner.Tests.Domain.Customers;
 
 public class CPFTest
 {
