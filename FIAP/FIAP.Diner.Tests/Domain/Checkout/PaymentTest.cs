@@ -81,6 +81,6 @@ public class PaymentTest
                 PaymentRefusedDomainEvent;
 
         raisedEvent.Should().NotBeNull();
-        raisedEvent?.OrderId.Should().Be(cartId);
+        raisedEvent?.ShoppingCartId.Should().Be(cartId);
     }
 }

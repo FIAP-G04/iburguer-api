@@ -24,6 +24,14 @@ public class OrderController : ControllerBase
         return Ok(await _retriever.GetPagedOrdersAsync(page, limit, cancellation));
     }
 
+    [HttpGet]
+    [Route("queue")]
+    public async Task<IActionResult> GetOrderQueueAsync(CancellationToken cancellation, int page = 1,
+        int limit = 10)
+    {
+        return Ok(await _retriever.GetOrderQueueAsync(page, limit, cancellation));
+    }
+
     [HttpPatch]
     [Route("{orderId}/start")]
     public async Task<IActionResult> StartOrder(Guid orderId, CancellationToken cancellation)

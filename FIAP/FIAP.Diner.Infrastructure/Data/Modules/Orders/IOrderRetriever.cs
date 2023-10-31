@@ -8,5 +8,7 @@ public interface IOrderRetriever
     Task<PaginatedList<OrderSummaryDTO>> GetPagedOrdersAsync(int page, int limit,
         CancellationToken cancellation);
 
+    Task<PaginatedList<OrderSummaryDTO>> GetOrderQueueAsync(int page, int limit,
+        CancellationToken cancellation);
 
 }

@@ -52,8 +52,8 @@ public class ProductTest
         product.Description.Should().Be(descriptionUpdated);
         product.Price.Should().Be(priceUpdated);
         product.Category.Should().Be(categoryUpdated);
-        product.ReadyTimeExpectation.Should().Be(readyTimeUpdated);
-        product.ImageURLs.Should().ContainSingle(u => u.Url.Equals("def.url.com"));
+        product.PreparationTime.Should().Be(readyTimeUpdated);
+        product.Images.Should().ContainSingle(u => u.Url.Equals("def.url.com"));
 
         product.Events.Should().HaveCount(1);
         var raisedEvent =
@@ -62,7 +62,7 @@ public class ProductTest
 
         raisedEvent.Should().NotBeNull();
         raisedEvent?.ProductId.Should().Be(product.Id);
-        raisedEvent?.Price.Should().Be(product.Price);
+        raisedEvent?.newPrice.Should().Be(product.Price);
     }
 
     [Fact]

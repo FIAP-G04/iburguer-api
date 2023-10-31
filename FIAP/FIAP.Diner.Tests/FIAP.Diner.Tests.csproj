@@ -34,8 +34,4 @@
     <Compile Remove="UnitTest1.cs"/>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Domain\Onboarding\"/>
-  </ItemGroup>
-
 </Project>

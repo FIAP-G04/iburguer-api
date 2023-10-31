@@ -16,7 +16,7 @@ public class CartItemTest
 
         cartItem.Id.Should().NotBeNull();
         cartItem.Id.Value.Should().NotBe(Guid.Empty);
-        cartItem.ProductId.Value.Should().Be(productId);
+        cartItem.Product.Value.Should().Be(productId);
         cartItem.Price.Should().Be(price);
     }
 
