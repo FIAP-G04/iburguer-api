@@ -6,13 +6,22 @@ using FIAP.Diner.Domain.Abstractions;
 using FIAP.Diner.Infrastructure.Configuration;
 using FIAP.Diner.Infrastructure.Data.Configurations;
 using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Host.AddLogger();
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "Byte Burguer",
+        Version = "1.0.0",
+        Description = "Sistema de gerenciamento para a lanchonete Byte Burguer"
+    });
+});
 
 builder.Services.AddData(builder.Configuration);
 
