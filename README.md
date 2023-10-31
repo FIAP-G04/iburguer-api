@@ -3,7 +3,7 @@
 
 <!-- Titulo do projeto -->
 <div align="center" style="margin-bottom: 16px">
-    TECH CHALLENGE FIAP
+    <img src=".github/images/logo.png" alt="logo" />
 </div>
 
 ___________________________________________________
