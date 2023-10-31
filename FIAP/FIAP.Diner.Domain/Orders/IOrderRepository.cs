@@ -10,7 +10,7 @@ public interface IOrderRepository : IRepository<Orders.Order>
 
     Task<Order?> GetById(OrderId orderId, CancellationToken cancellation);
 
-    Task<int> GenerateOrderNumber();
+    Task<int> GenerateOrderNumber(CancellationToken cancellation);
 
-    //Task<OrderDetails> GetOrders(OrderId orderId, CancellationToken cancellation);
+    Task<Order?> GetOrderByShoppingCartId(Guid shoppingCartId, CancellationToken cancellation);
 }

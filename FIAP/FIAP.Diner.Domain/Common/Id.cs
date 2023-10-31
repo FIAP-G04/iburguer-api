@@ -1,14 +1,25 @@
 namespace FIAP.Diner.Domain.Common;
 
-public record Id
+public class Id
 {
+    #region Properties
+
+    public Guid Value { get; private set; }
+
+    #endregion
+
+    #region Constructors
+
     private Id() => Value = Guid.Empty;
 
     public Id(Guid value) => Value = value;
 
     private Id(string value) => Value = Guid.Parse(value);
 
-    public Guid Value { get; private set; }
+
+    #endregion
+
+    #region Methods
 
     public static Id New => Guid.NewGuid();
 
@@ -27,10 +38,34 @@ public record Id
 
     public static implicit operator string(Id id) => new(id.ToString());
 
-    public static bool operator ==(Id id, string value) => id.Value.CompareTo(value) is 0;
-
-    public static bool operator !=(Id id, string value) =>
-        id.Value.CompareTo(value) is not 0;
-
     public bool IsNullOrEmpty() => Value == Guid.Empty || Value == null;
+
+    public override bool Equals(object obj)
+    {
+        if (obj is null) return false;
+        if (ReferenceEquals(this, obj)) return true;
+        if (obj is Id otherId)
+        {
+            return Value == otherId.Value;
+        }
+        if (obj is Guid otherGuid)
+        {
+            return Value == otherGuid;
+        }
+        if (obj is string otherString)
+        {
+            return Value.ToString() == otherString;
+        }
+        return false;
+    }
+
+    public override int GetHashCode()
+    {
+        return Value.GetHashCode();
+    }
+
+    #endregion
+
+
+
 }

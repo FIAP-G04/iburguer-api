@@ -28,6 +28,8 @@ public class Payment : Entity<PaymentId>, IAggregateRoot
         Amount = amount;
         Status = PaymentStatus.Pending;
         Method = PaymentMethod.QRCode;
+
+        RaiseEvent(new PaymentRequestedDomainEvent(ShoppingCart));
     }
 
     #endregion Constructors

@@ -15,15 +15,18 @@ public class OrderService : IOrderService
 
     public async Task RegisterOrder(Guid shoppingCartId, CancellationToken cancellation)
     {
-        var number = await _repository.GenerateOrderNumber();
+        var number = await _repository.GenerateOrderNumber(cancellation);
         var order = Order.Create(number, shoppingCartId);
 
         await _repository.Save(order, cancellation);
     }
 
-    public async Task ConfirmOrder(Guid orderId, CancellationToken cancellation)
+    public async Task ConfirmOrder(Guid shoppingCarId, CancellationToken cancellation)
     {
-        var order = await Load(orderId, cancellation);
+        var order = await _repository.GetOrderByShoppingCartId(shoppingCarId, cancellation);
+
+        if(order is null)
+            throw new OrderNotFoundException(shoppingCarId);
 
         order.Confirm();
 

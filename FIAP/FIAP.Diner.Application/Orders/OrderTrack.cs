@@ -15,7 +15,7 @@ public class OrderTrack
 
     public async Task RegisterOrder(Guid shoppingCartId, CancellationToken cancellation)
     {
-        var number = await _repository.GenerateOrderNumber();
+        var number = await _repository.GenerateOrderNumber(cancellation);
         var order = Order.Create(number, shoppingCartId);
 
         await _repository.Save(order, cancellation);

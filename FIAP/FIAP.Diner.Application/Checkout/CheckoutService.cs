@@ -27,6 +27,8 @@ public class CheckoutService : ICheckoutService
 
         var payment = new Payment(shoppingCartId, shoppingCart.Total);
 
+        payment.Confirm();
+
         await _repository.Save(payment, cancellation);
     }
 }

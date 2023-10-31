@@ -9,7 +9,7 @@ using FIAP.Diner.Infrastructure.Data.Modules.Menu;
 using FIAP.Diner.Infrastructure.Data.Modules.Orders;
 using FIAP.Diner.Infrastructure.Data.Modules.ShoppingCarts;
 using Microsoft.EntityFrameworkCore;
-
+using SequenceValue = System.Int32;
 namespace FIAP.Diner.Infrastructure.Data;
 
 public class Context : DbContext
@@ -31,6 +31,8 @@ public class Context : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.HasSequence<int>("sq_order_number").IncrementsBy(1).HasMax(10000000).StartsAt(1).IsCyclic();
+
         modelBuilder.ApplyConfiguration(new CustomerMapping());
         modelBuilder.ApplyConfiguration(new ProductImageMapping());
         modelBuilder.ApplyConfiguration(new ProductMapping());
