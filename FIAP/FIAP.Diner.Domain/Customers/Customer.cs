@@ -1,33 +1,35 @@
-using FIAP.Diner.Domain.Common;
+using FIAP.Diner.Domain.Abstractions;
 
-namespace FIAP.Diner.Domain.Customers
+namespace FIAP.Diner.Domain.Customers;
+
+public class Customer : Entity<CustomerId>, IAggregateRoot
 {
-    public class Customer : Entity<Guid>, IAggregateRoot
+    public CPF CPF { get; private set; }
+
+    public PersonName Name { get; private set; }
+
+    public Email Email { get; private set; }
+
+    public DateTime RegistrationDate { get; }
+
+    public DateTime LastUpdated { get; private set; }
+
+    private Customer() { }
+
+    public Customer(string cpf, PersonName name, Email email)
     {
-        public string? CPF { get; private set; }
-        public string? Name { get; private set; }
-        public Email? Email { get; private set; }
-        public CustomerType Type { get; private set; }
+        Id = CustomerId.New;
+        CPF = cpf;
+        Name = name;
+        Email = email;
+        RegistrationDate = DateTime.Now;
+        LastUpdated = RegistrationDate;
+    }
 
-        public Customer() : base()
-        {
-            Id = Guid.NewGuid();
-            Type = CustomerType.Anonymous;
-        }
-
-        public Customer(string cpf, string name, Email email) : base()
-        {
-            if (string.IsNullOrEmpty(cpf))
-                throw new DomainException(CustomerExceptions.CpfRequired);
-
-            if (string.IsNullOrEmpty(name))
-                throw new DomainException(CustomerExceptions.NameRequired);
-
-            Id = Guid.NewGuid();
-            CPF = cpf;
-            Name = name;
-            Email = email;
-            Type = CustomerType.Identified;
-        }
+    public void Change(PersonName name, Email email)
+    {
+        Name = name;
+        Email = email;
+        LastUpdated = DateTime.Now;
     }
 }

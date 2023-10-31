@@ -6,15 +6,17 @@ namespace FIAP.Diner.Infrastructure.Logging;
 
 public class HttpHeaderEnricher : ILogEventEnricher
 {
-    private readonly string _propertyName;
-    private readonly string _headerKey;
     private readonly IHttpContextAccessor _contextAccessor;
+    private readonly string _headerKey;
+    private readonly string _propertyName;
 
-    public HttpHeaderEnricher(string headerKey, string propertyName) : this(headerKey, propertyName, new HttpContextAccessor())
+    public HttpHeaderEnricher(string headerKey, string propertyName) : this(headerKey, propertyName,
+        new HttpContextAccessor())
     {
     }
 
-    private HttpHeaderEnricher(string headerKey, string propertyName, IHttpContextAccessor contextAccessor)
+    private HttpHeaderEnricher(string headerKey, string propertyName,
+        IHttpContextAccessor contextAccessor)
     {
         _headerKey = headerKey;
         _propertyName = propertyName;
@@ -40,13 +42,9 @@ public class HttpHeaderEnricher : ILogEventEnricher
         var header = string.Empty;
 
         if (_contextAccessor.HttpContext!.Request.Headers.TryGetValue(_headerKey, out var values))
-        {
             header = values.FirstOrDefault();
-        }
         else if (_contextAccessor.HttpContext.Response.Headers.TryGetValue(_headerKey, out values))
-        {
             header = values.FirstOrDefault();
-        }
 
         return header;
     }

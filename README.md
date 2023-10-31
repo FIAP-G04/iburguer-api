@@ -3,7 +3,7 @@
 
 <!-- Titulo do projeto -->
 <div align="center" style="margin-bottom: 16px">
-    TECH CHALLENGE FIAP
+    <img src=".github/images/logo.png" alt="logo" />
 </div>
 
 ___________________________________________________
@@ -24,7 +24,7 @@ ___________________________________________________
 <!-- Breve descrição sobre o projeto -->
 
 <div align="center">
-  <sub>Sistema com o objetivo de gerenciar os pedidos de uma lanchonete. Construído por ...
+  <sub>Sistema com o objetivo de gerenciar os pedidos de uma lanchonete. Construído por <a href="https://github.com/CarlosEduAC">Carlos Cardoso</a>, <a href="https://github.com/LuanPCunha">Luan Cunha</a>, <a href="https://github.com/matheusantonio">Matheus Cardoso</a> e <a href="https://github.com/vinisaeta">Vinicius Saeta</a>.
   </sub>
 </div>
 
@@ -36,14 +36,17 @@ ___________________________________________________
 - [📝 Sobre o Projeto](#-sobre-o-projeto)
   - [🎮 Tecnologias](#-tecnologias)
   - [🧮 Funcionalidades](#-funcionalidades)
+    - [Gerenciamento de Menu](#gerenciamento-de-menu)
+    - [Gerenciamento de Cliente](#gerenciamento-de-cliente)
+    - [Gerenciamento de Carrinho de Compras](#gerenciamento-de-carrinho-de-compras)
+    - [Gerenciamento de Pagamento](#gerenciamento-de-pagamento)
+    - [Gerenciamento de Pedidos](#gerenciamento-de-pedidos)
 - [➡️ Começando](#️-começando)
   - [🚧 Pré-requisitos](#-pré-requisitos)
-  - [⚙️ Instalação](#️-instalação)
+  - [⚙️ Execução](#️-execução)
     - [📋 API](#-api)
-    - [🌐 Web](#-web)
 - [💻 Documentação](#-documentação)
   - [ Swagger](#-swagger)
-  - [ Postman](#-postman)
 - [🔎 Testes](#-testes)
 - [📕 License](#-license)
 
@@ -51,7 +54,7 @@ ___________________________________________________
 
 # 📝 Sobre o Projeto
 
-Em construção ...
+O projeto visa fornecer para a lanchonete Byte Burguer uma solução operacional de um sistema de automação e gestão. Ele fornece funcionalidades como gerenciamento de pedidos, sistemas de autoatendimento, sistemas de cadastramento e identificação de clientes e cardápio digital com o objetivo de aumentar a eficiência operacional e proporcionar uma experiência aprimorada para os clientes e oportunidades de crescimento para a lanchonete.
 
 <!-- Tecnologias usadas no projeto -->
 
@@ -69,7 +72,35 @@ Esse projeto foi feito utilizando as seguintes tecnologias:
 
 ## 🧮 Funcionalidades
 
-Em construção ...
+### Gerenciamento de Menu
+
+![menufunc][menufunc]
+
+É disponibilizado um CRUD de gerenciamento de menu onde são inseridos, alterados e removidos os itens do menu de pedidos. Da mesma forma, é disponibilizado um endpoint de busca de produtos por categoria que é utilizado para exibir o catálogo para o cliente.
+
+### Gerenciamento de Cliente
+
+![customerfunc][customerfunc]
+
+No gerenciamento de cliente é possível cadastrar novos clientes e alterar clientes já cadastrados. Também é possível identificar clientes cadastrados através do CPF.
+
+### Gerenciamento de Carrinho de Compras
+
+![shoppingcartfunc][shoppingcartfunc]
+
+O carrinho de compras permite ao cliente adicionar os produtos desejados. Da mesma forma, é possível gerenciar o carrinho removendo um produto, alterando sua quantidade ou limpando o carrinho, removendo todos os produtos presentes.
+
+### Gerenciamento de Pagamento
+
+![checkoutfunc][checkoutfunc]
+
+O gerenciamento de pagamento disponibiliza um único *endpoint* que confirma o pagamento de um carrinho, gerando o pedido.
+
+### Gerenciamento de Pedidos
+
+![orderfunc][orderfunc]
+
+Após a confirmação do pagamento, os pedidos são enviados para a fila que pode ser acessada no gerenciamento de pedidos. Aqui também estão contempladas as operações de alteração do status do pedido, desde o início de sua preparação até sua finalização.
 
 <p align="right">(<a href="#readme-top">Volta ao topo</a>)</p>
 
@@ -83,21 +114,17 @@ Em construção ...
 
 Antes de começar, você vai precisar ter instalado em sua máquina as seguintes ferramentas:
 
-[Git](https://git-scm.com), [.NET 8.0](https://dotnet.microsoft.com/pt-br/download/dotnet/8.0) e [Visual Studio Professional](https://visualstudio.microsoft.com/pt-br/vs/professional/)
+[Git](https://git-scm.com), [.NET 7.0](https://dotnet.microsoft.com/pt-br/download/dotnet/7.0) e [Visual Studio Professional](https://visualstudio.microsoft.com/pt-br/vs/professional/).
 
 <!-- Como rodar o projeto -->
 
-## ⚙️ Instalação
+## ⚙️ Execução
 
 ### 📋 API
 
-Em construção ...
+A partir da pasta *FIAP*, executar o comando
 
-### 🌐 Web
-
-Em construção ...
-
-<p align="right">(<a href="#readme-top">Volta ao topo</a>)</p>
+``` docker-compose up -d ``` 
 
 <!-- Documentação do projeto -->
 
@@ -108,28 +135,28 @@ Em construção ...
 Para facilitar na visualização, desenvolvimento e documentação da API, foi utilizado
 o [Swagger](https://swagger.io/).
 
-Em construção ...
-
-## ![postmanlogo][postmanlogo] Postman
-
-Disponibilizamos também o workspace do [Postman](https://www.postman.com/) que utilizamos. Cliquei no link e faça o download do arquivo. Utilize o Postman para importar o workspace e testar as rotas.
-
-Em construção ...
+Ele deve ser acessado através [desse link](http://localhost:5000/swagger) quando a aplicação estiver executando.
 
 <p align="right">(<a href="#readme-top">Volta ao topo</a>)</p>
 
 # 🔎 Testes
 
-Em construção ...
+A execução dos testes pode ser feita através do *Visual Studio* ou executando o seguinte comando a partir da pasta *FIAP*:
+
+``` dotnet test ```
 
 # 📕 License
 
 Lançado em 2023 📕 License
 
-Construído por ... 🚀.
+Construído por [Carlos Cardoso](https://github.com/CarlosEduAC), [Luan Cunha](https://github.com/LuanPCunha), [Matheus Cardoso](https://github.com/matheusantonio) e [Vinicius Saeta](https://github.com/vinisaeta) 🚀.
 Esse projeto esta sobre [MIT license](./LICENSE).
 
 <p align="right">(<a href="#readme-top">Volta ao topo</a>)</p>
 
 [swaggerlogo]: .github/images/swagger.svg
-[postmanlogo]: .github/images/postman.svg
+[menufunc]: .github/images/func_menu.png
+[customerfunc]: .github/images/func_customer.png
+[shoppingcartfunc]: .github/images/func_shopping_cart.png
+[checkoutfunc]: .github/images/func_checkout.png
+[orderfunc]: .github/images/func_order.png

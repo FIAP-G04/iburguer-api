@@ -1,13 +1,12 @@
-using FIAP.Diner.Domain.Common;
+using FIAP.Diner.Domain.Abstractions;
 
-namespace FIAP.Diner.Domain.Checkout
+namespace FIAP.Diner.Domain.Checkout;
+
+public interface IPaymentRepository : IRepository<Payment>
 {
-    public interface IPaymentRepository : IRepository<Payment>
-    {
-        Task Save(Payment payment);
+    Task Save(Payment payment, CancellationToken cancellation);
 
-        Task Update(Payment payment);
+    Task Update(Payment payment, CancellationToken cancellation);
 
-        Task<Payment> Get(string externalId);
-    }
+    Task<Payment?> GetById(PaymentId paymentId, CancellationToken cancellation);
 }

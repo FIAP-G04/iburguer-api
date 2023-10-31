@@ -1,43 +1,73 @@
-using Serilog;
-using Microsoft.EntityFrameworkCore;
+using System.Net;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using FIAP.Diner.API.Configuration;
+using FIAP.Diner.Domain.Abstractions;
 using FIAP.Diner.Infrastructure.Configuration;
-using FIAP.Diner.Infrastructure.Data;
+using FIAP.Diner.Infrastructure.Data.Configurations;
+using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.OpenApi.Models;
 
-try
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.AddLogger();
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(options =>
 {
-    var builder = WebApplication.CreateBuilder(args);
-
-    builder.Host.AddLogger();
-
-    builder.Services.AddEndpointsApiExplorer();
-    builder.Services.AddSwaggerGen();
-    builder.Services.AddDbContext<Context>(options =>
+    options.SwaggerDoc("v1", new OpenApiInfo
     {
-        options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
+        Title = "Byte Burguer",
+        Version = "1.0.0",
+        Description = "Sistema de gerenciamento para a lanchonete Byte Burguer"
     });
+});
 
-    var app = builder.Build();
+builder.Services.AddData(builder.Configuration);
 
-    if (app.Environment.IsDevelopment())
+builder.Services.AddDependencyInjection();
+builder.Services.AddControllers();
+
+var app = builder.Build();
+
+app.UseSwagger();
+app.UseSwaggerUI();
+
+app.UseExceptionHandler(builder =>
+{
+    builder.Run(async context =>
     {
-        app.UseSwagger();
-        app.UseSwaggerUI();
-    }
+        var exceptionHandlerFeatures = context.Features.Get<IExceptionHandlerFeature>();
 
-    app.UseHttpsRedirection();
+        if (exceptionHandlerFeatures != null)
+        {
+            var exception = exceptionHandlerFeatures.Error;
+            var message = exception.Message;
 
-    Log.Information("Application ready to start");
+            if (exception is DomainException)
+            {
+                context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+            }
+            else
+            {
+                context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            }
 
-    app.Run();
-}
-catch (Exception ex)
-{
-    Log.Fatal(ex, "Host terminated unexpectedly");
-    return 1;
-}
-finally
-{
-    Log.CloseAndFlush();
-}
+            context.Response.ContentType = "application/json";
 
-return 0;
+            var json = new
+            {
+                statusCode = context.Response.StatusCode,
+                message = message,
+            };
+
+            await context.Response.WriteAsync(JsonSerializer.Serialize(json));
+        }
+    });
+});
+
+app.UseHttpsRedirection();
+
+app.MapControllers();
+
+app.Run();

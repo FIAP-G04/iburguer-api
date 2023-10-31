@@ -1,38 +1,76 @@
+using FIAP.Diner.Domain.Abstractions;
 using FIAP.Diner.Domain.Common;
 
-namespace FIAP.Diner.Domain.Checkout
+namespace FIAP.Diner.Domain.Checkout;
+
+public class Payment : Entity<PaymentId>, IAggregateRoot
 {
-    public class Payment : Entity<Guid>, IAggregateRoot
+    #region Properties
+
+    public ShoppingCartId ShoppingCart { get; private set; }
+    public Price Amount { get; private set; }
+    public DateTime? PayedAt { get; private set; }
+    public DateTime? RefusedAt { get; private set; }
+    public PaymentStatus Status { get; private set; }
+    public PaymentMethod Method { get; private set; }
+
+    #endregion Properties
+
+
+    #region Constructors
+
+    private Payment() { }
+
+    public Payment(ShoppingCartId shoppingCart, Price amount)
     {
-        public Guid OrderId { get; private set; }
-        public double Amount { get; private set; }
-        public DateTime? PayedAt { get; private set; }
-        public QRCode QRCode { get; private set; }
-        public PaymentStatus Status { get; private set; }
-        public bool Confirmed => Status is PaymentStatus.Confirmed && PayedAt is not null;
+        Id = PaymentId.New;
+        ShoppingCart = shoppingCart;
+        Amount = amount;
+        Status = PaymentStatus.Pending;
+        Method = PaymentMethod.QRCode;
 
-        public Payment(Guid orderId, double amount, QRCode qrCode)
+        RaiseEvent(new PaymentRequestedDomainEvent(ShoppingCart));
+    }
+
+    #endregion Constructors
+
+
+    #region Methods
+
+    public bool Confirmed => Status is PaymentStatus.Received && PayedAt is not null;
+
+    public void Confirm()
+    {
+        if (Status != PaymentStatus.Pending)
         {
-            Id = Guid.NewGuid();
-            OrderId = orderId;
-            Amount = amount;
-            QRCode = qrCode;
-            Status = PaymentStatus.Processing;
+            throw new DomainException(string.Format(Errors.CannotToConfirmPayment, Status));
         }
 
-        public void Confirm(DateTime payedAt)
-        {
-            PayedAt = payedAt;
-            Status = PaymentStatus.Confirmed;
+        PayedAt = DateTime.Now;
+        Status = PaymentStatus.Received;
 
-            RaiseEvent(new PaymentConfirmedDomainEvent(OrderId));
+        RaiseEvent(new PaymentConfirmedDomainEvent(ShoppingCart));
+    }
+
+    public void Refuse()
+    {
+        if (Status != PaymentStatus.Pending)
+        {
+            throw new DomainException(string.Format(Errors.CannotToRefusePayment, Status));
         }
 
-        public void Refuse()
-        {
-            Status = PaymentStatus.Refused;
+        RefusedAt = DateTime.Now;
+        Status = PaymentStatus.Refused;
 
-            RaiseEvent(new PaymentRefusedDomainEvent(OrderId));
-        }
+        RaiseEvent(new PaymentRefusedDomainEvent(ShoppingCart));
+    }
+
+    #endregion Methods
+
+
+    public static class Errors
+    {
+        public static readonly string CannotToRefusePayment= "Apenas pedidos no estado 'Pending' podem ser recusados. Estado atual do pedido: {0}";
+        public static readonly string CannotToConfirmPayment = "Apenas pagamentos no estado 'Pending' podem ser confirmados. Estado atual do pagamento: {0}";
     }
 }

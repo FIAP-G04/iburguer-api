@@ -16,11 +16,10 @@ services:
         container_name: postgres_container
         image: postgres
         environment:
-            POSTGRES_USER: ${POSTGRES_USER}
-            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-            PGDATA: /data/postgres
+            POSTGRES_USER: iburguer
+            POSTGRES_PASSWORD: 1234
         volumes:
-            - postgres:/data/postgres
+            - ./docker-entrypoint-initdb.d/init.sql:/docker-entrypoint-initdb.d/init.sql
         ports:
             - "5432:5432"
         networks:
