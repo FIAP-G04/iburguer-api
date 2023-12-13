@@ -20,7 +20,27 @@ public class CheckoutController : ControllerBase
     [Route("cart/{shoppingCartId}")]
     public async Task<IActionResult> Checkout(Guid shoppingCartId, CancellationToken cancellation)
     {
-        await _checkoutService.Checkout(shoppingCartId, cancellation);
+        return Ok(await _checkoutService.Checkout(shoppingCartId, cancellation));
+    }
+
+    [HttpGet]
+    [Route("{paymentId}/status")]
+    public async Task<IActionResult> GetStatus(Guid paymentId, CancellationToken cancellation)
+        => Ok(await _checkoutService.GetPaymentStatus(paymentId, cancellation));
+
+    [HttpPut]
+    [Route("{paymentId}/confirm")]
+    public async Task<IActionResult> Confirm(Guid paymentId, CancellationToken cancellation)
+    {
+        await _checkoutService.ConfirmPayment(paymentId, cancellation);
+        return Ok();
+    }
+
+    [HttpPut]
+    [Route("{paymentId}/refuse")]
+    public async Task<IActionResult> Refuse(Guid paymentId, CancellationToken cancellation)
+    {
+        await _checkoutService.RefusePayment(paymentId, cancellation);
         return Ok();
     }
 }

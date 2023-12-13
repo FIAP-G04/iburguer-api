@@ -40,6 +40,7 @@ public class OrderMapping : IEntityTypeConfiguration<Order>
         builder.HasMany(p => p.Trackings)
             .WithOne()
             .HasForeignKey(i => i.Order)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.Cascade)
+            .IsRequired();
     }
 }

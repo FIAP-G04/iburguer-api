@@ -36,6 +36,6 @@ public class OrderRepository : IOrderRepository
 
     public async Task<Order?> GetOrderByShoppingCartId(Guid shoppingCartId, CancellationToken cancellation)
     {
-        return await Set.FirstOrDefaultAsync(o => o.ShoppingCart == shoppingCartId, cancellation);
+        return await Set.Include(o => o.Trackings).FirstOrDefaultAsync(o => o.ShoppingCart == shoppingCartId, cancellation);
     }
 }
