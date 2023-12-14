@@ -24,4 +24,7 @@ public class PaymentRepository : IPaymentRepository
     {
         return await _unitOfWork.Set().FirstOrDefaultAsync(p => p.Id == paymentId, cancellation);
     }
+
+    public async Task<bool> ExistsPaymentForShoppingCart(ShoppingCartId shoppingCartId, CancellationToken cancellation)
+        => await _unitOfWork.Set().AnyAsync(p => p.ShoppingCart == shoppingCartId, cancellationToken: cancellation);
 }

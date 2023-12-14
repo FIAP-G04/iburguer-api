@@ -10,10 +10,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FluentAssertions" Version="7.0.0-alpha.1"/>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0-preview-23424-02"/>
-    <PackageReference Include="NSubstitute" Version="5.1.0"/>
-    <PackageReference Include="xunit" Version="2.5.2-pre.2"/>
+    <PackageReference Include="FluentAssertions" Version="7.0.0-alpha.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0-preview-23424-02" />
+    <PackageReference Include="NSubstitute" Version="5.1.0" />
+    <PackageReference Include="xunit" Version="2.5.2-pre.2" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.5.2-pre.3">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
@@ -25,13 +25,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FIAP.Diner.Application\FIAP.Diner.Application.csproj"/>
-    <ProjectReference Include="..\FIAP.Diner.Domain\FIAP.Diner.Domain.csproj"/>
-    <ProjectReference Include="..\FIAP.Diner.Infrastructure\FIAP.Diner.Infrastructure.csproj"/>
+    <ProjectReference Include="..\FIAP.Diner.Application\FIAP.Diner.Application.csproj" />
+    <ProjectReference Include="..\FIAP.Diner.Domain\FIAP.Diner.Domain.csproj" />
+    <ProjectReference Include="..\FIAP.Diner.Infrastructure\FIAP.Diner.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="UnitTest1.cs"/>
+    <Compile Remove="UnitTest1.cs" />
   </ItemGroup>
 
 </Project>
