@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "FIAP.Diner.fullname" . }}
+  labels:
+    {{- include "FIAP.Diner.labels" . | nindent 4 }}
+data:
+  ConnectionStrings__Connection: {{ .Values.configmap.connectionstring.connection }}
