@@ -3,10 +3,9 @@
 # Declare variables to be passed into your templates.
 
 image:
-  repository: cdvt/tech.challenge.fiap.diner.api
+  repository: matheusaoc/tech.challenge.fiap.diner.api #cdvt/tech.challenge.fiap.diner.api
   pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  tag: latest
 
 nameOverride: ""
 fullnameOverride: ""
@@ -14,18 +13,18 @@ fullnameOverride: ""
 podLabels: {}
 
 service:
-  type: ClusterIP
-  port: 5000
-  targetPort: 80
+  type: LoadBalancer
+  port: 80
+  targetPort: http
 
 ingress:
   enabled: true
-  className: ""
+  className: "diner-ingress"
   annotations: {}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   hosts:
-    - host: chart-example.local
+    - host: api-diner.fiap.com.br
       paths:
         - path: /
           pathType: ImplementationSpecific
@@ -44,12 +43,16 @@ resources:
 
 livenessProbe:
   httpGet:
-    path: /
+    path: /hc
     port: http
+  initialDelaySeconds: 5
+  periodSeconds: 5
 readinessProbe:
   httpGet:
-    path: /
+    path: /hc
     port: http
+  initialDelaySeconds: 5
+  periodSeconds: 5
 
 autoscaling:
   enabled: true

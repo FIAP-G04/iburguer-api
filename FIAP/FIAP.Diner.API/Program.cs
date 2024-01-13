@@ -29,8 +29,11 @@ builder.Services.AddData(builder.Configuration);
 
 builder.Services.AddDependencyInjection();
 builder.Services.AddControllers();
+builder.Services.AddHealthChecks();
 
 var app = builder.Build();
+
+app.MapHealthChecks("/hc");
 
 app.UseSwagger();
 app.UseSwaggerUI();
