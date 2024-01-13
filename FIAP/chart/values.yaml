@@ -65,4 +65,4 @@ nodeSelector: {}
 
 configmap:
   connectionstring: 
-    connection: Host=postgres:5432;Database=iburguer;Username=iburguer;Password=1234
+    connection: Host=host.docker.internal:5432;Database=iburguer;Username=iburguer;Password=1234

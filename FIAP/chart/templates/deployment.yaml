@@ -20,6 +20,12 @@ spec:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: ConnectionStrings__Connection
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "FIAP.Diner.fullname" . }}
+                  key: ConnectionStrings__Connection
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
