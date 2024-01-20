@@ -10,6 +10,8 @@ using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Configuration.AddEnvironmentVariables();
+
 builder.Host.AddLogger();
 
 builder.Services.AddEndpointsApiExplorer();
@@ -27,8 +29,11 @@ builder.Services.AddData(builder.Configuration);
 
 builder.Services.AddDependencyInjection();
 builder.Services.AddControllers();
+builder.Services.AddHealthChecks();
 
 var app = builder.Build();
+
+app.MapHealthChecks("/hc");
 
 app.UseSwagger();
 app.UseSwaggerUI();

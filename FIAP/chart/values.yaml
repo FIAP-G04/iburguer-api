@@ -1,0 +1,68 @@
+# Default values for FIAP.Diner.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+image:
+  repository: matheusaoc/tech.challenge.fiap.diner.api #cdvt/tech.challenge.fiap.diner.api
+  pullPolicy: IfNotPresent
+  tag: latest
+
+nameOverride: ""
+fullnameOverride: ""
+
+podLabels: {}
+
+service:
+  type: LoadBalancer
+  port: 80
+  targetPort: http
+
+ingress:
+  enabled: true
+  className: "diner-ingress"
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: api-diner.fiap.com.br
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+livenessProbe:
+  httpGet:
+    path: /hc
+    port: http
+  initialDelaySeconds: 5
+  periodSeconds: 5
+readinessProbe:
+  httpGet:
+    path: /hc
+    port: http
+  initialDelaySeconds: 5
+  periodSeconds: 5
+
+autoscaling:
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 3
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+configmap:
+  connectionstring: 
+    connection: Host=host.docker.internal:5432;Database=iburguer;Username=iburguer;Password=1234
