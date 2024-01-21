@@ -115,7 +115,7 @@ Após a confirmação do pagamento, os pedidos são enviados para a fila que pod
 
 ## 🚧 Pré-requisitos
 
-Antes de começar, é necessário instalar o Kubernetes, o Helm e o Minikube. As instruções para instalação podem ser encontradas nas documentações oficiais em [🎮 Tecnologias](#-tecnologias). As instruções dessa documentação utilizarão como referência o Minikube, porém outras ferramentas semelhantes podem ser utilizadas.
+Antes de começar, é necessário instalar o Kubernetes e o Minikube. As instruções para instalação podem ser encontradas nas documentações oficiais em [🎮 Tecnologias](#-tecnologias). As instruções dessa documentação utilizarão como referência o Minikube, porém outras ferramentas semelhantes podem ser utilizadas.
 
 Após a instalação das ferramentas, é necessário executar o seguinte comando para inicializar o Minikube:
 
@@ -125,6 +125,16 @@ Após a inicialização do Minikube, para configurá-lo como o cluster Kubernete
 
 ``` kubectl config use-context minikube ``` 
 
+### Helm
+
+Caso seja necessário gerar novamente os artfatos Kubernetes, a partir da pasta *FIAP* execute:
+
+``` helm template diner ./chart > k8s/artifacts.yaml ``` 
+
+### Testes
+
+Para a execução dos testes é necessário instalar o [Visual Studio](https://visualstudio.microsoft.com/pt-br/vs/professional/) e o [.NET 7.0](https://dotnet.microsoft.com/pt-br/download/dotnet/7.0).
+
 <!-- Como rodar o projeto -->
 
 ## ⚙️ Execução
@@ -133,13 +143,9 @@ Após a inicialização do Minikube, para configurá-lo como o cluster Kubernete
 
 A partir da pasta *FIAP*, executar o comando
 
-``` helm template diner ./chart > output.yaml ``` 
+``` kubectl apply -f k8s/artifacts.yaml ``` 
 
-Um arquivo output.yaml será gerado com os artefatos Kubernetes. Em seguida, o seguinte comando deve ser executado:
-
-``` kubectl apply -f output.yaml ``` 
-
-Após os recursos serem criados, para acessar um pod da API diner para teste, é necessário executar o comando:
+Com os recursos criados, para acessar um pod da API diner para teste, é necessário executar o comando:
 
 ``` kubectl get pods ``` 
 
