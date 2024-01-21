@@ -12,6 +12,8 @@ env:
 jobs:
   build-test-deploy:
     runs-on: ubuntu-latest
+    environment: 
+      name: Iburguer
 
     steps:
     - name: Checkout Repository
@@ -34,8 +36,8 @@ jobs:
     - name: Login to Docker Hub
       uses: docker/login-action@v3
       with:
-        username: ${{ Iburguer.DOCKERHUB_USERNAME }}
-        password: ${{ Iburguer.DOCKERHUB_TOKEN }}
+        username: ${{ secret.DOCKERHUB_USERNAME }}
+        password: ${{ secret.DOCKERHUB_TOKEN }}
 
     - name: Build and Push Docker Image
       run: |
