@@ -3,7 +3,7 @@
 # Declare variables to be passed into your templates.
 
 image:
-  repository: matheusaoc/tech.challenge.fiap.diner.api #cdvt/tech.challenge.fiap.diner.api
+  repository: cdvt/tech.challenge.fiap.diner.api
   pullPolicy: IfNotPresent
   tag: latest
 
