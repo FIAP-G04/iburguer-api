@@ -1,0 +1,28 @@
+{{ with .Values.postgres.volumes.storage }}
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ .volume.name }}
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: {{ .volume.spec.capacity.storage }}
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: {{ .volume.spec.hostPath }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .claim.name }}
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .claim.spec.resources.requests.storage }}
+{{- end }}
