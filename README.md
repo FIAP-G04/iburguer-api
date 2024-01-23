@@ -66,6 +66,9 @@ Esse projeto foi feito utilizando as seguintes tecnologias:
 - [.NET 8.0](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
 - [PostgreSQL](https://www.postgresql.org/)
 - [Docker](https://www.docker.com/)
+- [Kubernetes](https://kubernetes.io/pt-br/)
+- [Helm](https://helm.sh/)
+- [Minikube](https://minikube.sigs.k8s.io/docs/)
 - [Swagger](https://swagger.io/)
 
 <!-- Funcionalidades do projeto -->
@@ -112,9 +115,25 @@ Após a confirmação do pagamento, os pedidos são enviados para a fila que pod
 
 ## 🚧 Pré-requisitos
 
-Antes de começar, você vai precisar ter instalado em sua máquina as seguintes ferramentas:
+Antes de começar, é necessário instalar o Kubernetes e o Minikube. As instruções para instalação podem ser encontradas nas documentações oficiais em [🎮 Tecnologias](#-tecnologias). As instruções dessa documentação utilizarão como referência o Minikube, porém outras ferramentas semelhantes podem ser utilizadas.
 
-[Git](https://git-scm.com), [.NET 7.0](https://dotnet.microsoft.com/pt-br/download/dotnet/7.0) e [Visual Studio Professional](https://visualstudio.microsoft.com/pt-br/vs/professional/).
+Após a instalação das ferramentas, é necessário executar o seguinte comando para inicializar o Minikube:
+
+``` minikube start ``` 
+
+Após a inicialização do Minikube, para configurá-lo como o cluster Kubernetes atual, deve ser executado o seguinte comando:
+
+``` kubectl config use-context minikube ``` 
+
+### Helm
+
+Caso seja necessário gerar novamente os artfatos Kubernetes, a partir da pasta *FIAP* execute:
+
+``` helm template diner ./chart > k8s/artifacts.yaml ``` 
+
+### Testes
+
+Para a execução dos testes é necessário instalar o [Visual Studio](https://visualstudio.microsoft.com/pt-br/vs/professional/) e o [.NET 7.0](https://dotnet.microsoft.com/pt-br/download/dotnet/7.0).
 
 <!-- Como rodar o projeto -->
 
@@ -124,7 +143,17 @@ Antes de começar, você vai precisar ter instalado em sua máquina as seguintes
 
 A partir da pasta *FIAP*, executar o comando
 
-``` docker-compose up -d ``` 
+``` kubectl apply -f k8s/artifacts.yaml ``` 
+
+Com os recursos criados, para acessar um pod da API diner para teste, é necessário executar o comando:
+
+``` kubectl get pods ``` 
+
+Serão exibidos os pods da aplicação, cujo nome será um sufixo *diner-* com um valor aleatório. Copie o nome de um dos pods e substitua no comando abaixo:
+
+``` kubectl port-forward [nome do pod] 5000:80 ```
+
+Em seguida, a API estará disponível no endpoint *http://localhost:5000/*
 
 <!-- Documentação do projeto -->
 

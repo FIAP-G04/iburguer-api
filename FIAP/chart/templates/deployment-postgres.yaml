@@ -1,0 +1,47 @@
+{{ with .Values.postgres }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .name }}
+    spec:
+      {{- with .volumes }}
+      volumes:
+        - name: {{ .storage.name }}
+          persistentVolumeClaim:
+            claimName: {{ .storage.claim.name }}
+        - name: {{ .initdb.name }}
+          configMap:
+            name: postgres-initdb-config
+      {{- end }}
+      containers:
+        - name: {{ .name }}
+          image: {{ .image.repository}}:{{ .image.tag }}
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: {{ .port }}
+          {{- with .env }}
+          env:
+            - name: {{ .user.key }}
+              value: {{ .user.value | quote }}
+            - name: {{ .password.key }}
+              value: {{ .password.value | quote }}
+            - name: {{ .pgdata.key }}
+              value: {{ .pgdata.value | quote }}
+          {{- end }}
+          {{- with .volumes }}
+          volumeMounts:
+            - mountPath: {{ .storage.path }}
+              name: {{ .storage.name }}
+            - mountPath: {{ .initdb.path }}
+              name: {{ .initdb.name }}
+          {{- end }}
+{{- end }}
