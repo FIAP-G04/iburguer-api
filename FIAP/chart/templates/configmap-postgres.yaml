@@ -106,8 +106,8 @@ data:
     INSERT INTO public."Payments" ("Id", "ShoppingCartId", "Amount", "PayedAt", "RefusedAt", "Status", "Method") VALUES ('ea5a942b-04f3-40fc-96f0-a910de509ee3', '264a1230-cff1-44b7-8052-ddf2797bfab9', '$19.50', '2023-10-30 19:29:45.749572', null, 'Received', 'QRCode');
     INSERT INTO public."Payments" ("Id", "ShoppingCartId", "Amount", "PayedAt", "RefusedAt", "Status", "Method") VALUES ('55e9644f-67d4-401c-9bbf-e1822be96b51', '73d77d13-57fe-458d-8dcd-334def66a71d', '$90.00', '2023-10-30 20:50:53.442538', null, 'Received', 'QRCode');
 
-    INSERT INTO public."Orders" ("Id", "ShoppingCartId", "WithdrawalCode", "OrderNumber") VALUES ('64a04865-e7ce-4cbc-996e-021bf90ffb8c', '264a1230-cff1-44b7-8052-ddf2797bfab9', '1QT5J4', 13);
-    INSERT INTO public."Orders" ("Id", "ShoppingCartId", "WithdrawalCode", "OrderNumber") VALUES ('e4d7a543-7804-44e9-a490-6dda557fd2ab', '73d77d13-57fe-458d-8dcd-334def66a71d', 'WOL7I1', 14);
+    INSERT INTO public."Orders" ("Id", "ShoppingCartId", "WithdrawalCode", "OrderNumber") VALUES ('64a04865-e7ce-4cbc-996e-021bf90ffb8c', '264a1230-cff1-44b7-8052-ddf2797bfab9', '1QT5J4', NEXTVAL('sq_order_number'));
+    INSERT INTO public."Orders" ("Id", "ShoppingCartId", "WithdrawalCode", "OrderNumber") VALUES ('e4d7a543-7804-44e9-a490-6dda557fd2ab', '73d77d13-57fe-458d-8dcd-334def66a71d', 'WOL7I1', NEXTVAL('sq_order_number'));
 
     INSERT INTO public."OrderTrackings" ("Id", "Status", "When", "Order") VALUES ('731d7fa8-599e-4d1b-92fa-172397a722f3', 'WaitingForPayment', '2023-10-30 19:29:50.497089', '64a04865-e7ce-4cbc-996e-021bf90ffb8c');
     INSERT INTO public."OrderTrackings" ("Id", "Status", "When", "Order") VALUES ('606cadd3-ba93-4ba7-9b2f-90fb76cf57a4', 'Confirmed', '2023-10-30 19:30:04.654222', '64a04865-e7ce-4cbc-996e-021bf90ffb8c');

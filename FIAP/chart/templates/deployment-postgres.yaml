@@ -21,19 +21,11 @@ spec:
         - name: {{ .initdb.name }}
           configMap:
             name: postgres-initdb-config
-          #persistentVolumeClaim:
-          #  claimName: {{ .initdb.claim.name }}
       {{- end }}
       containers:
         - name: {{ .name }}
           image: {{ .image.repository}}:{{ .image.tag }}
           imagePullPolicy: IfNotPresent
-          #command: ["psql"]
-          #args: ["-U", "iburguer" ,"-d", "iburguer", "-f", "./docker-entrypoint-initdb.d/initdb.sql"]
-          #lifecycle:
-          #  postStart:
-          #    exec:
-          #      command: ["psql", "-U", "iburguer" ,"-d", "iburguer", "-f", "./docker-entrypoint-initdb.d/initdb.sql"]
           ports:
             - containerPort: {{ .port }}
           {{- with .env }}
