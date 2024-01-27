@@ -2,7 +2,8 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: {{ include "FIAP.Diner.fullname" . }}
+  namespace: {{ .Values.namespace }}
   labels:
     {{- include "FIAP.Diner.labels" . | nindent 4 }}
 data:
-  ConnectionStrings__Connection: {{ .Values.configmap.connectionstring.connection }}
+  ConnectionStrings__Connection: {{ .Values.configmap.connectionstring.connection }}{{ .Values.configmap.connectionstring.password }}
