@@ -10,17 +10,19 @@ namespace FIAP.Diner.API.Controllers;
 public class CheckoutController : ControllerBase
 {
     private readonly ICheckoutService _checkoutService;
+    private readonly ICheckoutUseCase _checkoutUseCase;
 
-    public CheckoutController(ICheckoutService checkoutService, IEventHandler<PaymentRequestedDomainEvent> handler)
+    public CheckoutController(ICheckoutService checkoutService, ICheckoutUseCase checkoutUseCase, IEventHandler<PaymentRequestedDomainEvent> handler)
     {
         _checkoutService = checkoutService;
+        _checkoutUseCase = checkoutUseCase;
     }
 
     [HttpPost]
     [Route("cart/{shoppingCartId}")]
     public async Task<IActionResult> Checkout(Guid shoppingCartId, CancellationToken cancellation)
     {
-        return Ok(await _checkoutService.Checkout(shoppingCartId, cancellation));
+        return Ok(await _checkoutUseCase.Checkout(shoppingCartId, cancellation));
     }
 
     [HttpGet]
