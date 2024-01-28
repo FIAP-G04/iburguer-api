@@ -2,11 +2,11 @@ using FIAP.Diner.Domain.Customers;
 
 namespace FIAP.Diner.Application.Customers.Identification;
 
-public class CustomerIdentificationService : ICustomerIdentifier
+public class IdentifyCustomerUseCase : IIdentifyCustomerUseCase
 {
     private readonly ICustomerRepository _repository;
 
-    public CustomerIdentificationService(ICustomerRepository repository)
+    public IdentifyCustomerUseCase(ICustomerRepository repository)
     {
         ArgumentNullException.ThrowIfNull(repository, nameof(ICustomerRepository));
 
