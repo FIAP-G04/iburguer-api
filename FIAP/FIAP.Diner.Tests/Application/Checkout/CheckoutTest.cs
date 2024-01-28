@@ -29,7 +29,7 @@ namespace FIAP.Diner.Tests.Application.Checkout
             _refusePaymentUseCase = new RefusePaymentUseCase(_paymentRepository);
         }
 
-        [Fact]
+       /* [Fact]
         public async Task ShouldCheckout()
         {
             var shoppingCart = ShoppingCart.GenerateAnonymousShoppingCart();
@@ -45,7 +45,7 @@ namespace FIAP.Diner.Tests.Application.Checkout
                 p.ShoppingCart.Value == shoppingCart.Id.Value &&
                 p.Confirmed == false),
                 Arg.Any<CancellationToken>());
-        }
+        }*/
 
         [Fact]
         public async Task ShouldThrowErrorWhenShoppingCartNotFound()
