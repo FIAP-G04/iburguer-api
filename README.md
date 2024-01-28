@@ -43,11 +43,15 @@ ___________________________________________________
     - [Gerenciamento de Pedidos](#gerenciamento-de-pedidos)
 - [➡️ Começando](#️-começando)
   - [🚧 Pré-requisitos](#-pré-requisitos)
+    - [Helm](#-pré-helm)
+    - [Testes](#-pré-testes)
   - [⚙️ Execução](#️-execução)
     - [📋 API](#-api)
 - [💻 Documentação](#-documentação)
   - [ Swagger](#-swagger)
 - [🔎 Testes](#-testes)
+  - [ Testes unitários ](#-testes-unitarios)
+  - [ Teste de carga ](#-teste-carga)
 - [📕 License](#-license)
 
 <!-- Descrição do projeto -->
@@ -70,6 +74,7 @@ Esse projeto foi feito utilizando as seguintes tecnologias:
 - [Helm](https://helm.sh/)
 - [Minikube](https://minikube.sigs.k8s.io/docs/)
 - [Swagger](https://swagger.io/)
+- [K6](https://k6.io/)
 
 <!-- Funcionalidades do projeto -->
 
@@ -170,9 +175,17 @@ Ele deve ser acessado através [desse link](http://localhost:5000/swagger) quand
 
 # 🔎 Testes
 
+## Testes unitários
+
 A execução dos testes pode ser feita através do *Visual Studio* ou executando o seguinte comando a partir da pasta *FIAP*:
 
 ``` dotnet test ```
+
+## Teste de carga
+
+Foi incluído um arquivo javascript para a execução de um teste de carga usando a ferramenta K6. Com a aplicação em execução, estando o K6 instalado, basta executar, a partir da pasta *StressTest*:
+
+``` k6 run IBurguerST.js ```
 
 # 📕 License
 
