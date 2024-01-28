@@ -18,8 +18,7 @@ public class CheckoutController : ControllerBase
         ICheckoutUseCase checkoutUseCase,
         IGetPaymentStatusUseCase getPaymentStatusUseCase,
         IRefusePaymentUseCase refusePaymentUseCase,
-        IConfirmPaymentUseCase confirmPaymentUseCase,
-        IEventHandler<PaymentRequestedDomainEvent> handler)
+        IConfirmPaymentUseCase confirmPaymentUseCase)
     {
         _checkoutUseCase = checkoutUseCase;
         _getPaymentStatusUseCase = getPaymentStatusUseCase;

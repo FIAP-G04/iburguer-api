@@ -4,7 +4,7 @@ namespace FIAP.Diner.Application.Orders
 {
     public interface IRegisterOrderUseCase
     {
-        Task RegisterOrder(Guid shoppingCartId, CancellationToken cancellation);
+        Task<int> RegisterOrder(Guid shoppingCartId, CancellationToken cancellation);
     }
 
     public class RegisterOrderUseCase : IRegisterOrderUseCase
@@ -13,12 +13,14 @@ namespace FIAP.Diner.Application.Orders
 
         public RegisterOrderUseCase(IOrderRepository repository) => _repository = repository;
 
-        public async Task RegisterOrder(Guid shoppingCartId, CancellationToken cancellation)
+        public async Task<int> RegisterOrder(Guid shoppingCartId, CancellationToken cancellation)
         {
             var number = await _repository.GenerateOrderNumber(cancellation);
             var order = Order.Create(number, shoppingCartId);
 
             await _repository.Save(order, cancellation);
+
+            return number;
         }
     }
 }

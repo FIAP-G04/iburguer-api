@@ -63,13 +63,12 @@ private static void AddOrderModule(this IServiceCollection services)
         services.AddScoped<IStartOrderUseCase, StartOrderUseCase>();
         services.AddScoped<IOrderRetriever, OrderRetriever>();
 
-        services.AddScoped<IEventHandler<PaymentRequestedDomainEvent>, OrderEventHandler>();
         services.AddScoped<IEventHandler<PaymentConfirmedDomainEvent>, OrderEventHandler>();
     }
 
     private static void AddCheckoutModule(this IServiceCollection services)
     {
-        services.AddScoped<ICheckoutUseCase, ICheckoutUseCase>();
+        services.AddScoped<ICheckoutUseCase, CheckoutUseCase>();
         services.AddScoped<IGetPaymentStatusUseCase, GetPaymentStatusUseCase>();
         services.AddScoped<IRefusePaymentUseCase, RefusePaymentUseCase>();
         services.AddScoped<IConfirmPaymentUseCase, ConfirmPaymentUseCase>();
