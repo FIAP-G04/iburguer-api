@@ -32,7 +32,12 @@ public static class DepedencyInjectionExtensions
 
     private static void AddMenuModule(this IServiceCollection services)
     {
-        services.AddScoped<IMenuManagement, MenuService>();
+        services.AddScoped<IAddProductToMenuUseCase, AddProductToMenuUseCase>();
+        services.AddScoped<IRemoveProductFromMenuUseCase, RemoveProductFromMenuUseCase>();
+        services.AddScoped<IChangeMenuProductUseCase, ChangeMenuProductUseCase>();
+        services.AddScoped<IDisableMenuProductUseCase, DisableMenuProductUseCase>();
+        services.AddScoped<IEnableMenuProductUseCase, EnableMenuProductUseCase>();
+        services.AddScoped<IGetByCategoryUseCase, GetByCategoryUseCase>();
     }
 
     private static void AddShoppingCartModule(this IServiceCollection services)
