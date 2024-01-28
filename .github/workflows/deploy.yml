@@ -51,7 +51,7 @@ jobs:
 
     - name: Build and Push Docker Image
       run: |
-        docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ steps.version.outputs.version }}" ${{ env.ROOT_PROJECT_DIRECTORY}} --file ${{ env.ROOT_PROJECT_DIRECTORY}}/${{ env.PROJECT_NAME}}/Dockerfile
-        docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ steps.version.outputs.version }}"
+        docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ steps.version.outputs.version }} ${{ env.ROOT_PROJECT_DIRECTORY}} --file ${{ env.ROOT_PROJECT_DIRECTORY}}/${{ env.PROJECT_NAME}}/Dockerfile
+        docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ steps.version.outputs.version }}
       env:
         DOCKER_BUILDKIT: 1
