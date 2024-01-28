@@ -12,6 +12,8 @@
 
   <ItemGroup>
     <Compile Remove="Menu\EnableMenuProduct.cs" />
+    <Compile Remove="Menu\MenuService.cs" />
+    <Compile Remove="Menu\IMenuManagement.cs" />
   </ItemGroup>
 
 </Project>

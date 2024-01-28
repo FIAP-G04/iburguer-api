@@ -9,13 +9,23 @@ namespace FIAP.Diner.API.Controllers;
 [ApiController]
 public class CheckoutController : ControllerBase
 {
-    private readonly ICheckoutService _checkoutService;
     private readonly ICheckoutUseCase _checkoutUseCase;
+    private readonly IGetPaymentStatusUseCase _getPaymentStatusUseCase;
+    private readonly IRefusePaymentUseCase _refusePaymentUseCase;
+    private readonly IConfirmPaymentUseCase _confirmPaymentUseCase;
 
-    public CheckoutController(ICheckoutService checkoutService, ICheckoutUseCase checkoutUseCase, IEventHandler<PaymentRequestedDomainEvent> handler)
+    public CheckoutController(
+        ICheckoutUseCase checkoutUseCase,
+        IGetPaymentStatusUseCase getPaymentStatusUseCase,
+        IRefusePaymentUseCase refusePaymentUseCase,
+        IConfirmPaymentUseCase confirmPaymentUseCase,
+        IEventHandler<PaymentRequestedDomainEvent> handler)
     {
-        _checkoutService = checkoutService;
         _checkoutUseCase = checkoutUseCase;
+        _getPaymentStatusUseCase = getPaymentStatusUseCase;
+        _refusePaymentUseCase = refusePaymentUseCase;
+        _confirmPaymentUseCase = confirmPaymentUseCase;
+
     }
 
     [HttpPost]
@@ -28,13 +38,13 @@ public class CheckoutController : ControllerBase
     [HttpGet]
     [Route("{paymentId}/status")]
     public async Task<IActionResult> GetStatus(Guid paymentId, CancellationToken cancellation)
-        => Ok(await _checkoutService.GetPaymentStatus(paymentId, cancellation));
+        => Ok(await _getPaymentStatusUseCase.GetPaymentStatus(paymentId, cancellation));
 
     [HttpPut]
     [Route("{paymentId}/confirm")]
     public async Task<IActionResult> Confirm(Guid paymentId, CancellationToken cancellation)
     {
-        await _checkoutService.ConfirmPayment(paymentId, cancellation);
+        await _confirmPaymentUseCase.ConfirmPayment(paymentId, cancellation);
         return Ok();
     }
 
@@ -42,7 +52,7 @@ public class CheckoutController : ControllerBase
     [Route("{paymentId}/refuse")]
     public async Task<IActionResult> Refuse(Guid paymentId, CancellationToken cancellation)
     {
-        await _checkoutService.RefusePayment(paymentId, cancellation);
+        await _refusePaymentUseCase.RefusePayment(paymentId, cancellation);
         return Ok();
     }
 }
