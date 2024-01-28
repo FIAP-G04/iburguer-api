@@ -30,7 +30,9 @@ public class CheckoutUseCase : ICheckoutUseCase
         if(shoppingCart is null)
             throw new ShoppingCartNotFoundException(shoppingCartId);
 
-        if (await _repository.ExistsPaymentForShoppingCart(shoppingCartId, cancellation))
+        var existsPayment = await _repository.ExistsPaymentForShoppingCart(shoppingCartId, cancellation);
+
+        if (existsPayment)
             throw new PaymentAlreadyExistsForShoppingCartException(shoppingCartId);
 
         var payment = new Payment(shoppingCartId, shoppingCart.Total);

@@ -9,14 +9,20 @@ namespace FIAP.Diner.Tests.Application.Checkout
         private readonly IPaymentRepository _paymentRepository;
         private readonly IShoppingCartRepository _shoppingCartRepository;
 
-        private readonly CheckoutService _manipulator;
+        private readonly ICheckoutUseCase _checkoutUseCase;
+        private readonly IGetPaymentStatusUseCase _getPaymentStatusUseCase;
+        private readonly IConfirmPaymentUseCase _confirmPaymentUseCase;
+        private readonly IRefusePaymentUseCase _refusePaymentUseCase;
 
         public CheckoutTest()
         {
             _paymentRepository = Substitute.For<IPaymentRepository>();
             _shoppingCartRepository = Substitute.For<IShoppingCartRepository>();
 
-            _manipulator = new(_paymentRepository, _shoppingCartRepository);
+            _checkoutUseCase = new CheckoutUseCase(_paymentRepository, _shoppingCartRepository);
+            _getPaymentStatusUseCase = new GetPaymentStatusUseCase(_paymentRepository);
+            _confirmPaymentUseCase = new ConfirmPaymentUseCase(_paymentRepository);
+            _refusePaymentUseCase = new RefusePaymentUseCase(_paymentRepository);
         }
 
         [Fact]
@@ -27,7 +33,7 @@ namespace FIAP.Diner.Tests.Application.Checkout
 
             _shoppingCartRepository.GetById(shoppingCart.Id, Arg.Any<CancellationToken>()).Returns(shoppingCart);
 
-            var result = await _manipulator.Checkout(shoppingCart.Id, default);
+            var result = await _checkoutUseCase.Checkout(shoppingCart.Id, default);
 
             result.PaymentId.Should().NotBeEmpty();
 
@@ -45,7 +51,7 @@ namespace FIAP.Diner.Tests.Application.Checkout
 
             _shoppingCartRepository.GetById(shoppingCartId, Arg.Any<CancellationToken>()).ReturnsNull();
 
-            var action = async () => await _manipulator.Checkout(shoppingCartId, default);
+            var action = async () => await _checkoutUseCase.Checkout(shoppingCartId, default);
 
             await action.Should().ThrowAsync<ShoppingCartNotFoundException>()
                 .WithMessage(string.Format(ShoppingCartNotFoundException.error, shoppingCartId));
@@ -59,7 +65,7 @@ namespace FIAP.Diner.Tests.Application.Checkout
 
             _paymentRepository.GetById(payment.Id, Arg.Any<CancellationToken>()).Returns(payment);
 
-            var result = await _manipulator.GetPaymentStatus(payment.Id, default);
+            var result = await _getPaymentStatusUseCase.GetPaymentStatus(payment.Id, default);
 
             result.Should().NotBeNull();
             result.PaymentId.Should().Be(payment.Id.Value);
@@ -73,7 +79,7 @@ namespace FIAP.Diner.Tests.Application.Checkout
 
             _paymentRepository.GetById(paymentId, Arg.Any<CancellationToken>()).ReturnsNull();
 
-            var action = async () => await _manipulator.GetPaymentStatus(paymentId, default);
+            var action = async () => await _getPaymentStatusUseCase.GetPaymentStatus(paymentId, default);
 
             await action.Should().ThrowAsync<PaymentNotFoundException>()
                 .WithMessage(string.Format(PaymentNotFoundException.error, paymentId));
@@ -85,7 +91,7 @@ namespace FIAP.Diner.Tests.Application.Checkout
             var payment = new Payment(Guid.NewGuid(), 11.11M);
             _paymentRepository.GetById(payment.Id, Arg.Any<CancellationToken>()).Returns(payment);
 
-            await _manipulator.ConfirmPayment(payment.Id, default);
+            await _confirmPaymentUseCase.ConfirmPayment(payment.Id, default);
 
             await _paymentRepository
                 .Received()
@@ -100,7 +106,7 @@ namespace FIAP.Diner.Tests.Application.Checkout
 
             _paymentRepository.GetById(paymentId, Arg.Any<CancellationToken>()).ReturnsNull();
 
-            var action = async () => await _manipulator.ConfirmPayment(paymentId, default);
+            var action = async () => await _confirmPaymentUseCase.ConfirmPayment(paymentId, default);
 
             await action.Should().ThrowAsync<PaymentNotFoundException>()
                 .WithMessage(string.Format(PaymentNotFoundException.error, paymentId));
@@ -112,7 +118,7 @@ namespace FIAP.Diner.Tests.Application.Checkout
             var payment = new Payment(Guid.NewGuid(), 11.11M);
             _paymentRepository.GetById(payment.Id, Arg.Any<CancellationToken>()).Returns(payment);
 
-            await _manipulator.RefusePayment(payment.Id, default);
+            await _refusePaymentUseCase.RefusePayment(payment.Id, default);
 
             await _paymentRepository
                 .Received()
@@ -127,7 +133,7 @@ namespace FIAP.Diner.Tests.Application.Checkout
 
             _paymentRepository.GetById(paymentId, Arg.Any<CancellationToken>()).ReturnsNull();
 
-            var action = async () => await _manipulator.RefusePayment(paymentId, default);
+            var action = async () => await _refusePaymentUseCase.RefusePayment(paymentId, default);
 
             await action.Should().ThrowAsync<PaymentNotFoundException>()
                 .WithMessage(string.Format(PaymentNotFoundException.error, paymentId));

@@ -50,7 +50,10 @@ public static class DepedencyInjectionExtensions
 
     private static void AddCheckoutModule(this IServiceCollection services)
     {
-        services.AddScoped<ICheckoutService, CheckoutService>();
+        services.AddScoped<ICheckoutUseCase, ICheckoutUseCase>();
+        services.AddScoped<IGetPaymentStatusUseCase, GetPaymentStatusUseCase>();
+        services.AddScoped<IRefusePaymentUseCase, RefusePaymentUseCase>();
+        services.AddScoped<IConfirmPaymentUseCase, ConfirmPaymentUseCase>();
     }
 
     private static void AddDispatchers(this IServiceCollection services)
