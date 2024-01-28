@@ -1,11 +1,11 @@
 ---
-# Source: diner/templates/namespace.yaml
+# Source: iburguer/templates/namespace.yaml
 apiVersion: v1
 kind: Namespace
 metadata:
   name: iburguer
 ---
-# Source: diner/templates/configmap-postgres.yaml
+# Source: iburguer/templates/configmap-postgres.yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -123,22 +123,22 @@ data:
     INSERT INTO public."OrderTrackings" ("Id", "Status", "When", "Order") VALUES ('ef868ef3-a085-4381-b5af-e3a72673bdc1', 'WaitingForPayment', '2023-10-30 20:51:12.179146', 'e4d7a543-7804-44e9-a490-6dda557fd2ab');
     INSERT INTO public."OrderTrackings" ("Id", "Status", "When", "Order") VALUES ('ddd22acd-077e-4141-8c69-5df440920053', 'Confirmed', '2023-10-30 20:51:19.421740', 'e4d7a543-7804-44e9-a490-6dda557fd2ab');
 ---
-# Source: diner/templates/configmap.yaml
+# Source: iburguer/templates/configmap.yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: diner
+  name: iburguer
   namespace: iburguer
   labels:
-    helm.sh/chart: diner-0.1.0
-    app.kubernetes.io/name: diner
-    app.kubernetes.io/instance: diner
+    helm.sh/chart: iburguer-0.1.0
+    app.kubernetes.io/name: iburguer
+    app.kubernetes.io/instance: iburguer
     app.kubernetes.io/version: "1.0.0"
     app.kubernetes.io/managed-by: Helm
 data:
   ConnectionStrings__Connection: Host=postgres:5432;Database=iburguer;Username=iburguer;Password=1234
 ---
-# Source: diner/templates/pv-postgres.yaml
+# Source: iburguer/templates/pv-postgres.yaml
 apiVersion: v1
 kind: PersistentVolume
 metadata:
@@ -155,7 +155,7 @@ spec:
   hostPath:
     path: /mnt/data
 ---
-# Source: diner/templates/pv-postgres.yaml
+# Source: iburguer/templates/pv-postgres.yaml
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -169,7 +169,7 @@ spec:
     requests:
       storage: 1Gi
 ---
-# Source: diner/templates/service-postgres.yaml
+# Source: iburguer/templates/service-postgres.yaml
 apiVersion: v1
 kind: Service
 metadata:
@@ -184,16 +184,16 @@ spec:
   selector:
     app: postgres
 ---
-# Source: diner/templates/service.yaml
+# Source: iburguer/templates/service.yaml
 apiVersion: v1
 kind: Service
 metadata:
-  name: diner
+  name: iburguer
   namespace: iburguer
   labels:
-    helm.sh/chart: diner-0.1.0
-    app.kubernetes.io/name: diner
-    app.kubernetes.io/instance: diner
+    helm.sh/chart: iburguer-0.1.0
+    app.kubernetes.io/name: iburguer
+    app.kubernetes.io/instance: iburguer
     app.kubernetes.io/version: "1.0.0"
     app.kubernetes.io/managed-by: Helm
 spec:
@@ -202,10 +202,10 @@ spec:
     - port: 80
       targetPort: 80
   selector:
-    app.kubernetes.io/name: diner
-    app.kubernetes.io/instance: diner
+    app.kubernetes.io/name: iburguer
+    app.kubernetes.io/instance: iburguer
 ---
-# Source: diner/templates/deployment-postgres.yaml
+# Source: iburguer/templates/deployment-postgres.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -247,42 +247,42 @@ spec:
             - mountPath: /docker-entrypoint-initdb.d
               name: postgres-pv-initdb
 ---
-# Source: diner/templates/deployment.yaml
+# Source: iburguer/templates/deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: diner
+  name: iburguer
   namespace: iburguer
   labels:
-    helm.sh/chart: diner-0.1.0
-    app.kubernetes.io/name: diner
-    app.kubernetes.io/instance: diner
+    helm.sh/chart: iburguer-0.1.0
+    app.kubernetes.io/name: iburguer
+    app.kubernetes.io/instance: iburguer
     app.kubernetes.io/version: "1.0.0"
     app.kubernetes.io/managed-by: Helm
 spec:
   replicas: 5
   selector:
     matchLabels:
-      app.kubernetes.io/name: diner
-      app.kubernetes.io/instance: diner
+      app.kubernetes.io/name: iburguer
+      app.kubernetes.io/instance: iburguer
   template:
     metadata:
       labels:
-        helm.sh/chart: diner-0.1.0
-        app.kubernetes.io/name: diner
-        app.kubernetes.io/instance: diner
+        helm.sh/chart: iburguer-0.1.0
+        app.kubernetes.io/name: iburguer
+        app.kubernetes.io/instance: iburguer
         app.kubernetes.io/version: "1.0.0"
         app.kubernetes.io/managed-by: Helm
     spec:
       containers:
-        - name: diner
+        - name: iburguer
           image: "cdvt/iburguer:latest"
           imagePullPolicy: IfNotPresent
           env:
             - name: ConnectionStrings__Connection
               valueFrom:
                 configMapKeyRef:
-                  name: diner
+                  name: iburguer
                   key: ConnectionStrings__Connection
           ports:
             - containerPort: 80
@@ -306,23 +306,23 @@ spec:
               cpu: 100m
               memory: 256Mi
 ---
-# Source: diner/templates/hpa.yaml
+# Source: iburguer/templates/hpa.yaml
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: diner
+  name: iburguer
   namespace: iburguer
   labels:
-    helm.sh/chart: diner-0.1.0
-    app.kubernetes.io/name: diner
-    app.kubernetes.io/instance: diner
+    helm.sh/chart: iburguer-0.1.0
+    app.kubernetes.io/name: iburguer
+    app.kubernetes.io/instance: iburguer
     app.kubernetes.io/version: "1.0.0"
     app.kubernetes.io/managed-by: Helm
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: diner
+    name: iburguer
   minReplicas: 5
   maxReplicas: 10
   metrics:
@@ -338,29 +338,3 @@ spec:
         target:
           type: Utilization
           averageUtilization: 80
----
-# Source: diner/templates/ingress.yaml
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: diner
-  namespace: iburguer
-  labels:
-    helm.sh/chart: diner-0.1.0
-    app.kubernetes.io/name: diner
-    app.kubernetes.io/instance: diner
-    app.kubernetes.io/version: "1.0.0"
-    app.kubernetes.io/managed-by: Helm
-spec:
-  ingressClassName: diner-ingress
-  rules:
-    - host: "4.156.123.183"
-      http:
-        paths:
-          - path: /
-            pathType: ImplementationSpecific
-            backend:
-              service:
-                name: diner
-                port:
-                  number: 80

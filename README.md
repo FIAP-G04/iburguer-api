@@ -129,7 +129,7 @@ Após a inicialização do Minikube, para configurá-lo como o cluster Kubernete
 
 Caso seja necessário gerar novamente os artfatos Kubernetes, a partir da pasta *FIAP* execute:
 
-``` helm template diner ./chart > k8s/artifacts.yaml ``` 
+``` helm template iburguer ./chart > k8s/artifacts.yaml ``` 
 
 ### Testes
 
@@ -145,11 +145,11 @@ A partir da pasta *FIAP*, executar o comando
 
 ``` kubectl apply -f k8s/artifacts.yaml ``` 
 
-Com os recursos criados, para acessar um pod da API diner para teste, é necessário executar o comando:
+Com os recursos criados, para acessar um pod da API iburguer para teste, é necessário executar o comando:
 
 ``` kubectl get pods ``` 
 
-Serão exibidos os pods da aplicação, cujo nome será um sufixo *diner-* com um valor aleatório. Copie o nome de um dos pods e substitua no comando abaixo:
+Serão exibidos os pods da aplicação, cujo nome será um sufixo *iburguer-* com um valor aleatório. Copie o nome de um dos pods e substitua no comando abaixo:
 
 ``` kubectl port-forward [nome do pod] 5000:80 ```
 
