@@ -163,14 +163,14 @@ Em seguida, a API estará disponível no endpoint *http://localhost:5000/*
 
 ![visaomacro][visaomacro]
 
-## Diagrama de Implantação K8s
-
-![diagramaimplantacaok8s][diagramaimplantacaok8s]
-
 ## Visão de Infraestrutura
 
 ![visaoinfra1][visaoinfra1]
 ![visaoinfra2][visaoinfra2]
+
+## Diagrama de Implantação K8s
+
+![diagramaimplantacaok8s][diagramaimplantacaok8s]
 
 ## ![swaggerlogo][swaggerlogo] Swagger
 
