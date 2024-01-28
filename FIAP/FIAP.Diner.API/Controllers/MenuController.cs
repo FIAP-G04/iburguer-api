@@ -1,4 +1,3 @@
-using FIAP.Diner.Application.Abstractions;
 using FIAP.Diner.Application.Menu;
 using FIAP.Diner.Domain.Menu;
 using Microsoft.AspNetCore.Mvc;
@@ -9,18 +8,34 @@ namespace FIAP.Diner.API.Controllers;
 [ApiController]
 public class MenuController : ControllerBase
 {
-    private readonly IMenuManagement _menu;
+    private readonly IAddProductToMenuUseCase _addProductToMenuUseCase;
+    private readonly IRemoveProductFromMenuUseCase _removeProductFromMenuUseCase;
+    private readonly IChangeMenuProductUseCase _changeMenuProductUseCase;
+    private readonly IDisableMenuProductUseCase _disableMenuProductUseCase;
+    private readonly IEnableMenuProductUseCase _enableMenuProductUseCase;
+    private readonly IGetByCategoryUseCase _getByCategoryUseCase;
 
-    public MenuController(IMenuManagement menu)
+    public MenuController(
+        IAddProductToMenuUseCase addProductToMenuUseCase,
+        IRemoveProductFromMenuUseCase removeProductFromMenuUseCase,
+        IChangeMenuProductUseCase changeMenuProductUseCase,
+        IDisableMenuProductUseCase disableMenuProductUseCase,
+        IEnableMenuProductUseCase enableMenuProductUseCase,
+        IGetByCategoryUseCase getByCategoryUseCase)
     {
-        _menu = menu;
+        _addProductToMenuUseCase = addProductToMenuUseCase;
+        _removeProductFromMenuUseCase = removeProductFromMenuUseCase;
+        _changeMenuProductUseCase = changeMenuProductUseCase;
+        _disableMenuProductUseCase = disableMenuProductUseCase;
+        _enableMenuProductUseCase = enableMenuProductUseCase;
+        _getByCategoryUseCase = getByCategoryUseCase;
     }
 
     [HttpPost]
     [Route("products")]
     public async Task<IActionResult> AddProductToMenu(ProductDTO dto, CancellationToken cancellation)
     {
-        await _menu.AddProductToMenu(dto, cancellation);
+        await _addProductToMenuUseCase.AddProductToMenu(dto, cancellation);
         return Ok();
     }
 
@@ -28,7 +43,7 @@ public class MenuController : ControllerBase
     [Route("products")]
     public async Task<IActionResult> ChangeMenuProduct(ProductDTO dto, CancellationToken cancellation)
     {
-        await _menu.ChangeMenuProduct(dto, cancellation);
+        await _changeMenuProductUseCase.ChangeMenuProduct(dto, cancellation);
         return Ok();
     }
 
@@ -36,7 +51,7 @@ public class MenuController : ControllerBase
     [Route("products")]
     public async Task<IActionResult> RemoveProduct(Guid productId, CancellationToken cancellation)
     {
-        await _menu.RemoveProductFromMenu(productId, cancellation);
+        await _removeProductFromMenuUseCase.RemoveProductFromMenu(productId, cancellation);
         return NoContent();
     }
 
@@ -44,7 +59,7 @@ public class MenuController : ControllerBase
     [Route("products/enabled")]
     public async Task<IActionResult> EnableMenuProduct(Guid productId, CancellationToken cancellation)
     {
-        await _menu.EnableMenuProduct(productId, cancellation);
+        await _enableMenuProductUseCase.EnableMenuProduct(productId, cancellation);
         return Ok();
     }
 
@@ -52,7 +67,7 @@ public class MenuController : ControllerBase
     [Route("products/disabled")]
     public async Task<IActionResult> DisableMenuProduct(Guid productId, CancellationToken cancellation)
     {
-        await _menu.DisableMenuProduct(productId, cancellation);
+        await _disableMenuProductUseCase.DisableMenuProduct(productId, cancellation);
         return Ok();
     }
 
@@ -60,7 +75,7 @@ public class MenuController : ControllerBase
     [Route("products/{category}")]
     public async Task<IActionResult> GetProductsByCategory(Category category, CancellationToken cancellation)
     {
-        var products = await _menu.GetByCategory(category, cancellation);
+        var products = await _getByCategoryUseCase.GetByCategory(category, cancellation);
         return Ok(products);
     }
 }

@@ -10,4 +10,8 @@
     <ProjectReference Include="..\FIAP.Diner.Domain\FIAP.Diner.Domain.csproj"/>
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="Menu\EnableMenuProduct.cs" />
+  </ItemGroup>
+
 </Project>
