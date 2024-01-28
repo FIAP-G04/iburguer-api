@@ -4,7 +4,7 @@ import { Counter } from 'k6/metrics';
 
 export let options = {
   stages: [
-    { duration: '6m', target: 1000 }
+    { duration: '6m', target: 100 }
   ],
 };
 
@@ -16,17 +16,17 @@ export default function () {
   // Create shoppingCart
   const payload = { customerId: '041b23ad-3b11-441e-bab8-bb9270a09ae1' };
   const params = { headers: { 'Content-Type': 'application/json' } };
-  const response1 = http.post('http://localhost:5000/api/carts', JSON.stringify(payload), params);
+  const response1 = http.post('http://20.253.107.146/api/carts', JSON.stringify(payload), params);
   logResponse('Create shoppingCart', response1);
   sleep(1);
 
   // Get Orders
-  const response2 = http.get('http://localhost:5000/api/orders');
+  const response2 = http.get('http://20.253.107.146/api/orders');
   logResponse('Get Orders', response2);
   sleep(1);
 
    // Get queued Orders
-   const response3 = http.get('http://localhost:5000/api/orders/queue');
+   const response3 = http.get('http://20.253.107.146/api/orders/queue');
    logResponse('Get queued Orders', response3);
    sleep(1);
  

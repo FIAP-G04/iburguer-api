@@ -13,6 +13,8 @@ namespace: iburguer
 
 podLabels: {}
 
+replicas: 5
+
 service:
   type: LoadBalancer
   port: 80

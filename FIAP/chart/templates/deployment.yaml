@@ -6,6 +6,7 @@ metadata:
   labels:
     {{- include "FIAP.Diner.labels" . | nindent 4 }}
 spec:
+  replicas: {{ .Values.replicas }}
   selector:
     matchLabels:
       {{- include "FIAP.Diner.selectorLabels" . | nindent 6 }}
