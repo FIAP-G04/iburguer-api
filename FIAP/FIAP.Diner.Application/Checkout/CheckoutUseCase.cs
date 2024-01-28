@@ -7,7 +7,7 @@ namespace FIAP.Diner.Application.Checkout;
 
 public interface ICheckoutUseCase
 {
-    Task<OrderNumberDTO> Checkout(Guid shoppingCartId, CancellationToken cancellation);
+    Task<CheckoutRequestedDTO> Checkout(Guid shoppingCartId, CancellationToken cancellation);
 }
 
 public class CheckoutUseCase : ICheckoutUseCase
@@ -27,7 +27,7 @@ public class CheckoutUseCase : ICheckoutUseCase
         _registerOrderUseCase = registerOrderUseCase;
     }
 
-    public async Task<OrderNumberDTO> Checkout(Guid shoppingCartId, CancellationToken cancellation)
+    public async Task<CheckoutRequestedDTO> Checkout(Guid shoppingCartId, CancellationToken cancellation)
     {
         var shoppingCart = await _shoppingCartRepository.GetById(shoppingCartId, cancellation);
 
@@ -45,6 +45,6 @@ public class CheckoutUseCase : ICheckoutUseCase
 
         var orderNumber = await _registerOrderUseCase.RegisterOrder(shoppingCartId, cancellation);
 
-        return new(orderNumber);
+        return new(orderNumber, payment.Id);
     }
 }
