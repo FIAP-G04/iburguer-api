@@ -42,10 +42,18 @@ public static class DepedencyInjectionExtensions
 
     private static void AddShoppingCartModule(this IServiceCollection services)
     {
-        services.AddScoped<IShoppingCart, ShoppingCartService>();
+        services.AddScoped<IAddItemToShoppingCartUseCase, AddItemToShoppingCartUseCase>();
+        services.AddScoped<IClearShoppingCartUseCase, ClearShoppingCartUseCase>();
+        services.AddScoped<ICloseShoppingCartUseCase, CloseShoppingCartUseCase>();
+        services.AddScoped<ICreateAnonymousShoppingCartUseCase, CreateAnonymousShoppingCartUseCase>();
+        services.AddScoped<ICreateCustomerShoppingCartUseCase, CreateCustomerShoppingCartUseCase>();
+        services.AddScoped<IDecrementTheQuantityOfTheCartItemUseCase, DecrementTheQuantityOfTheCartItemUseCase>();
+        services.AddScoped<IIncrementTheQuantityOfTheCartItemUseCase, IncrementTheQuantityOfTheCartItemUseCase>();
+        services.AddScoped<IRemoveCartItemFromShoppingCartUseCase, RemoveCartItemFromShoppingCartUseCase>();
+        services.AddScoped<IUpdateCartItemPriceThroughProductUseCase, UpdateCartItemPriceThroughProductUseCase>();      
     }
 
-    private static void AddOrderModule(this IServiceCollection services)
+private static void AddOrderModule(this IServiceCollection services)
     {
         services.AddScoped<ICancelOrderUseCase, CancelOrderUseCase>();
         services.AddScoped<ICompleteOrderUseCase, CompleteOrderUseCase>();

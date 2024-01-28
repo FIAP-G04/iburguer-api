@@ -7,11 +7,24 @@ namespace FIAP.Diner.API.Controllers;
 [ApiController]
 public class ShoppingCartController : ControllerBase
 {
-    private readonly IShoppingCart _shoppingCart;
+    private readonly ICreateAnonymousShoppingCartUseCase _createAnonymousShoppingCartUseCase;
+    private readonly ICreateCustomerShoppingCartUseCase _createCustomerShoppingCartUseCase;
+    private readonly IAddItemToShoppingCartUseCase _addItemToShoppingCartUseCase;
+    private readonly IClearShoppingCartUseCase _clearShoppingCartUseCase;
+    private readonly IRemoveCartItemFromShoppingCartUseCase _removeCartItemFromShoppingCartUseCase;
+    private readonly IIncrementTheQuantityOfTheCartItemUseCase _incrementTheQuantityOfTheCartItemUseCase;
+    private readonly IDecrementTheQuantityOfTheCartItemUseCase _decrementTheQuantityOfTheCartItemUseCase;
 
-    public ShoppingCartController(IShoppingCart shoppingCart)
+    public ShoppingCartController(ICreateAnonymousShoppingCartUseCase createAnonymousShoppingCartUseCase, ICreateCustomerShoppingCartUseCase createCustomerShoppingCartUseCase, IAddItemToShoppingCartUseCase addItemToShoppingCartUseCase, IClearShoppingCartUseCase clearShoppingCartUseCase, IRemoveCartItemFromShoppingCartUseCase removeCartItemFromShoppingCartUseCase, IIncrementTheQuantityOfTheCartItemUseCase incrementTheQuantityOfTheCartItemUseCase, IDecrementTheQuantityOfTheCartItemUseCase decrementTheQuantityOfTheCartItemUseCase)
     {
-        _shoppingCart = shoppingCart;
+        _createAnonymousShoppingCartUseCase = createAnonymousShoppingCartUseCase;
+        _createCustomerShoppingCartUseCase = createCustomerShoppingCartUseCase;
+        _addItemToShoppingCartUseCase = addItemToShoppingCartUseCase;
+        _clearShoppingCartUseCase = clearShoppingCartUseCase;
+        _removeCartItemFromShoppingCartUseCase = removeCartItemFromShoppingCartUseCase;
+        _incrementTheQuantityOfTheCartItemUseCase = incrementTheQuantityOfTheCartItemUseCase;
+        _decrementTheQuantityOfTheCartItemUseCase = decrementTheQuantityOfTheCartItemUseCase;
+
     }
 
     [HttpPost]
@@ -19,13 +32,13 @@ public class ShoppingCartController : ControllerBase
     {
         if (dto.CustomerId == null)
         {
-            var shoppingCartId = await _shoppingCart.CreateAnonymousShoppingCart(cancellation);
+            var shoppingCartId = await _createAnonymousShoppingCartUseCase.CreateAnonymousShoppingCart(cancellation);
 
             return Ok(shoppingCartId);
         }
         else
         {
-            var shoppingCartId = await _shoppingCart.CreateCustomerShoppingCart(dto.CustomerId.Value, cancellation);
+            var shoppingCartId = await _createCustomerShoppingCartUseCase.CreateCustomerShoppingCart(dto.CustomerId.Value, cancellation);
 
             return Ok(shoppingCartId);
         }
@@ -35,7 +48,7 @@ public class ShoppingCartController : ControllerBase
     [Route("{shoppingCartId}/clear")]
     public async Task<IActionResult> ClearShoppingCart(Guid shoppingCartId, CancellationToken cancellation)
     {
-        await _shoppingCart.ClearShoppingCart(shoppingCartId, cancellation);
+        await _clearShoppingCartUseCase.ClearShoppingCart(shoppingCartId, cancellation);
         return Ok();
     }
 
@@ -43,7 +56,7 @@ public class ShoppingCartController : ControllerBase
     [Route("{shoppingCartId}/item")]
     public async Task<IActionResult> AddCartItemToShoppingCart(Guid shoppingCartId, [FromBody]AddItemToShoppingCartDTO dto, CancellationToken cancellation)
     {
-        await _shoppingCart.AddItemToShoppingCart(dto, cancellation);
+        await _addItemToShoppingCartUseCase.AddItemToShoppingCart(dto, cancellation);
         return Ok();
     }
 
@@ -51,7 +64,7 @@ public class ShoppingCartController : ControllerBase
     [Route("{shoppingCartId}/item/{cartItemId}")]
     public async Task<IActionResult> RemoveCartItemFromShoppingCart(Guid shoppingCartId, Guid cartItemId, CancellationToken cancellation)
     {
-        await _shoppingCart.RemoveCartItemFromShoppingCart(shoppingCartId, cartItemId, cancellation);
+        await _removeCartItemFromShoppingCartUseCase.RemoveCartItemFromShoppingCart(shoppingCartId, cartItemId, cancellation);
         return Ok();
     }
 
@@ -64,7 +77,7 @@ public class ShoppingCartController : ControllerBase
             return BadRequest("Os Ids do carrinho e item do carrinho precisam ser iguais aos informados no body da requisição");
         }
 
-        await _shoppingCart.IncrementTheQuantityOfTheCartItem(dto, cancellation);
+        await _incrementTheQuantityOfTheCartItemUseCase.IncrementTheQuantityOfTheCartItem(dto, cancellation);
         return Ok();
     }
 
@@ -77,7 +90,7 @@ public class ShoppingCartController : ControllerBase
             return BadRequest("Os Ids do carrinho e item do carrinho precisam ser iguais aos informados no body da requisição");
         }
 
-        await _shoppingCart.DecrementTheQuantityOfTheCartItem(dto, cancellation);
+        await _decrementTheQuantityOfTheCartItemUseCase.DecrementTheQuantityOfTheCartItem(dto, cancellation);
         return Ok();
     }
 }
