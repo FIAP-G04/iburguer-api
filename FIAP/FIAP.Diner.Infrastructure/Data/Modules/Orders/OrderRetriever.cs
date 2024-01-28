@@ -89,7 +89,7 @@ public class OrderRetriever : IOrderRetriever
                 {
                     OrderId = order.Id,
                     OrderNumber = order.Number,
-                    OrderStatus = order.CurrentStatus,
+                    OrderStatus = order.Trackings.OrderByDescending(s => s.When).First().OrderStatus,
                     ShoppingCartId = cart.Id,
                     CustomerId = cart.Customer,
                     Total = cart.Total.Amount,
