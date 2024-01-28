@@ -25,8 +25,9 @@ public static class DepedencyInjectionExtensions
 
     private static void AddCustomerModule(this IServiceCollection services)
     {
-        services.AddScoped<ICustomerIdentifier, CustomerIdentificationService>();
-        services.AddScoped<ICustomerAccount, CustomerAccountService>();
+        services.AddScoped<IIdentifyCustomerUseCase, IdentifyCustomerUseCase>();
+        services.AddScoped<IRegisterCustomerUseCase, RegisterCustomerUseCase>();
+        services.AddScoped<IUpdateCustomerRegistrationInformationUseCase, UpdateCustomerRegistrationInformationUseCase>();
     }
 
     private static void AddMenuModule(this IServiceCollection services)
@@ -41,7 +42,12 @@ public static class DepedencyInjectionExtensions
 
     private static void AddOrderModule(this IServiceCollection services)
     {
-        services.AddScoped<IOrderService, OrderService>();
+        services.AddScoped<ICancelOrderUseCase, CancelOrderUseCase>();
+        services.AddScoped<ICompleteOrderUseCase, CompleteOrderUseCase>();
+        services.AddScoped<IConfirmOrderUseCase, ConfirmOrderUseCase>();
+        services.AddScoped<IDeliverOrderUseCase, DeliverOrderUseCase>();
+        services.AddScoped<IRegisterOrderUseCase, RegisterOrderUseCase>();
+        services.AddScoped<IStartOrderUseCase, StartOrderUseCase>();
         services.AddScoped<IOrderRetriever, OrderRetriever>();
 
         services.AddScoped<IEventHandler<PaymentRequestedDomainEvent>, OrderEventHandler>();

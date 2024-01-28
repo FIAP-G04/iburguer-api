@@ -8,7 +8,7 @@ namespace FIAP.Diner.Tests.Application.Customers.Identification
     {
         private readonly ICustomerRepository _customerRepository;
 
-        private readonly CustomerIdentificationService _manipulator;
+        private readonly IdentifyCustomerUseCase _manipulator;
 
         public CustomerIdentificationServiceTest()
         {

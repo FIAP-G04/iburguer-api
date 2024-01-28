@@ -78,9 +78,10 @@ public class OrderRetriever : IOrderRetriever
             .Where(o => new List<OrderStatus>()
                 {
                     OrderStatus.Confirmed ,
-                    OrderStatus.InProgress
-                }
-            .Contains( o.Trackings.OrderByDescending(t => t.When).First().OrderStatus))
+                    OrderStatus.InProgress,
+                    OrderStatus.ReadyForPickup
+                }.Contains( o.Trackings.OrderByDescending(t => t.When).First().OrderStatus))
+            .OrderByDescending(order => order.CurrentStatus)
             .OrderBy(order => order.Number)
             .Skip((page - 1) * limit)
             .Take(limit)

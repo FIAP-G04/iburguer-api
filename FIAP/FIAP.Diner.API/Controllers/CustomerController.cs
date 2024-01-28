@@ -9,19 +9,21 @@ namespace FIAP.Diner.API.Controllers;
 [ApiController]
 public class CustomerController : ControllerBase
 {
-    private readonly ICustomerAccount _account;
-    private readonly ICustomerIdentifier _identifier;
+    private readonly IRegisterCustomerUseCase _registerCustomerUseCase;
+    private readonly IUpdateCustomerRegistrationInformationUseCase _updateCustomerRegistrationInformationUseCase;
+    private readonly IIdentifyCustomerUseCase _identifier;
 
-    public CustomerController(ICustomerAccount account, ICustomerIdentifier identifier)
+    public CustomerController(IIdentifyCustomerUseCase identifier, IRegisterCustomerUseCase registerCustomerUseCase, IUpdateCustomerRegistrationInformationUseCase updateCustomerRegistrationInformationUseCase)
     {
-        _account = account;
         _identifier = identifier;
+        _registerCustomerUseCase = registerCustomerUseCase;
+        _updateCustomerRegistrationInformationUseCase = updateCustomerRegistrationInformationUseCase;
     }
 
     [HttpPost]
     public async Task<IActionResult> RegisterCustomer(RegisterCustomerDTO dto, CancellationToken cancellation)
     {
-        await _account.RegisterCustomer(dto, cancellation);
+        await _registerCustomerUseCase.RegisterCustomer(dto, cancellation);
         return Ok();
     }
 
@@ -29,7 +31,7 @@ public class CustomerController : ControllerBase
     public async Task<IActionResult> UpdateCustomerRegistrationInformation(
         UpdateCustomerRegistrationInformationDTO dto, CancellationToken cancellation)
     {
-        await _account.UpdateCustomerRegistrationInformation(dto, cancellation);
+        await _updateCustomerRegistrationInformationUseCase.UpdateCustomerRegistrationInformation(dto, cancellation);
         return Ok();
     }
 
