@@ -189,3 +189,7 @@ Esse projeto esta sobre [MIT license](./LICENSE).
 [shoppingcartfunc]: .github/images/func_shopping_cart.png
 [checkoutfunc]: .github/images/func_checkout.png
 [orderfunc]: .github/images/func_order.png
+[diagramaimplantacaok8s]: .github/diagrama-de-implantacao-k8s.png
+[visaoinfra1]: .github/visao-de-infraestrutura-parte-1.png
+[visaoinfra2]: .github/visao-de-infraestrutura-parte-2.png
+[visaomacro]: .github/visao-macro.png
