@@ -81,10 +81,6 @@ public class OrderRetriever : IOrderRetriever
                     OrderStatus.InProgress,
                     OrderStatus.ReadyForPickup
                 }.Contains( o.Trackings.OrderByDescending(t => t.When).First().OrderStatus))
-            .OrderByDescending(order => order.CurrentStatus)
-            .OrderBy(order => order.Number)
-            .Skip((page - 1) * limit)
-            .Take(limit)
             .Join(
                 _context.ShoppingCarts.Include(s => s.Items),
                 order => order.ShoppingCart,
@@ -118,7 +114,11 @@ public class OrderRetriever : IOrderRetriever
 
         var total = await _context.Orders.CountAsync();
 
-        var paginatedData = await query.ToListAsync();
+        var paginatedData = await query.OrderByDescending(order => order.OrderStatus)
+                                       .ThenBy(order => order.OrderNumber)
+                                       .Skip((page - 1) * limit)
+                                       .Take(limit)
+                                       .ToListAsync();
 
         var paginatedList = new PaginatedList<OrderSummaryDTO>
         {
