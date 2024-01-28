@@ -8,13 +8,24 @@ namespace FIAP.Diner.API.Controllers;
 [ApiController]
 public class OrderController : ControllerBase
 {
-    private readonly IOrderService _orderService;
+    private readonly IStartOrderUseCase _startOrderUseCase;
+    private readonly ICompleteOrderUseCase _completeOrderUseCase;
+    private readonly IDeliverOrderUseCase _deliverOrderUseCase;
+    private readonly ICancelOrderUseCase _cancelOrderUseCase;
     private readonly IOrderRetriever _retriever;
 
-    public OrderController(IOrderService orderService, IOrderRetriever retriever)
+    public OrderController(
+        IOrderRetriever retriever,
+        IStartOrderUseCase startOrderUseCase,
+        ICompleteOrderUseCase completeOrderUseCase,
+        IDeliverOrderUseCase deliverOrderUseCase,
+        ICancelOrderUseCase cancelOrderUseCase)
     {
-        _orderService = orderService;
         _retriever = retriever;
+        _startOrderUseCase = startOrderUseCase;
+        _completeOrderUseCase = completeOrderUseCase;
+        _deliverOrderUseCase = deliverOrderUseCase;
+        _cancelOrderUseCase = cancelOrderUseCase;
     }
 
     [HttpGet]
@@ -36,7 +47,7 @@ public class OrderController : ControllerBase
     [Route("{orderId}/start")]
     public async Task<IActionResult> StartOrder(Guid orderId, CancellationToken cancellation)
     {
-        await _orderService.StartOrder(orderId, cancellation);
+        await _startOrderUseCase.StartOrder(orderId, cancellation);
         return Ok();
     }
 
@@ -44,7 +55,7 @@ public class OrderController : ControllerBase
     [Route("{orderId}/complete")]
     public async Task<IActionResult> CompleteOrder(Guid orderId, CancellationToken cancellation)
     {
-        await _orderService.CompleteOrder(orderId, cancellation);
+        await _completeOrderUseCase.CompleteOrder(orderId, cancellation);
         return Ok();
     }
 
@@ -52,7 +63,7 @@ public class OrderController : ControllerBase
     [Route("{orderId}/deliver")]
     public async Task<IActionResult> DeliverOrder(Guid orderId, CancellationToken cancellation)
     {
-        await _orderService.DeliverOrder(orderId, cancellation);
+        await _deliverOrderUseCase.DeliverOrder(orderId, cancellation);
         return Ok();
     }
 
@@ -60,7 +71,7 @@ public class OrderController : ControllerBase
     [Route("{orderId}/cancel")]
     public async Task<IActionResult> CancelOrder(Guid orderId, CancellationToken cancellation)
     {
-        await _orderService.CancelOrder(orderId, cancellation);
+        await _cancelOrderUseCase.CancelOrder(orderId, cancellation);
         return Ok();
     }
 }
