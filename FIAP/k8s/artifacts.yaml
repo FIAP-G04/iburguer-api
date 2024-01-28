@@ -197,12 +197,10 @@ metadata:
     app.kubernetes.io/version: "1.0.0"
     app.kubernetes.io/managed-by: Helm
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   ports:
-    - port: 5000
-      targetPort: http
-      protocol: TCP
-      name: http
+    - port: 80
+      targetPort: 80
   selector:
     app.kubernetes.io/name: diner
     app.kubernetes.io/instance: diner
@@ -286,9 +284,7 @@ spec:
                   name: diner
                   key: ConnectionStrings__Connection
           ports:
-            - name: http
-              containerPort: 5000
-              protocol: TCP
+            - containerPort: 80
           livenessProbe:
             httpGet:
               path: /hc
@@ -366,4 +362,4 @@ spec:
               service:
                 name: diner
                 port:
-                  number: 5000
+                  number: 80

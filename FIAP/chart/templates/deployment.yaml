@@ -28,9 +28,7 @@ spec:
                   name: {{ include "FIAP.Diner.fullname" . }}
                   key: ConnectionStrings__Connection
           ports:
-            - name: http
-              containerPort: {{ .Values.service.port }}
-              protocol: TCP
+            - containerPort: {{ .Values.service.port }}
           livenessProbe:
             {{- toYaml .Values.livenessProbe | nindent 12 }}
           readinessProbe:

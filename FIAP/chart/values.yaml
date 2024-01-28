@@ -14,9 +14,9 @@ namespace: iburguer
 podLabels: {}
 
 service:
-  type: ClusterIP
-  port: 5000
-  targetPort: http
+  type: LoadBalancer
+  port: 80
+  targetPort: 80
 
 ingress:
   enabled: true
