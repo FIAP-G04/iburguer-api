@@ -1,3 +1,4 @@
+using FIAP.Diner.Application.Orders;
 using FIAP.Diner.Application.ShoppingCarts;
 using FIAP.Diner.Domain.Checkout;
 using FIAP.Diner.Domain.ShoppingCarts;
@@ -6,24 +7,27 @@ namespace FIAP.Diner.Application.Checkout;
 
 public interface ICheckoutUseCase
 {
-    Task<NewPaymentDTO> Checkout(Guid shoppingCartId, CancellationToken cancellation);
+    Task<OrderNumberDTO> Checkout(Guid shoppingCartId, CancellationToken cancellation);
 }
 
 public class CheckoutUseCase : ICheckoutUseCase
 {
     private readonly IPaymentRepository _repository;
     private readonly IShoppingCartRepository _shoppingCartRepository;
+    private readonly IRegisterOrderUseCase _registerOrderUseCase;
 
-    public CheckoutUseCase(IPaymentRepository repository, IShoppingCartRepository shoppingCartRepository)
+    public CheckoutUseCase(IPaymentRepository repository, IShoppingCartRepository shoppingCartRepository, IRegisterOrderUseCase registerOrderUseCase)
     {
         ArgumentNullException.ThrowIfNull(repository, nameof(IPaymentRepository));
-        ArgumentNullException.ThrowIfNull(repository, nameof(IShoppingCartRepository));
+        ArgumentNullException.ThrowIfNull(shoppingCartRepository, nameof(IShoppingCartRepository));
+        ArgumentNullException.ThrowIfNull(registerOrderUseCase, nameof(IRegisterOrderUseCase));
 
         _repository = repository;
         _shoppingCartRepository = shoppingCartRepository;
+        _registerOrderUseCase = registerOrderUseCase;
     }
 
-    public async Task<NewPaymentDTO> Checkout(Guid shoppingCartId, CancellationToken cancellation)
+    public async Task<OrderNumberDTO> Checkout(Guid shoppingCartId, CancellationToken cancellation)
     {
         var shoppingCart = await _shoppingCartRepository.GetById(shoppingCartId, cancellation);
 
@@ -39,6 +43,8 @@ public class CheckoutUseCase : ICheckoutUseCase
 
         await _repository.Save(payment, cancellation);
 
-        return new(payment.Id);
+        var orderNumber = await _registerOrderUseCase.RegisterOrder(shoppingCartId, cancellation);
+
+        return new(orderNumber);
     }
 }
