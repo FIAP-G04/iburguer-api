@@ -13,7 +13,7 @@ namespace: iburguer
 
 podLabels: {}
 
-replicas: 5
+replicas: 1
 
 service:
   type: LoadBalancer
@@ -43,10 +43,10 @@ readinessProbe:
 
 autoscaling:
   enabled: true
-  minReplicas: 5
-  maxReplicas: 10
+  minReplicas: 1
+  maxReplicas: 4
   targetCPUUtilizationPercentage: 80
-  targetMemoryUtilizationPercentage: 80
+  #targetMemoryUtilizationPercentage: 80
 
 nodeSelector: {}
 
