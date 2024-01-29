@@ -35,7 +35,7 @@ ___________________________________________________
 - [📝 Sobre o Projeto](docs/sobre_o_projeto.md)
 - [🧮 Funcionalidades](docs/funcionalidades.md)
 - [➡️ Requisitos](docs/requisitos.md)
-- [💻 Documentação](docs/documentacao.md)
+- [💻 Arquitetura](docs/documentacao.md)
 - [🔎 Testes](docs/teste.md)
 
 
