@@ -2,6 +2,8 @@
 
 # 💻 Documentação
 
+O detalhamento dos requisitos e da arquitetura estão disponibilizados no seguinte [vídeo](https://www.youtube.com/watch?v=QVkNK2sfK38).
+
 ## Visão Macro
 
 ![visaomacro][visaomacro]
