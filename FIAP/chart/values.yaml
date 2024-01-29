@@ -5,7 +5,7 @@
 image:
   repository: cdvt/iburguer
   pullPolicy: IfNotPresent
-  tag: latest
+  tag: "0.0.1"
 
 nameOverride: ""
 fullnameOverride: ""
