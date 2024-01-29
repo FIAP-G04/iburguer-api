@@ -8,14 +8,21 @@ O detalhamento dos requisitos e da arquitetura estão disponibilizados no seguin
 
 ![visaomacro][visaomacro]
 
+## Visão de Infraestrutura Macro
+
+![visaoinfra1][visaoinfra1]
+
+## Visão de Infraestrutura Detalhada
+
+![visaoinfra2][visaoinfra2]
+
 ## Diagrama de Implantação K8s
 
 ![diagramaimplantacaok8s][diagramaimplantacaok8s]
 
-## Visão de Infraestrutura
+## Diagrama de Arquitetura de Código
 
-![visaoinfra1][visaoinfra1]
-![visaoinfra2][visaoinfra2]
+![designdecodigo][designdecodigo]
 
 ## ![swaggerlogo][swaggerlogo] Swagger
 
@@ -29,3 +36,4 @@ Ele deve ser acessado localmente através [desse link](http://localhost:5000/swa
 [visaoinfra1]: ../.github/images/visao-de-infraestrutura-parte-1.png
 [visaoinfra2]: ../.github/images/visao-de-infraestrutura-parte-2.png
 [visaomacro]: ../.github/images/visao-macro.png
+[designdecodigo]: ../.github/images/design-de-codigo.png
