@@ -28,6 +28,8 @@ ___________________________________________________
   </sub>
 </div>
 
+O detalhamento dos requisitos e da arquitetura estão disponibilizados no seguinte [vídeo](https://www.youtube.com/watch?v=QVkNK2sfK38).
+
 <!-- Tabela de conteúdo do projeto -->
 
 # 👉 Índice
