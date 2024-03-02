@@ -31,6 +31,8 @@ o [Swagger](https://swagger.io/).
 
 Ele deve ser acessado localmente através [desse link](http://localhost:5000/swagger) quando a aplicação estiver executando.
 
+[Voltar](../README.md)
+
 [swaggerlogo]: ../.github/images/swagger.svg
 [diagramaimplantacaok8s]: ../.github/images/diagrama-de-implantacao-k8s.png
 [visaoinfra1]: ../.github/images/visao-de-infraestrutura-parte-1.png

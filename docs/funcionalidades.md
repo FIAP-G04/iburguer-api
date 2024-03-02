@@ -88,6 +88,8 @@ Após a confirmação do pagamento, o mesmo é enviado para a fila de pedidos. A
 
 ![orderfunc][orderfunc]
 
+[Voltar](../README.md)
+
 [menufunc]: ../.github/images/func_menu.png
 [customerfunc]: ../.github/images/func_customer.png
 [shoppingcartfunc]: ../.github/images/func_shopping_cart.png
