@@ -37,6 +37,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
       - name: Trigger CI/CD Workflow
         uses: actions/github-script@v4
         with:
@@ -47,5 +50,3 @@ jobs:
             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
             https://api.github.com/repos/FIAP-G04/iburguer-api/dispatches \
             -d '{"event_type":"api_test"}'
-
-#deletar
