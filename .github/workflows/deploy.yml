@@ -47,3 +47,5 @@ jobs:
             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
             https://api.github.com/repos/FIAP-G04/iburguer-api/dispatches \
             -d '{"event_type":"api_test"}'
+
+#deletar
