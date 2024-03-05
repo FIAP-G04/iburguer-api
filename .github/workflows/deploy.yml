@@ -2,56 +2,52 @@ name: Continuous Integration - iBurguer
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
-    
+    branches: ["main"]
+
 env:
   IMAGE_NAME: iburguer
   ROOT_PROJECT_DIRECTORY: FIAP
   PROJECT_NAME: FIAP.Diner.API
   TEST_PROJECT_NAME: FIAP.Diner.Tests
-  
+
 jobs:
-  build-test-deploy:
+  build_and_test:
     runs-on: ubuntu-latest
-    environment: 
-      name: Iburguer
-
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
 
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: '7.x'
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: "7.0.x"
 
-    - name: Restore Dependencies
-      run: dotnet restore ${{ env.ROOT_PROJECT_DIRECTORY}}/${{ env.PROJECT_NAME}}
+      - name: Restore dependencies
+        run: dotnet restore FIAP/FIAP.Diner.API.csproj
 
-    - name: Build Application
-      run: dotnet build ${{ env.ROOT_PROJECT_DIRECTORY}}/${{ env.PROJECT_NAME}} --no-restore --configuration Release
+      - name: Build
+        run: dotnet build FIAP/FIAP.Diner.API.csproj
 
-    - name: Run Tests
-      run: dotnet test ${{ env.ROOT_PROJECT_DIRECTORY}}/${{ env.TEST_PROJECT_NAME}}
+      - name: Test
+        run: dotnet test FIAP/FIAP.Diner.Tests.csproj
 
-    - name: Login to Docker Hub
-      uses: docker/login-action@v3
-      with:
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_TOKEN }}
-    
-    - name: Get next version
-      uses: reecetech/version-increment@2023.9.3
-      id: version
-      with:
-        scheme: semver
-        increment: patch
+  # trigger_workflow:
+  #   runs-on: ubuntu-latest
 
-    - name: Build and Push Docker Image
-      run: |
-        docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ steps.version.outputs.version }} ${{ env.ROOT_PROJECT_DIRECTORY}} --file ${{ env.ROOT_PROJECT_DIRECTORY}}/${{ env.PROJECT_NAME}}/Dockerfile
-        docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ steps.version.outputs.version }}
-      env:
-        DOCKER_BUILDKIT: 1
+  #   steps:
+  #     - name: Trigger CI/CD Workflow
+  #       uses: actions/github-script@v4
+  #       with:
+  #         github-token: ${{ secrets.GITHUB_TOKEN }}
+  #         script: |
+  #           const { data } = await github.repos.createDispatchEvent({
+  #             owner: 'FIAP-G04',
+  #             repo: 'iburguer-ci-cd',
+  #             event_type: 'build-and-deploy',
+  #             client_payload: {
+  #               microservice: 'microservice1' # Adjust as needed
+  #             }
+  #           });
+  #           console.log(data);
