@@ -25,13 +25,13 @@ jobs:
           dotnet-version: "7.0.x"
 
       - name: Restore dependencies
-        run: dotnet restore FIAP/FIAP.Diner.API.csproj
+        run: dotnet restore FIAP/FIAP.Diner.API/FIAP.Diner.API.csproj
 
       - name: Build
-        run: dotnet build FIAP/FIAP.Diner.API.csproj
+        run: dotnet build FIAP/FIAP.Diner.API/FIAP.Diner.API.csproj
 
       - name: Test
-        run: dotnet test FIAP/FIAP.Diner.Tests.csproj
+        run: dotnet test FIAP/FIAP.Diner.Tests/FIAP.Diner.Tests.csproj
 
   # trigger_workflow:
   #   runs-on: ubuntu-latest
