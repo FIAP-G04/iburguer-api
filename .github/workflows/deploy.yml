@@ -42,10 +42,8 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const { data } = await github.repos.createDispatchEvent({
-              owner: 'FIAP-G04',
-              repo: 'iburguer-ci-cd',
-              event_type: 'api_test'
-            });
-            console.log(data);
-# deletar
+            curl -L -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/repos/FIAP-G04/iburguer-api/dispatches \
+            -d '{"event_type":"api_test"}'
