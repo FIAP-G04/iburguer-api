@@ -33,21 +33,18 @@ jobs:
       - name: Test
         run: dotnet test FIAP/FIAP.Diner.Tests/FIAP.Diner.Tests.csproj
 
-  # trigger_workflow:
-  #   runs-on: ubuntu-latest
+  trigger_workflow:
+    runs-on: ubuntu-latest
 
-  #   steps:
-  #     - name: Trigger CI/CD Workflow
-  #       uses: actions/github-script@v4
-  #       with:
-  #         github-token: ${{ secrets.GITHUB_TOKEN }}
-  #         script: |
-  #           const { data } = await github.repos.createDispatchEvent({
-  #             owner: 'FIAP-G04',
-  #             repo: 'iburguer-ci-cd',
-  #             event_type: 'build-and-deploy',
-  #             client_payload: {
-  #               microservice: 'microservice1' # Adjust as needed
-  #             }
-  #           });
-  #           console.log(data);
+    steps:
+      - name: Trigger CI/CD Workflow
+        uses: actions/github-script@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { data } = await github.repos.createDispatchEvent({
+              owner: 'FIAP-G04',
+              repo: 'iburguer-ci-cd',
+              event_type: 'api_test'
+            });
+            console.log(data);
