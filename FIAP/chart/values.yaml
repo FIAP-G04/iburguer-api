@@ -53,55 +53,8 @@ nodeSelector: {}
 configmap:
   connectionstring: 
     connection: Host=postgres:5432;Database=iburguer;Username=iburguer;Password=
+    host: postgres
+    port: 5432
+    database: iburguer
+    user: iburguer
     password: "1234"
-
-postgres:
-  namespace: iburguer
-  name: postgres
-  image:
-    repository: postgres
-    tag: 11
-  port: 5432
-  portType: ClusterIP
-  env:
-    user:
-      key: POSTGRES_USER
-      value: iburguer
-    password:
-      key: POSTGRES_PASSWORD
-      value: '1234'
-    pgdata:
-      key: PGDATA
-      value: /var/lib/postgresql/data/pgdata
-  volumes: 
-    storage:
-      namespace: iburguer
-      path: /var/lib/postgresql/data
-      name: postgres-pv-storage
-      volume:
-        name: postgres-pv-volume
-        spec: 
-          capacity:
-            storage: 5Gi
-          hostPath: "/mnt/data"
-      claim:
-        name: postgres-pv-claim
-        spec:
-          resources:
-            requests:
-              storage: 1Gi
-    initdb:
-      path: /docker-entrypoint-initdb.d
-      name: postgres-pv-initdb
-      volume:
-        name: postgres-initdb-pv-volume
-        spec: 
-          capacity:
-            storage: 1Mi
-          hostPath: 'C:\Users\Matheus Antonio\source\repos\tech-challenge-fiap\FIAP\docker-entrypoint-initdb.d'
-      claim:
-        name: postgres-initdb-pv-claim
-        spec:
-          resources:
-            requests:
-              storage: 1Mi

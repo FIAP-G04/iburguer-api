@@ -5,6 +5,8 @@ metadata:
   namespace: {{ .Values.namespace }}
   labels:
     {{- include "FIAP.Diner.labels" . | nindent 4 }}
+  annotations:
+    alb.ingress.kubernetes.io/healthcheck-path: {{ .Values.livenessProbe.httpGet.path }}
 spec:
   type: {{ .Values.service.type }}
   ports:

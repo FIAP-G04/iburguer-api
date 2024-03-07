@@ -6,4 +6,4 @@ metadata:
   labels:
     {{- include "FIAP.Diner.labels" . | nindent 4 }}
 data:
-  ConnectionStrings__Connection: {{ .Values.configmap.connectionstring.connection }}{{ .Values.configmap.connectionstring.password }}
+  ConnectionStrings__Connection: Host={{ .Values.configmap.connectionstring.host }}:{{ .Values.configmap.connectionstring.port }};Database={{ .Values.configmap.connectionstring.database }};Username={{ .Values.configmap.connectionstring.user }};Password={{ .Values.configmap.connectionstring.password }}
