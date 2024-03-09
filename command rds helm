@@ -1,0 +1,5 @@
+helm template iburguer 
+--set configmap.connectionstring.host=terraform-20240309161135376400000001.czyucwmsapf2.us-east-1.rds.amazonaws.com 
+--set configmap.connectionstring.password='p1VTSsrRWKzY'  
+./chart > k8s/artifacts.yaml
+
