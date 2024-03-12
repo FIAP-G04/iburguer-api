@@ -62,6 +62,8 @@ Este repositório é dedicado ao projeto Iburguer-Api. A API tem como responsabi
 <details>
 <summary>🎮 Tecnologias</summary>
 
+---
+
 Esse projeto foi feito utilizando as seguintes tecnologias:
 
 - [C#](https://learn.microsoft.com/pt-br/dotnet/csharp/)
@@ -74,6 +76,23 @@ Esse projeto foi feito utilizando as seguintes tecnologias:
 - [Swagger](https://swagger.io/)
 - [K6](https://k6.io/)</details>
 
+<details>
+<summary>📦 Build & Tests (TODO)</summary>
+
+---
+
+| CI/CD | Status |
+| --- | --- | 
+| Build & Unit Tests | [![.NET Build and Test](https://github.com/g12-4soat/tech-lanches/actions/workflows/build-tests.yml/badge.svg)](https://github.com/g12-4soat/tech-lanches/actions/workflows/build-tests.yml)
+| TechLanches API | [![Build API Docker Image](https://github.com/g12-4soat/tech-lanches/actions/workflows/dockerfile-api-build-ci.yml/badge.svg)](https://github.com/g12-4soat/tech-lanches/actions/workflows/dockerfile-api-build-ci.yml)
+| TechLanches Worker FilaPedidos | [![Build Worker Docker Image](https://github.com/g12-4soat/tech-lanches/actions/workflows/dockerfile-worker-build-ci.yml/badge.svg)](https://github.com/g12-4soat/tech-lanches/actions/workflows/dockerfile-worker-build-ci.yml)
+| Docker Compose | [![Build Docker Compose](https://github.com/g12-4soat/tech-lanches/actions/workflows/docker-compose-build-ci.yml/badge.svg)](https://github.com/g12-4soat/tech-lanches/actions/workflows/docker-compose-build-ci.yml)
+| API Docker Publish Develop | [![API Docker Publish Develop](https://github.com/g12-4soat/tech-lanches/actions/workflows/docker-publish-api-develop.yml/badge.svg)](https://github.com/g12-4soat/tech-lanches/actions/workflows/docker-publish-api-develop.yml) | 
+| Worker Docker Publish Develop | [![Worker Docker Publish Develop](https://github.com/g12-4soat/tech-lanches/actions/workflows/docker-publish-worker-develop.yml/badge.svg)](https://github.com/g12-4soat/tech-lanches/actions/workflows/docker-publish-worker-develop.yml) | 
+| API Docker Publish | [![API Docker Publish](https://github.com/g12-4soat/tech-lanches/actions/workflows/docker-publish-api.yml/badge.svg)](https://github.com/g12-4soat/tech-lanches/actions/workflows/docker-publish-api.yml) | 
+| Worker Docker Publish | [![Worker Docker Publish](https://github.com/g12-4soat/tech-lanches/actions/workflows/docker-publish-worker.yml/badge.svg)](https://github.com/g12-4soat/tech-lanches/actions/workflows/docker-publish-worker.yml) | 
+
+</details>
 
 <a id="Arquitetura"></a>
 # 💻 Arquitetura
@@ -97,7 +116,7 @@ Esse projeto foi feito utilizando as seguintes tecnologias:
 ### Fase 2
 * O detalhamento da **arquitetura** está disponibilizados no seguinte [vídeo](https://www.youtube.com/watch?v=QVkNK2sfK38).
 
-### Fase 3
+### Fase 3 (TODO)
 * O detalhamento da **infraestrutura** está disponibilizados no seguinte [vídeo]().   
 
 <a id="Licenca"></a>
