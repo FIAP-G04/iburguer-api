@@ -8,8 +8,8 @@ A execução dos testes pode ser feita através do *Visual Studio* ou executando
 
 ## Teste de carga
 
-Foi incluído um arquivo javascript para a execução de um teste de carga usando a ferramenta K6. Com a aplicação em execução, estando o K6 instalado, basta executar, a partir da pasta *StressTest*:
+Foi incluído um arquivo javascript para a execução de um teste de carga usando a ferramenta K6. Com a aplicação em execução, estando o K6 instalado, basta executar, a partir da pasta *Performance Test*:
 
-``` k6 run IBurguerST.js ```
+``` k6 run iburguer-api-ST.js ```
 
 [Voltar](../README.md)

@@ -87,9 +87,9 @@ Esse projeto foi feito utilizando as seguintes tecnologias:
 # ➡️ Requisitos
 - [Requisitos](docs/requisitos.md)
 
-<a id="Testes"></a>
+<a id="Teste"></a>
 # 🔎 Testes
-- [Testes](docs/teste.md)
+- [Testes](docs/Teste.md)
 
 <a id="Videos"></a>
 # 💻 Vídeos
