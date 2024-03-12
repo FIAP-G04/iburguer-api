@@ -1,12 +1,10 @@
 <!-- Permite  a funcionalidade de voltar ao topo -->
-<a name="readme-top"></a>
+<a id="topo"></a>
 
 <!-- Titulo do projeto -->
-<div align="center" style="margin-bottom: 16px">
+<div align="center" style="margin-bottom:10px">
     <img src=".github/images/logo.png" alt="logo" />
 </div>
-
-___________________________________________________
 
 <!-- Informações visuais do projeto -->
 <div align="center">
@@ -23,36 +21,107 @@ ___________________________________________________
 
 <!-- Breve descrição sobre o projeto -->
 
-<div align="center">
-  <sub>Sistema com o objetivo de gerenciar os pedidos de uma lanchonete. Construído por <a href="https://github.com/CarlosEduAC">Carlos Cardoso</a>, <a href="https://github.com/LuanPCunha">Luan Cunha</a>, <a href="https://github.com/matheusantonio">Matheus Cardoso</a> e <a href="https://github.com/vinisaeta">Vinicius Saeta</a>.
-  </sub>
+<div align="left">
+  <h4>O Iburguer é um sistema projetado para gerenciar os pedidos da lanchonete fictícia Byte Burguer, como parte do desafio tecnológico de Arquitetura de Software do curso de Pós-Graduação em Tecnologia da FIAP, Turma 4SOAT. Construído por <a href="https://github.com/CarlosEduAC">Carlos Cardoso</a>, <a href="https://github.com/LuanPCunha">Luan Cunha</a>, <a href="https://github.com/matheusantonio">Matheus Cardoso</a> e <a href="https://github.com/vinisaeta">Vinicius Saeta</a>.
+  </h4>
 </div>
 
-<!-- Vídeo com detalhamento da arquitetura -->
+# Índice
 
-# 💻 Vídeo 
+- [🆘 O Problema](#Problema)
+- [📝 Sobre o Sistema IBurguer](#Sobre)
+- [💡 Iburger-api](#API)
+- [💻 Arquitetura](#Arquitetura)
+- [🧮 Funcionalidades](#Funcionalidades)
+- [➡️ Requisitos](#Requisitos)
+- [🔎 Testes](#Teste)
+- [💻 Vídeo](#Videos)
+- [📕 Licença](#Licenca)
 
-O detalhamento dos requisitos e da arquitetura estão disponibilizados no seguinte [vídeo](https://www.youtube.com/watch?v=QVkNK2sfK38).
+<a id="Problema"></a>
+# 🆘 O Problema 
 
-<!-- Tabela de conteúdo do projeto -->
+A lanchonete Byte Burguer está experimentando um grande sucesso e está buscando expandir seu negócio. No entanto, sem um sistema eficaz de controle de pedidos, o atendimento aos clientes pode se tornar caótico e desorganizado. Por exemplo, considere um cenário em que um cliente faz um pedido personalizado, como um hambúrguer com ingredientes específicos, acompanhado de batatas fritas e uma bebida. O pedido pode ser registrado em um papel e enviado à cozinha, mas não há garantia de que será preparado corretamente.
 
-# 👉 Índice
+A ausência de um sistema de controle de pedidos pode resultar em falta de comunicação entre os atendentes e a cozinha, ocasionando atrasos na preparação e entrega dos pedidos. Isso pode levar a erros na execução dos pedidos, como perdas, interpretações equivocadas ou esquecimentos, o que resulta na insatisfação dos clientes e na perda de negócios.
 
-- [📝 Sobre o Projeto](docs/sobre_o_projeto.md)
-- [🧮 Funcionalidades](docs/funcionalidades.md)
-- [➡️ Requisitos](docs/requisitos.md)
-- [💻 Arquitetura](docs/documentacao.md)
-- [🔎 Testes](docs/teste.md)
+Em suma, um sistema de controle de pedidos é essencial para garantir que a lanchonete possa atender seus clientes de maneira eficiente, gerenciando seus pedidos e estoques de forma adequada. Sem essa ferramenta, a expansão da lanchonete pode não ser bem-sucedida, prejudicando a satisfação do cliente e impactando negativamente nos negócios.
+
+<a id="Sobre"></a>
+# 📝 Sobre o Sistema IBurguer
+
+A lanchonete planeja introduzir um sistema de autoatendimento de fast food, composto por uma variedade de dispositivos e interfaces, incluindo um totem e um aplicativo intuitivo. Isso permitirá aos clientes fazerem pedidos sem a necessidade de interação com um atendente, personalizando suas escolhas entre várias opções de lanches, acompanhamentos, bebidas e sobremesas.
+
+O objetivo é viabilizar à lanchonete Byte Burguer uma solução operacional completa, com funcionalidades como gerenciamento de pedidos, sistemas de autoatendimento, cadastro e identificação de clientes, além de um cardápio digital. Essas características visam aprimorar a eficiência operacional, oferecer uma experiência melhor para os clientes e criar oportunidades de crescimento para o negócio.
 
 
-# 📕 License
+<a id="API"></a>
+# 💡 Iburger-api
 
-Lançado em 2023 📕 License
+Este repositório é dedicado ao projeto Iburguer-Api. A API tem como responsabilidade receber e enviar requisições REST, obedecendo as regras de negócio estabelecidas pelo especialista da lanchonete Byte Burguer.
+<details>
+<summary>🎮 Tecnologias</summary>
+
+---
+
+Esse projeto foi feito utilizando as seguintes tecnologias:
+
+- [C#](https://learn.microsoft.com/pt-br/dotnet/csharp/)
+- [.NET 8.0](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
+- [PostgreSQL](https://www.postgresql.org/)
+- [Docker](https://www.docker.com/)
+- [Kubernetes](https://kubernetes.io/pt-br/)
+- [Helm](https://helm.sh/)
+- [Minikube](https://minikube.sigs.k8s.io/docs/)
+- [Swagger](https://swagger.io/)
+- [K6](https://k6.io/)</details>
+
+<details>
+<summary>📦 Build & Tests</summary>
+
+---
+
+| CI/CD | Status |
+| --- | --- | 
+| Build & Unit Tests | [![.NET Build and Test](https://github.com/FIAP-G04/iburguer-api/actions/workflows/deploy.yml/badge.svg)](https://github.com/FIAP-G04/iburguer-api/actions/workflows/deploy.yml)
+
+</details>
+
+<a id="Arquitetura"></a>
+# 💻 Arquitetura
+- [Arquitetura](docs/arquitetura.md)
+
+<a id="Funcionalidades"></a>
+# 🧮 Funcionalidades
+- [Funcionalidades](docs/funcionalidades.md)
+
+<a id="Requisitos"></a>
+# ➡️ Requisitos
+- [Requisitos](docs/requisitos.md)
+
+<a id="Teste"></a>
+# 🔎 Testes
+- [Testes](docs/Teste.md)
+
+<a id="Videos"></a>
+# 💻 Vídeos
+
+### Fase 2
+* O detalhamento da **arquitetura** está disponibilizados no seguinte [vídeo](https://www.youtube.com/watch?v=QVkNK2sfK38).
+
+### Fase 3
+* O detalhamento da **infraestrutura** está disponibilizados no seguinte [vídeo]().   
+
+<a id="Licenca"></a>
+# 📕 Licença
+
+Lançado em 2023
 
 Construído por [Carlos Cardoso](https://github.com/CarlosEduAC), [Luan Cunha](https://github.com/LuanPCunha), [Matheus Cardoso](https://github.com/matheusantonio) e [Vinicius Saeta](https://github.com/vinisaeta) 🚀.
 Esse projeto esta sobre [MIT license](./LICENSE).
 
-<p align="right">(<a href="#readme-top">Volta ao topo</a>)</p>
+
+[De volta ao topo](#topo)
 
 [swaggerlogo]: .github/images/swagger.svg
 [menufunc]: .github/images/func_menu.png
