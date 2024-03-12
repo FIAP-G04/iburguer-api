@@ -65,4 +65,4 @@ Esse projeto esta sobre [MIT license](./LICENSE).
 [visaoinfra2]: .github/images/visao-de-infraestrutura-parte-2.png
 [visaomacro]: .github/images/visao-macro.png
 
-s
+
