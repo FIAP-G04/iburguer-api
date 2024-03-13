@@ -6,7 +6,8 @@ metadata:
   labels:
     {{- include "FIAP.Diner.labels" . | nindent 4 }}
   annotations:
-    alb.ingress.kubernetes.io/healthcheck-path: {{ .Values.livenessProbe.httpGet.path }}
+    service.beta.kubernetes.io/aws-load-balancer-type: "external"
+    service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: "instance"
 spec:
   type: {{ .Values.service.type }}
   ports:
