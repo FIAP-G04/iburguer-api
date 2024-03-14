@@ -1,11 +1,14 @@
+using System;
 using System.Net;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using FIAP.Diner.API.Configuration;
 using FIAP.Diner.Domain.Abstractions;
 using FIAP.Diner.Infrastructure.Configuration;
+using FIAP.Diner.Infrastructure.Data;
 using FIAP.Diner.Infrastructure.Data.Configurations;
 using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -74,5 +77,9 @@ app.UseExceptionHandler(builder =>
 app.UseHttpsRedirection();
 
 app.MapControllers();
+
+using var scope = app.Services.CreateScope();
+await using var dbContext = scope.ServiceProvider.GetRequiredService<Context>();
+await dbContext.Database.MigrateAsync();
 
 app.Run();
