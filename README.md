@@ -6,6 +6,8 @@
     <img src=".github/images/logo.png" alt="logo" />
 </div>
 
+___________________________________________________
+
 <!-- Informações visuais do projeto -->
 <div align="center">
     <img alt="Repository size" src="https://img.shields.io/github/repo-size/CarlosEduAC/tech-challenge-fiap?color=009bd9">
@@ -22,7 +24,7 @@
 <!-- Breve descrição sobre o projeto -->
 
 <div align="left">
-  <h4>O Iburguer é um sistema projetado para gerenciar os pedidos da lanchonete fictícia Byte Burguer, como parte do desafio tecnológico de Arquitetura de Software do curso de Pós-Graduação em Tecnologia da FIAP, Turma 4SOAT. Construído por <a href="https://github.com/CarlosEduAC">Carlos Cardoso</a>, <a href="https://github.com/LuanPCunha">Luan Cunha</a>, <a href="https://github.com/matheusantonio">Matheus Cardoso</a> e <a href="https://github.com/vinisaeta">Vinicius Saeta</a>.
+  <h4>O Iburguer é um sistema projetado para gerenciar os pedidos da lanchonete fictícia Byte Burguer, como parte do desafio tecnológico de Arquitetura de Software do curso de Pós-Graduação em Tecnologia da FIAP, Turma 4SOAT. Construído por <a href="https://github.com/CarlosEduAC">Carlos Cardoso</a>, <a href="https://github.com/LuanPCunha">Luan Cunha</a>, <a href="https://github.com/matheusantonio">Matheus Cardoso</a> e <a href="https://github.com/vinisaeta">Vinicius Saeta</a>. Para saber mais visite a<a href="https://github.com/FIAP-G04"> pagina do grupo</a>
   </h4>
 </div>
 
