@@ -81,10 +81,7 @@ jobs:
 
       - name: Create Kubeconfig
         run: |
-          aws eks update-kubeconfig --name ${{ env.AWS_EKS_CLUSTER_NAME }} --region ${{ env.AWS_REGION }}  --kubeconfig ./kubeconfig
-          echo 'KUBE_CONFIG_DATA<<EOF' >> $GITHUB_ENV
-          echo $(cat ./kubeconfig | base64) >> $GITHUB_ENV
-          echo 'EOF' >> $GITHUB_ENV
+          aws eks update-kubeconfig --name ${{ env.AWS_EKS_CLUSTER_NAME }} --region ${{ env.AWS_REGION }}
 
       - name: Create Helm Template
         uses: koslib/helm-eks-action@master
