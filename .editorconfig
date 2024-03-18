@@ -17,6 +17,12 @@ indent_size = 2
 [*.csproj]
 indent_size = 2
 
+[*.yml]
+indent_size = 2
+
+[*.yaml]
+indent_size = 2
+
 [*.cs]
 # New line preferences
 csharp_new_line_before_open_brace = all
