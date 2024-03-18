@@ -95,7 +95,7 @@ jobs:
             helm version
             kubectl version
             kubectl cluster-info
-            helm template iburguer --set configmap.connectionstring.host=${{ secrets.DATABASE_HOST }} --set configmap.connectionstring.password=${{ secrets.DATABASE_PASSWORD }}  ./chart > k8s/artifacts.yaml
+            helm template iburguer --set configmap.connectionstring.host=${{ secrets.DATABASE_HOST }} --set configmap.connectionstring.password=${{ secrets.DATABASE_PASSWORD }}  ./FIAP/chart > FIAP/k8s/artifacts.yaml
 
       - name: Deploy to EKS
         run: |
