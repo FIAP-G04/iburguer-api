@@ -11,7 +11,7 @@ env:
   ROOT_PROJECT_DIRECTORY: FIAP
   PROJECT_NAME: FIAP.Diner.API
   TEST_PROJECT_NAME: FIAP.Diner.Tests
-  AWS_EKS_CLUSTER_NAME: iburguer-cluster
+  AWS_EKS_CLUSTER_NAME: iburguer-iburguer-cluster
   AWS_REGION: us-east-1
 
 jobs:
