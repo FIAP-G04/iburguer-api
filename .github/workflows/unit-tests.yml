@@ -1,0 +1,38 @@
+name: Continuous Integration - iBurguer
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+env:
+  IMAGE_NAME: iburguer
+  ROOT_PROJECT_DIRECTORY: FIAP
+  PROJECT_NAME: FIAP.Diner.API
+  TEST_PROJECT_NAME: FIAP.Diner.Tests
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    environment:
+      name: Iburguer
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '7.x'
+
+    - name: Restore Dependencies
+      run: dotnet restore ${{ env.ROOT_PROJECT_DIRECTORY}}/${{ env.PROJECT_NAME}}
+
+    - name: Build Application
+      run: dotnet build ${{ env.ROOT_PROJECT_DIRECTORY}}/${{ env.PROJECT_NAME}} --no-restore --configuration Release
+
+    - name: Run Tests
+      run: dotnet test ${{ env.ROOT_PROJECT_DIRECTORY}}/${{ env.TEST_PROJECT_NAME}}
+
