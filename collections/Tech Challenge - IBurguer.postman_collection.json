@@ -1,0 +1,923 @@
+{
+	"info": {
+		"_postman_id": "588aa4c9-41c6-4e4c-bbc9-90788861d2a3",
+		"name": "Tech Challenge - IBurguer",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18262826"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Sign in",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{{cpf}}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_auth}}/signin",
+							"host": [
+								"{{url_auth}}"
+							],
+							"path": [
+								"signin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sign up",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"cpf\": \"{{cpf}}\",\r\n    \"firstName\": \"Fulano\",\r\n    \"lastName\": \"De Tal\",\r\n    \"email\": \"fulano.detal@iburguer.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_auth}}/signup",
+							"host": [
+								"{{url_auth}}"
+							],
+							"path": [
+								"signup"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Menu",
+			"item": [
+				{
+					"name": "Create Product",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Name\": \"Batata Frita\",\r\n    \"Description\": \"Batata frita tamanho médio\",\r\n    \"Price\": 10.0,\r\n    \"Category\": {{categoria}},\r\n    \"PreparationTime\": 3,\r\n    \"Urls\": [\r\n        \"http://img.url.com\"\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/menu/products",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"menu",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Product",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ProductId\": \"{{produtoId}}\",\r\n    \"Name\": \"Batata Frita\",\r\n    \"Description\": \"Batata frita tamanho pequeno\",\r\n    \"Price\": 8.0,\r\n    \"Category\": {{categoria}},\r\n    \"PreparationTime\": 3,\r\n    \"Urls\": [\r\n        \"http://img.url.com\"\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/menu/products",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"menu",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove item",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{{produtoId}}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/menu/products",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"menu",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Habilitar item",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{{produtoId}}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/menu/products/enabled",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"menu",
+								"products",
+								"enabled"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Desabilitar item",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{{produtoId}}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/menu/products/disabled",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"menu",
+								"products",
+								"disabled"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtem itens pela categoria",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/menu/products/:category",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"menu",
+								"products",
+								":category"
+							],
+							"variable": [
+								{
+									"key": "category",
+									"value": "{{categoria}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ShoppingCart",
+			"item": [
+				{
+					"name": "Criar carrinho",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"CustomerId\": \"{{customerId}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/carts",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"carts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Adicionar item",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ShoppingCartId\": \"{{carrinhoId}}\",\r\n    \"ProductId\": \"{{produtoId}}\",\r\n    \"Quantity\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/carts/:shoppingCartId/item",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"carts",
+								":shoppingCartId",
+								"item"
+							],
+							"variable": [
+								{
+									"key": "shoppingCartId",
+									"value": "{{carrinhoId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Incrementar quantidade de item",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/carts/:shoppingCartId/item/:cartItemId/increment",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"carts",
+								":shoppingCartId",
+								"item",
+								":cartItemId",
+								"increment"
+							],
+							"variable": [
+								{
+									"key": "shoppingCartId",
+									"value": "{{carrinhoId}}"
+								},
+								{
+									"key": "cartItemId",
+									"value": "{{cartItemId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Decrementar quantidade de item Copy",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/carts/:shoppingCartId/item/:cartItemId/decrement",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"carts",
+								":shoppingCartId",
+								"item",
+								":cartItemId",
+								"decrement"
+							],
+							"variable": [
+								{
+									"key": "shoppingCartId",
+									"value": "{{carrinhoId}}"
+								},
+								{
+									"key": "cartItemId",
+									"value": "{{cartItemId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remover item do carrinho",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/carts/:shoppingCartId/item/:cartItemId",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"carts",
+								":shoppingCartId",
+								"item",
+								":cartItemId"
+							],
+							"variable": [
+								{
+									"key": "shoppingCartId",
+									"value": "{{carrinhoId}}"
+								},
+								{
+									"key": "cartItemId",
+									"value": "{{cartItemId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Limpar carrinho",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/carts/:shoppingCartId/clear",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"carts",
+								":shoppingCartId",
+								"clear"
+							],
+							"variable": [
+								{
+									"key": "shoppingCartId",
+									"value": "{{carrinhoId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Checkout",
+			"item": [
+				{
+					"name": "Criar pagamento",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/checkout/cart/:shoppingCartId",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"checkout",
+								"cart",
+								":shoppingCartId"
+							],
+							"variable": [
+								{
+									"key": "shoppingCartId",
+									"value": "{{carrinhoId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obter status",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/checkout/:paymentId/status",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"checkout",
+								":paymentId",
+								"status"
+							],
+							"variable": [
+								{
+									"key": "paymentId",
+									"value": "{{pagamentoId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Confirmar pagamento",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/checkout/:paymentId/confirm",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"checkout",
+								":paymentId",
+								"confirm"
+							],
+							"variable": [
+								{
+									"key": "paymentId",
+									"value": "{{pagamentoId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Recusa um pagamento",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/checkout/:paymentId/refuse",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"checkout",
+								":paymentId",
+								"refuse"
+							],
+							"variable": [
+								{
+									"key": "paymentId",
+									"value": "{{pagamentoId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Order",
+			"item": [
+				{
+					"name": "Obtem lista paginada",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/orders?page=1&limit=10",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"orders"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtem fila de pedidos",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/orders/queue?page=1&limit=10",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"orders",
+								"queue"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Confirmar pedido",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/orders/:orderId/start",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"orders",
+								":orderId",
+								"start"
+							],
+							"variable": [
+								{
+									"key": "orderId",
+									"value": "{{orderId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Completar pedido",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/orders/:orderId/complete",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"orders",
+								":orderId",
+								"complete"
+							],
+							"variable": [
+								{
+									"key": "orderId",
+									"value": "{{orderId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Entregar pedido",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/orders/:orderId/deliver",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"orders",
+								":orderId",
+								"deliver"
+							],
+							"variable": [
+								{
+									"key": "orderId",
+									"value": "{{orderId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cancelar pedido",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/orders/:orderId/cancel",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"orders",
+								":orderId",
+								"cancel"
+							],
+							"variable": [
+								{
+									"key": "orderId",
+									"value": "{{orderId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
