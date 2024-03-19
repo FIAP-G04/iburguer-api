@@ -6,6 +6,8 @@
     <img src=".github/images/logo.png" alt="logo" />
 </div>
 
+___________________________________________________
+
 <!-- Informações visuais do projeto -->
 <div align="center">
     <img alt="Repository size" src="https://img.shields.io/github/repo-size/CarlosEduAC/tech-challenge-fiap?color=009bd9">
@@ -22,38 +24,16 @@
 <!-- Breve descrição sobre o projeto -->
 
 <div align="left">
-  <h4>O Iburguer é um sistema projetado para gerenciar os pedidos da lanchonete fictícia Byte Burguer, como parte do desafio tecnológico de Arquitetura de Software do curso de Pós-Graduação em Tecnologia da FIAP, Turma 4SOAT. Construído por <a href="https://github.com/CarlosEduAC">Carlos Cardoso</a>, <a href="https://github.com/LuanPCunha">Luan Cunha</a>, <a href="https://github.com/matheusantonio">Matheus Cardoso</a> e <a href="https://github.com/vinisaeta">Vinicius Saeta</a>.
+  <h4>O Iburguer é um sistema projetado para gerenciar os pedidos da lanchonete fictícia Byte Burguer, como parte do desafio tecnológico de Arquitetura de Software do curso de Pós-Graduação em Tecnologia da FIAP, Turma 4SOAT. Construído por <a href="https://github.com/CarlosEduAC">Carlos Cardoso</a>, <a href="https://github.com/LuanPCunha">Luan Cunha</a>, <a href="https://github.com/matheusantonio">Matheus Cardoso</a> e <a href="https://github.com/vinisaeta">Vinicius Saeta</a>. Para saber mais visite a<a href="https://github.com/FIAP-G04"> pagina do grupo</a>
   </h4>
 </div>
 
 # Índice
 
-- [🆘 O Problema](#Problema)
-- [📝 Sobre o Sistema IBurguer](#Sobre)
 - [💡 Iburger-api](#API)
-- [💻 Arquitetura](#Arquitetura)
-- [🧮 Funcionalidades](#Funcionalidades)
-- [➡️ Requisitos](#Requisitos)
 - [🔎 Testes](#Teste)
 - [💻 Vídeo](#Videos)
 - [📕 Licença](#Licenca)
-
-<a id="Problema"></a>
-# 🆘 O Problema 
-
-A lanchonete Byte Burguer está experimentando um grande sucesso e está buscando expandir seu negócio. No entanto, sem um sistema eficaz de controle de pedidos, o atendimento aos clientes pode se tornar caótico e desorganizado. Por exemplo, considere um cenário em que um cliente faz um pedido personalizado, como um hambúrguer com ingredientes específicos, acompanhado de batatas fritas e uma bebida. O pedido pode ser registrado em um papel e enviado à cozinha, mas não há garantia de que será preparado corretamente.
-
-A ausência de um sistema de controle de pedidos pode resultar em falta de comunicação entre os atendentes e a cozinha, ocasionando atrasos na preparação e entrega dos pedidos. Isso pode levar a erros na execução dos pedidos, como perdas, interpretações equivocadas ou esquecimentos, o que resulta na insatisfação dos clientes e na perda de negócios.
-
-Em suma, um sistema de controle de pedidos é essencial para garantir que a lanchonete possa atender seus clientes de maneira eficiente, gerenciando seus pedidos e estoques de forma adequada. Sem essa ferramenta, a expansão da lanchonete pode não ser bem-sucedida, prejudicando a satisfação do cliente e impactando negativamente nos negócios.
-
-<a id="Sobre"></a>
-# 📝 Sobre o Sistema IBurguer
-
-A lanchonete planeja introduzir um sistema de autoatendimento de fast food, composto por uma variedade de dispositivos e interfaces, incluindo um totem e um aplicativo intuitivo. Isso permitirá aos clientes fazerem pedidos sem a necessidade de interação com um atendente, personalizando suas escolhas entre várias opções de lanches, acompanhamentos, bebidas e sobremesas.
-
-O objetivo é viabilizar à lanchonete Byte Burguer uma solução operacional completa, com funcionalidades como gerenciamento de pedidos, sistemas de autoatendimento, cadastro e identificação de clientes, além de um cardápio digital. Essas características visam aprimorar a eficiência operacional, oferecer uma experiência melhor para os clientes e criar oportunidades de crescimento para o negócio.
-
 
 <a id="API"></a>
 # 💡 Iburger-api
@@ -87,18 +67,6 @@ Esse projeto foi feito utilizando as seguintes tecnologias:
 
 </details>
 
-<a id="Arquitetura"></a>
-# 💻 Arquitetura
-- [Arquitetura](docs/arquitetura.md)
-
-<a id="Funcionalidades"></a>
-# 🧮 Funcionalidades
-- [Funcionalidades](docs/funcionalidades.md)
-
-<a id="Requisitos"></a>
-# ➡️ Requisitos
-- [Requisitos](docs/requisitos.md)
-
 <a id="Teste"></a>
 # 🔎 Testes
 - [Testes](docs/Teste.md)
@@ -122,14 +90,3 @@ Esse projeto esta sobre [MIT license](./LICENSE).
 
 
 [De volta ao topo](#topo)
-
-[swaggerlogo]: .github/images/swagger.svg
-[menufunc]: .github/images/func_menu.png
-[customerfunc]: .github/images/func_customer.png
-[shoppingcartfunc]: .github/images/func_shopping_cart.png
-[checkoutfunc]: .github/images/func_checkout.png
-[orderfunc]: .github/images/func_order.png
-[diagramaimplantacaok8s]: .github/images/diagrama-de-implantacao-k8s.png
-[visaoinfra1]: .github/images/visao-de-infraestrutura-parte-1.png
-[visaoinfra2]: .github/images/visao-de-infraestrutura-parte-2.png
-[visaomacro]: .github/images/visao-macro.png
