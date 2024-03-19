@@ -78,7 +78,7 @@ Esse projeto foi feito utilizando as seguintes tecnologias:
 * O detalhamento da **arquitetura** está disponibilizados no seguinte [vídeo](https://www.youtube.com/watch?v=QVkNK2sfK38).
 
 ### Fase 3
-* O detalhamento da **infraestrutura** está disponibilizados no seguinte [vídeo]().   
+* O detalhamento da **infraestrutura** está disponibilizados no seguinte [vídeo](https://youtu.be/Xz4LOV8k-Mo).   
 
 <a id="Licenca"></a>
 # 📕 Licença
